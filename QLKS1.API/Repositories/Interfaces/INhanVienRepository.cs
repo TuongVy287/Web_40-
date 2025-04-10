@@ -7,8 +7,8 @@ namespace QLKS1.API.Repositories.Interfaces
 {
     public interface INhanVienRepository
     {
-        Task<IEnumerable<NhanVien>> GetAllAsync();
         Task<List<NhanVien>> GetAllNhanVienAsync();
-        Task<NhanVien> GetByIdAsync(int maNV);
+        Task<bool> CreateNhanVienAsync(NhanVienCreateDTO dto);
+        Task<bool> UpdateNhanVienAsync(NhanVienUpdateDTO dto);
     }
 }

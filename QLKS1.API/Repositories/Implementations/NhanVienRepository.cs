@@ -11,35 +11,52 @@ public class NhanVienRepository : INhanVienRepository
         _db = db;
     }
 
-    public async Task<IEnumerable<NhanVien>> GetAllAsync()
-    {
-        var result = await _db.QueryAsync<NhanVien>(
-             "sp_GetAllNhanVien", commandType: CommandType.StoredProcedure);
-
-        return result.ToList();
-    }
-
     public async Task<List<NhanVien>> GetAllNhanVienAsync()
     {
         var result = await _db.QueryAsync<NhanVien>(
-            "sp_GetAllNhanVien", commandType: CommandType.StoredProcedure);
+            "spAPI_NhanVien_GetAll", commandType: CommandType.StoredProcedure);
 
         return result.ToList();
     }
-
-    public Task<NhanVien> GetByIdAsync(int maNV)
-    {
-        throw new NotImplementedException();
-    }
-
-    public async Task<NhanVien> GetNhanVienByIdAsync(int maNV)
+    public async Task<bool> CreateNhanVienAsync(NhanVienCreateDTO dto)
     {
         var parameters = new DynamicParameters();
-        parameters.Add("@MaNV", maNV);
+        parameters.Add("@HoTen", dto.HoTen);
+        parameters.Add("@GioiTinh", dto.GioiTinh);
+        parameters.Add("@ChucDanh", dto.ChucDanh);
+        parameters.Add("@SoDienThoai", dto.SoDienThoai);
+        parameters.Add("@Email", dto.Email);
+        parameters.Add("@CaLamViec", dto.CaLamViec);
+        parameters.Add("@QuyenTruyCap", dto.QuyenTruyCap);
+        parameters.Add("@NgayTao", dto.NgayTao ?? DateTime.Now);
+        parameters.Add("@Luong", dto.Luong);
+        parameters.Add("@TaiKhoan", dto.TaiKhoan);
+        parameters.Add("@MatKhau", dto.MatKhau);
+        parameters.Add("@Xoa", dto.Xoa);
 
-        var nv = await _db.QueryFirstOrDefaultAsync<NhanVien>(
-            "sp_GetNhanVienById", parameters, commandType: CommandType.StoredProcedure);
-
-        return nv;
+        var result = await _db.ExecuteAsync("sp_InsertNhanVien", parameters, commandType: CommandType.StoredProcedure);
+        return result > 0;
     }
+
+    public async Task<bool> UpdateNhanVienAsync(NhanVienUpdateDTO dto)
+    {
+        var parameters = new DynamicParameters();
+        parameters.Add("@MaNhanVien", dto.MaNhanVien);
+        parameters.Add("@HoTen", dto.HoTen);
+        parameters.Add("@GioiTinh", dto.GioiTinh);
+        parameters.Add("@ChucDanh", dto.ChucDanh);
+        parameters.Add("@SoDienThoai", dto.SoDienThoai);
+        parameters.Add("@Email", dto.Email);
+        parameters.Add("@CaLamViec", dto.CaLamViec);
+        parameters.Add("@QuyenTruyCap", dto.QuyenTruyCap);
+        parameters.Add("@NgayTao", dto.NgayTao ?? DateTime.Now);
+        parameters.Add("@Luong", dto.Luong);
+        parameters.Add("@TaiKhoan", dto.TaiKhoan);
+        parameters.Add("@MatKhau", dto.MatKhau);
+        parameters.Add("@Xoa", dto.Xoa);
+
+        var result = await _db.ExecuteAsync("sp_UpdateNhanVien", parameters, commandType: CommandType.StoredProcedure);
+        return result > 0;
+    }
+
 }

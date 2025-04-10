@@ -23,4 +23,5 @@ namespace QLKS1.API.Controllers
             return Ok(nhanViens);
         }
     }
+    
 }
