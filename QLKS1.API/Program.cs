@@ -6,6 +6,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddScoped<IDbConnection>(cnn=>new SqlConnection(builder.Configuration.GetConnectionString("QLKS")));
 builder.Services.AddScoped<IKhachHangRepository, KhachHangRepository>();
 builder.Services.AddScoped<INhanVienRepository, NhanVienRepository>();
+builder.Services.AddScoped<IPhongRepository, PhongRepository>();
+builder.Services.AddScoped<IHoaDonRepository, HoaDonRepository>();
+
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
