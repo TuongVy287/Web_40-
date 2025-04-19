@@ -1,10 +1,10 @@
 
 namespace QLKS1.API.Repositories.Interfaces
 {
-    public interface IHoaDonRepository
+    public interface IDichVuRepository
     {
-        Task<IEnumerable<HoaDon>> GetAllHoaDon();
-        Task<HoaDon?> GetHoaDonByIdAsync(int IDHoaDon);
+        Task<IEnumerable<DichVu>> GetAllDichVu();
+        Task<DoanhThu?> GetDichVuByIdAsync(int IDDichVu);
         // Task<HoaDon> CreateAsync(HoaDon hoaDon);
         // Task<HoaDon?> UpdateAsync(int IDHoaDon, HoaDon hoaDon);
         // Task<bool> DeleteAsync(int IDHoaDon);
