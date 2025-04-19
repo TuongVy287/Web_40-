@@ -53,7 +53,7 @@ export default {
     async fetchRooms() {
       try {
         // Gọi API để lấy dữ liệu
-        const response = await axios.get("http://localhost:3000/api/rooms");
+        const response = await axios.post(`http://localhost:3000/api/rooms`);
         // Gán dữ liệu trả về cho rooms
         this.rooms = response.data;
       } catch (error) {

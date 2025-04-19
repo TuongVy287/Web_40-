@@ -33,7 +33,7 @@
 
 <script>
 import axios from 'axios'; // Import Axios
-import RateModal from './RateModal.vue'; 
+import RateModal from './RateModal.vue';
 
 export default {
   name: "Rate",
