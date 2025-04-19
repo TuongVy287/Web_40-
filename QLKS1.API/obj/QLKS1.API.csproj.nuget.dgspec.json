@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\BaoAnhBui\\Desktop\\Web_40-\\QLKS1.API\\QLKS1.API.csproj": {}
+    "D:\\Project\\Web_40-\\QLKS1.API\\QLKS1.API.csproj": {}
   },
   "projects": {
-    "C:\\Users\\BaoAnhBui\\Desktop\\Web_40-\\QLKS1.API\\QLKS1.API.csproj": {
+    "D:\\Project\\Web_40-\\QLKS1.API\\QLKS1.API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\BaoAnhBui\\Desktop\\Web_40-\\QLKS1.API\\QLKS1.API.csproj",
+        "projectUniqueName": "D:\\Project\\Web_40-\\QLKS1.API\\QLKS1.API.csproj",
         "projectName": "QLKS1.API",
-        "projectPath": "C:\\Users\\BaoAnhBui\\Desktop\\Web_40-\\QLKS1.API\\QLKS1.API.csproj",
-        "packagesPath": "C:\\Users\\BaoAnhBui\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\BaoAnhBui\\Desktop\\Web_40-\\QLKS1.API\\obj\\",
+        "projectPath": "D:\\Project\\Web_40-\\QLKS1.API\\QLKS1.API.csproj",
+        "packagesPath": "C:\\Users\\tanguyn\\.nuget\\packages\\",
+        "outputPath": "D:\\Project\\Web_40-\\QLKS1.API\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\BaoAnhBui\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\tanguyn\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -22,6 +22,7 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -91,7 +92,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.206/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.300/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
