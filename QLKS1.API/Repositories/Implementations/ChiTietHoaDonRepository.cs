@@ -3,7 +3,7 @@ using Dapper;
 using QLKS1.API.Repositories.Interfaces;
 
 
-public class ChiTietHoaDonRepository : IDatPhongRepository
+public class ChiTietHoaDonRepository : IChiTietHoaDonRepository
 {
     private readonly IDbConnection _db;
 

@@ -1,13 +1,15 @@
 {
   "version": 2,
-  "dgSpecHash": "TX24MQDM5C7vIDeliC8tc0nwh4eBv7RR6q+hM8OMh29QgOoiKhuhwxXf2TJlNtqVeGeHB6NJlEV9v5I0IxgeDA==",
+  "dgSpecHash": "kNeJOrW2Sj8963k7U/YX0LaRXY1ac7tViKplMgWUKSoSMXEbg7MleLZgexIHTLkWkRKCs7tteGoNZz4+m0NMgQ==",
   "success": true,
   "projectFilePath": "C:\\Users\\BaoAnhBui\\Desktop\\Web_40-\\QLKS1.API\\QLKS1.API.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\BaoAnhBui\\.nuget\\packages\\azure.core\\1.38.0\\azure.core.1.38.0.nupkg.sha512",
     "C:\\Users\\BaoAnhBui\\.nuget\\packages\\azure.identity\\1.11.4\\azure.identity.1.11.4.nupkg.sha512",
+    "C:\\Users\\BaoAnhBui\\.nuget\\packages\\bcrypt.net-next\\4.0.3\\bcrypt.net-next.4.0.3.nupkg.sha512",
     "C:\\Users\\BaoAnhBui\\.nuget\\packages\\dapper\\2.1.66\\dapper.2.1.66.nupkg.sha512",
     "C:\\Users\\BaoAnhBui\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
+    "C:\\Users\\BaoAnhBui\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\8.0.0\\microsoft.aspnetcore.authentication.jwtbearer.8.0.0.nupkg.sha512",
     "C:\\Users\\BaoAnhBui\\.nuget\\packages\\microsoft.aspnetcore.openapi\\8.0.5\\microsoft.aspnetcore.openapi.8.0.5.nupkg.sha512",
     "C:\\Users\\BaoAnhBui\\.nuget\\packages\\microsoft.bcl.asyncinterfaces\\7.0.0\\microsoft.bcl.asyncinterfaces.7.0.0.nupkg.sha512",
     "C:\\Users\\BaoAnhBui\\.nuget\\packages\\microsoft.bcl.cryptography\\8.0.0\\microsoft.bcl.cryptography.8.0.0.nupkg.sha512",
