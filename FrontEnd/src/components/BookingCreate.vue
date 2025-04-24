@@ -157,7 +157,7 @@
     border-radius: 8px;
     padding: 20px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    margin-left: 100px;
+    margin-left: 50px;
     margin-top: 80px;
   }
   
@@ -187,17 +187,21 @@
     display: flex;
     gap: 32px;
     margin-bottom: 20px;
+    
   }
   .date-row label {
     font-weight: 600;
     margin-bottom: 4px;
     display: block;
+    
   }
   input[type="date"] {
     padding: 8px;
     border-radius: 8px;
-    border: 1px solid #ccc;
+    border: 1px solid #4a4141;
     font-size: 14px;
+    color: #000;
+    background-color: #ea9c00;
   }
   
   .guest-counter-row {
@@ -241,7 +245,7 @@
   
   .check-btn-wrapper {
     text-align: right;
-    margin-bottom: 32px;
+    margin-bottom: 0px;
   }
   .check-button {
     background: #ea9c00;
