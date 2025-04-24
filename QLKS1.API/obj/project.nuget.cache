@@ -1,15 +1,24 @@
 {
   "version": 2,
+<<<<<<< HEAD
   "dgSpecHash": "DpS3bq28Q+8=",
+=======
+  "dgSpecHash": "hD9CIh7VrwE=",
+>>>>>>> d5525ff5ce4a394c36053099ff9a1a84f60265f3
   "success": true,
   "projectFilePath": "D:\\Project\\Web_40-\\QLKS1.API\\QLKS1.API.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\tanguyn\\.nuget\\packages\\azure.core\\1.38.0\\azure.core.1.38.0.nupkg.sha512",
     "C:\\Users\\tanguyn\\.nuget\\packages\\azure.identity\\1.11.4\\azure.identity.1.11.4.nupkg.sha512",
+<<<<<<< HEAD
     "C:\\Users\\tanguyn\\.nuget\\packages\\bcrypt.net-next\\4.0.3\\bcrypt.net-next.4.0.3.nupkg.sha512",
     "C:\\Users\\tanguyn\\.nuget\\packages\\dapper\\2.1.66\\dapper.2.1.66.nupkg.sha512",
     "C:\\Users\\tanguyn\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
     "C:\\Users\\tanguyn\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\8.0.0\\microsoft.aspnetcore.authentication.jwtbearer.8.0.0.nupkg.sha512",
+=======
+    "C:\\Users\\tanguyn\\.nuget\\packages\\dapper\\2.1.66\\dapper.2.1.66.nupkg.sha512",
+    "C:\\Users\\tanguyn\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
+>>>>>>> d5525ff5ce4a394c36053099ff9a1a84f60265f3
     "C:\\Users\\tanguyn\\.nuget\\packages\\microsoft.aspnetcore.openapi\\8.0.5\\microsoft.aspnetcore.openapi.8.0.5.nupkg.sha512",
     "C:\\Users\\tanguyn\\.nuget\\packages\\microsoft.bcl.asyncinterfaces\\7.0.0\\microsoft.bcl.asyncinterfaces.7.0.0.nupkg.sha512",
     "C:\\Users\\tanguyn\\.nuget\\packages\\microsoft.bcl.cryptography\\8.0.0\\microsoft.bcl.cryptography.8.0.0.nupkg.sha512",
