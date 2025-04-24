@@ -15,7 +15,7 @@ builder.Services.AddScoped<IDoanhThuRepository, DoanhThuRepository>();
 builder.Services.AddScoped<IDichVuRepository, DichVuRepository>();
 builder.Services.AddScoped<IChiTietHoaDonRepository, ChiTietHoaDonRepository>();
 builder.Services.AddScoped<IChiPhiRepository, ChiPhiRepository>();
-builder.Services.AddScoped<IUserRepository, UserRepository>();
+
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

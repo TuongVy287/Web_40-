@@ -530,3 +530,5 @@ C:\Users\BaoAnhBui\Desktop\Web_40-\QLKS1.API\obj\Debug\net8.0\QLKS1.API.genrunti
 C:\Users\BaoAnhBui\Desktop\Web_40-\QLKS1.API\obj\Debug\net8.0\ref\QLKS1.API.dll
 C:\Users\BaoAnhBui\Desktop\Web_40-\QLKS1.API\bin\Debug\net8.0\BCrypt.Net-Next.dll
 C:\Users\BaoAnhBui\Desktop\Web_40-\QLKS1.API\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+D:\Project\Web_40-\QLKS1.API\bin\Debug\net8.0\BCrypt.Net-Next.dll
+D:\Project\Web_40-\QLKS1.API\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll

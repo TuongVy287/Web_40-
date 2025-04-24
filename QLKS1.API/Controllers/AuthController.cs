@@ -20,17 +20,22 @@ namespace QLKS1.API.Controllers
             _db = db;
         }
 
-        [HttpPost("register")]
+        [HttpPost("Dang Ky")]
         public async Task<IActionResult> Register(UserRegisterDTO request)
         {
-            var hashedPassword = BCrypt.Net.BCrypt.HashPassword(request.Password);
+            var hashedPassword = BCrypt.Net.BCrypt.HashPassword(request.MatKhau);
 
             var parameters = new DynamicParameters();
-            parameters.Add("@Username", request.Username);
-            parameters.Add("@PasswordHash", hashedPassword);
-            parameters.Add("@Role", request.Role);
+            parameters.Add("@HoTen", request.HoTen);
+            parameters.Add("@MatKhau", hashedPassword);
+            parameters.Add("@GioiTinh", request.GioiTinh);
+            parameters.Add("@ChucDanh", request.ChucDanh);
+            parameters.Add("@SoDienThoai", request.SoDienThoai);
+            parameters.Add("@Email", request.Email);
+            parameters.Add("@CaLamViec", request.CaLamViec);
+            parameters.Add("@Luong", request.Luong);
 
-            var result = await _db.ExecuteAsync("sp_RegisterUser", parameters, commandType: CommandType.StoredProcedure);
+            var result = await _db.ExecuteAsync("spAPI_NhanVien_Them", parameters, commandType: CommandType.StoredProcedure);
 
             if (result > 0)
             {
@@ -40,36 +45,70 @@ namespace QLKS1.API.Controllers
             return BadRequest("Registration failed.");
         }
 
-        [HttpPost("login")]
-        public async Task<IActionResult> Login(UserLoginDTO request)
-        {
-            var parameters = new DynamicParameters();
-            parameters.Add("@Username", request.Username);
+        // [HttpGet("login")]
+        // public async Task<IActionResult> Login([FromQuery] string MaNV, [FromQuery] string MatKhau)
+        // {
+        //     var hashedPassword = BCrypt.Net.BCrypt.HashPassword(MatKhau);
+        //     var parameters = new DynamicParameters();
+        //     parameters.Add("@MaNV", MaNV);
+        //     parameters.Add("@MatKhau", hashedPassword);
 
-            var user = await _db.QueryFirstOrDefaultAsync<User>(
-                "sp_GetUserByUsername",
+        //     var user = await _db.QueryFirstOrDefaultAsync<User>(
+        //         "spAPI_NhanVien_Login",
+        //         parameters,
+        //         commandType: CommandType.StoredProcedure);
+
+        //     if (user == null)
+        //     {
+        //         return Unauthorized("Invalid credentials");
+        //     }
+
+        //     string token = CreateToken(user);
+        //     return Ok(new { user, token });
+        // }
+        [HttpPost("login")]
+        public async Task<IActionResult> Login(NhanVienDTO request)
+        {
+            // var hashedPassword = BCrypt.Net.BCrypt.HashPassword(request.MatKhau);
+
+            var parameters = new DynamicParameters();
+            parameters.Add("@MaNV", request.MaNV);
+
+            // Lấy thông tin user từ cơ sở dữ liệu
+            var user = await _db.QueryFirstOrDefaultAsync<NhanVien>(
+                "spAPI_NhanVien_Login",
                 parameters,
                 commandType: CommandType.StoredProcedure);
 
-            if (user == null || !BCrypt.Net.BCrypt.Verify(request.Password, user.PasswordHash))
+            // Kiểm tra nếu user không tồn tại
+            // if (user == null)
+            // {
+            //     return Unauthorized("User không tồn tại");
+            // }
+
+            // So sánh mật khẩu nhập vào với mật khẩu đã hash trong cơ sở dữ liệu
+            if (!BCrypt.Net.BCrypt.Verify(request.MatKhau, user.MatKhau))
             {
-                return Unauthorized("Invalid credentials");
+                return Unauthorized("Sai Mật Khẩu");
             }
 
-            string token = CreateToken(user);
-            return Ok(new { token });
+            // Tạo token nếu đăng nhập thành công
+            // string token = CreateToken(user);
+            return Ok(new { user });
         }
 
-        private string CreateToken(User user)
+
+        private string CreateToken(NhanVien user)
         {
             var claims = new[]
             {
-            new Claim(ClaimTypes.Name, user.Username),
-            new Claim(ClaimTypes.Role, user.Role)
-        };
+                new Claim(ClaimTypes.Name, user.MaNV),
+                new Claim(ClaimTypes.Role, user.ChucDanh)
+            };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
+
             var token = new JwtSecurityToken(
                 issuer: _configuration["Jwt:Issuer"],
                 audience: _configuration["Jwt:Audience"],
@@ -80,5 +119,6 @@ namespace QLKS1.API.Controllers
 
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
+
     }
 }

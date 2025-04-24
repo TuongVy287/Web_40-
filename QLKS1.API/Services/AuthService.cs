@@ -24,12 +24,12 @@ public class AuthService
         return BCrypt.Net.BCrypt.Verify(password, hash);
     }
 
-    public string GenerateToken(User user)
+    public string GenerateToken(NhanVienDTO user)
     {
         var claims = new[]
         {
-            new Claim(ClaimTypes.Name, user.Username),
-            new Claim(ClaimTypes.Role, user.Role)
+            new Claim(ClaimTypes.Name, user.MaNV),
+            new Claim(ClaimTypes.Role, user.ChucDanh)
         };
 
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]!));
