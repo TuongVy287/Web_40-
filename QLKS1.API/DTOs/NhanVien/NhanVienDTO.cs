@@ -1,4 +1,5 @@
-public class NhanVien
+// DTOs/UserRegisterDTO.cs
+public class NhanVienDTO
 {
     public int IDNhanVien { get; set; }
     public string MaNV { get; set; } = string.Empty;
@@ -12,4 +13,5 @@ public class NhanVien
     public int Luong { get; set; } 
     public string MatKhau { get; set; } = string.Empty;
     public int Xoa { get; set; }
+
 }

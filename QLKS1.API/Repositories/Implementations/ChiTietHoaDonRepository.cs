@@ -3,9 +3,15 @@
 // using QLKS1.API.Repositories.Interfaces;
 
 
+<<<<<<< HEAD
+public class ChiTietHoaDonRepository : IChiTietHoaDonRepository
+{
+    private readonly IDbConnection _db;
+=======
 // public class ChiTietHoaDonRepository : IDatPhongRepository
 // {
 //     private readonly IDbConnection _db;
+>>>>>>> d5525ff5ce4a394c36053099ff9a1a84f60265f3
 
 //     public ChiTietHoaDonRepository(IDbConnection db)
 //     {
