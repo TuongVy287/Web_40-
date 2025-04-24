@@ -1,211 +1,83 @@
-<script setup lang="ts">
-import { ref, onMounted, onUnmounted } from 'vue';
-
-interface MenuItem {
-  id: number;
-  name: string;
-  icon: string;
-  active: boolean;
-}
-
-const menuItems = ref<MenuItem[]>([
-  { id: 1, name: 'Dashboard', icon: 'home', active: true },
-  { id: 2, name: 'Front desk', icon: 'desk', active: false },
-  { id: 3, name: 'Guest', icon: 'user', active: false },
-  { id: 4, name: 'Rooms', icon: 'bed', active: false },
-  { id: 5, name: 'Deal', icon: 'tag', active: false },
-  { id: 6, name: 'Rate', icon: 'dollar', active: false },
-]);
-
-const activeMenu = ref<string>('Dashboard');
-const isSidebarOpen = ref<boolean>(false);
-const isMobileOrTablet = ref<boolean>(window.innerWidth < 1025);
-
-const emit = defineEmits(['menu-change']);
-
-const setActiveMenu = (menuName: string): void => {
-  activeMenu.value = menuName;
-  menuItems.value.forEach(item => {
-    item.active = item.name === menuName;
-  });
-  emit('menu-change', menuName);
-};
-
-const toggleSidebar = () => {
-  isSidebarOpen.value = !isSidebarOpen.value;
-};
-
-const handleResize = () => {
-  isMobileOrTablet.value = window.innerWidth < 1025;
-};
-
-onMounted(() => {
-  window.addEventListener('resize', handleResize);
-});
-
-onUnmounted(() => {
-  window.removeEventListener('resize', handleResize);
-});
-
-defineExpose({ setActiveMenu, activeMenu });
-</script>
-
 <template>
-  <div>
-    <button
-      v-if="!isSidebarOpen && isMobileOrTablet"
-      @click="toggleSidebar"
-      class="sidebar-toggle-button"
-    >
-      ☰
-    </button>
-
-    <div
-      v-if="isSidebarOpen && isMobileOrTablet"
-      class="overlay"
-      @click="toggleSidebar"
-    ></div>
-
-    <div
-      :class="[
-        'sidebar-mobile',
-        isSidebarOpen ? 'open' : '',
-        'h-screen bg-white py-5 px-3 flex flex-col border-r'
-      ]"
-      v-if="isMobileOrTablet"
-      :style="{ transform: isSidebarOpen ? 'translateX(0)' : 'translateX(-100%)' }"
-    >
-      <div class="mb-8 px-2">
-        <div class="text-blue-500 font-bold flex items-center text-2xl">
-          <span class="text-3xl mr-2">⊲</span> Novotel
-        </div>
-      </div>
-
-      <div class="flex-1">
-        <ul class="space-y-1">
-          <li v-for="item in menuItems" :key="item.id">
-            <a
-              href="#"
-              @click.prevent="setActiveMenu(item.name)"
-              :class="[
-                'sidebar-menu-item flex items-center px-4 py-3 rounded-lg',
-                item.active ? 'bg-blue-50 text-blue-600' : 'text-gray-600 hover:bg-gray-100'
-              ]"
-              :data-menu-name="item.name"
-            >
-              <span class="w-6 h-6 flex items-center justify-center mr-2">
-                <i v-if="item.icon === 'home'" class="text-lg">🏠</i>
-                <i v-else-if="item.icon === 'desk'" class="text-lg">🖥️</i>
-                <i v-else-if="item.icon === 'user'" class="text-lg">👤</i>
-                <i v-else-if="item.icon === 'bed'" class="text-lg">🛏️</i>
-                <i v-else-if="item.icon === 'tag'" class="text-lg">🏷️</i>
-                <i v-else-if="item.icon === 'dollar'" class="text-lg">💰</i>
-              </span>
-              {{ item.name }}
-            </a>
-          </li>
-        </ul>
-      </div>
-    </div>
-
-    <div class="sidebar-desktop" v-else>
-      <div class="h-screen bg-white w-48 py-5 px-3 flex flex-col border-r">
-        <div class="mb-8 px-2">
-          <div class="text-blue-500 font-bold flex items-center text-2xl">
-            <span class="text-3xl mr-2">⊲</span> Novotel
-          </div>
-        </div>
-
-        <div class="flex-1">
-          <ul class="space-y-1">
-            <li v-for="item in menuItems" :key="item.id">
-              <a
-                href="#"
-                @click.prevent="setActiveMenu(item.name)"
-                :class="[
-                  'sidebar-menu-item flex items-center px-4 py-3 rounded-lg',
-                  item.active ? 'bg-blue-50 text-blue-600' : 'text-gray-600 hover:bg-gray-100'
-                ]"
-                :data-menu-name="item.name"
-              >
-                <span class="w-6 h-6 flex items-center justify-center mr-2">
-                  <i v-if="item.icon === 'home'" class="text-lg">🏠</i>
-                  <i v-else-if="item.icon === 'desk'" class="text-lg">🖥️</i>
-                  <i v-else-if="item.icon === 'user'" class="text-lg">👤</i>
-                  <i v-else-if="item.icon === 'bed'" class="text-lg">🛏️</i>
-                  <i v-else-if="item.icon === 'tag'" class="text-lg">🏷️</i>
-                  <i v-else-if="item.icon === 'dollar'" class="text-lg">💰</i>
-                </span>
-                {{ item.name }}
-              </a>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </div>
+  <nav class="sidebar">
+    <h2>Novotel</h2>
+    <ul>
+      <li>
+        <router-link to="/" exact-active-class="active" class="sidebar-link">Dashboard</router-link>
+      </li>
+      <li>
+        <router-link to="/front-desk" exact-active-class="active" class="sidebar-link">Front desk</router-link>
+      </li>
+      <li>
+        <router-link to="/guests" exact-active-class="active" class="sidebar-link">Guests</router-link>
+      </li>
+      <li>
+        <router-link to="/rooms" exact-active-class="active" class="sidebar-link">Rooms</router-link>
+      </li>
+      <li>
+        <router-link to="/deals" exact-active-class="active" class="sidebar-link">Deals</router-link>
+      </li>
+      <li>
+        <router-link to="/rate" exact-active-class="active" class="sidebar-link">Rate</router-link>
+      </li>
+    </ul>
+  </nav>
 </template>
 
+<script>
+export default {
+  name: 'Sidebar'
+};
+</script>
+
 <style scoped>
-.sidebar-desktop {
-  position: relative;
-  z-index: 1;
-  width: 220px; /* Kích thước Sidebar cho PC */
-  height: 100vh; /* Chiều cao đầy đủ của màn hình */
-  overflow: hidden; /* Không cho phép cuộn */
-  display: block; /* Để Sidebar hiển thị */
-}
-
-.sidebar-mobile {
-  position: absolute;
-  z-index: 10;
-  width: 60%; /* Kích thước Sidebar trên mobile */
-  transform: translateX(-100%);
-  transition: transform 0.3s ease; /* Hiệu ứng chuyển động */
-}
-
-.sidebar-mobile.open {
-  transform: translateX(0);
-}
-
-.overlay {
+.sidebar {
+  width: 250px;
+  background-color: #ffffff; /* Màu nền trắng */
+  padding: 20px;
   position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.6);
-  z-index: 3; 
+  height: 100%;
+  border-right: 2px solid #e4e4e4;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  transition: all 0.3s ease; /* Mượt mà khi thay đổi */
 }
 
-.sidebar-toggle-button {
-  position: absolute;
-  top: 1rem; /* Khoảng cách từ trên */
-  left: 1rem; /* Khoảng cách từ trái */
-  z-index: 50;
-  padding: 0.5rem; /* Khoảng cách nội dung bên trong nút */
-  background-color: transparent; /* Màu nền (Xanh dương) */
-  color: #000; /* Màu chữ */
-  border: none; /* Không viền */
-  border-radius: 0.375rem; /* Bo tròn góc */
-  cursor: pointer; /* Hiệu ứng con trỏ khi hover */
-  transition: background-color 0.3s ease; /* Hiệu ứng chuyển màu mượt mà */
-  font-size: 2rem;
-  transform: translateY(-12%);
+.sidebar h2 {
+  color: #f39c12; /* Màu cho tên khách sạn */
+  margin-bottom: 20px;
+  font-size: 28px;
+  font-weight: bold;
+  text-transform: uppercase;
 }
 
-.sidebar-toggle-button:hover {
-  background-color: #2563eb; /* Màu khi hover */
+.sidebar ul {
+  list-style-type: none; /* Không có dấu đầu dòng */
+  padding: 0;
 }
 
-/* Các thuộc tính cho menu item */
-.sidebar-mobile .sidebar-menu-item {
-  font-size: 1.5rem;  /* Kích thước chữ lớn hơn */
-  padding: 15px;      /* Tăng kích thước vùng chạm */
+.sidebar li {
+  margin-bottom: 12px; /* Khoảng cách giữa các mục */
 }
 
-.sidebar-mobile .sidebar-menu-item {
-  margin-bottom: 10px; /* Khoảng cách giữa các mục */
+.sidebar-link {
+  display: block; /* Chuyển đổi router-link thành khối chiếm toàn bộ không gian */
+  padding: 12px 20px; /* Padding cho các mục */
+  font-size: 16px;
+  border-radius: 8px;
+  transition: background-color 0.3s ease, color 0.3s ease; /* Hiệu ứng chuyển động */
+  color: black; /* Màu chữ mặc định */
+  text-decoration: none; /* Bỏ gạch chân */
 }
 
-.sidebar-mobile {
-  font-size: 1.2rem; /* Kích thước chữ tổng thể trong sidebar */
+.sidebar-link:hover {
+  background-color: #f39c12; /* Màu nền khi hover */
+  color: #fff; /* Màu chữ trắng */
+}
+
+.sidebar .active {
+  font-weight: bold; /* Chữ đậm cho mục đang hoạt động */
+  background-color: #f39c12; /* Màu nền cho mục đang hoạt động */
+  color: #fff; /* Màu chữ trắng */
 }
 </style>

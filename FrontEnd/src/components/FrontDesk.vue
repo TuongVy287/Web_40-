@@ -150,14 +150,14 @@ export default {
 
 <style scoped>
 .front-desk-container {
-    max-width: 1200px;
+    /* max-width: 1200px; */
     margin: 0 auto;
     font-family: sans-serif;
     background: #fafafa;
     border-radius: 8px;
     padding: 20px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    margin-left: 100px;
+    margin-left: 50px;
     margin-top: 80px;
 }
 

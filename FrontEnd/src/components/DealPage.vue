@@ -232,7 +232,7 @@ const handleSave = (updatedDeal: DealItem) => {
 <style scoped>
 .deal-page {
   height: 100%;
-  width: 100%;
+  width: 97.7%;
   background-color: #F9FAFB;
 }
 

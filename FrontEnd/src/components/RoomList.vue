@@ -66,7 +66,7 @@ export default {
 
 <style scoped>
 .room-list {
-  margin-left: 100px;
+  margin-left: 50px;
   padding: 20px;
   background-color: #f9f9f9;
   border-radius: 1%;
