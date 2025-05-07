@@ -28,5 +28,17 @@ namespace QLKS1.API.Controllers
             }
             return Ok(phong);
         }
+        // GET /api/phong/trangthai/Trống
+        [HttpGet("trangthai/{trangThai}")]
+        public async Task<IActionResult> GetPhongsByTrangThaiAsync([FromRoute] string trangThai)
+        {
+            var phongs = await _phongRepository.GetPhongsByTrangThaiAsync(trangThai);
+            if (!phongs.Any())
+            {
+                return NotFound("Không có phòng với trạng thái này.");
+            }
+            return Ok(phongs);
+        }
+
     }
 }

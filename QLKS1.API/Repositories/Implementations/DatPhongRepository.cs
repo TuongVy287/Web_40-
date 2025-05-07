@@ -17,19 +17,38 @@ public class DatPhongRepository : IDatPhongRepository
         var datphongList = (await _db.QueryAsync<DatPhong>(
         "sp_GetAllDatPhong", commandType: CommandType.StoredProcedure)).ToList();
 
-    return datphongList;
+        return datphongList;
     }
 
     public async Task<DatPhong?> GetDatPhongByIdAsync(int IDDatPhong)
     {
         var parameters = new DynamicParameters();
         parameters.Add("@IDDatPhong", IDDatPhong);
-    
+
         var datPhong = await _db.QueryFirstOrDefaultAsync<DatPhong>(
             "sp_GetDatPhongById", parameters, commandType: CommandType.StoredProcedure);
-    
+
         return datPhong;
     }
+    // public async Task<int> InsertDatPhongAsync(DatPhong datPhong)
+    // {
+    //     var result = await _db.QuerySingleAsync<int>(
+    //         "sp_InsertDatPhong",
+    //         new
+    //         {
+    //             datPhong.IDKhachHang,
+    //             datPhong.IDPhong,
+    //             datPhong.NgayNhan,
+    //             datPhong.NgayTra,
+    //             datPhong.TrangThaiDatPhong,
+    //             datPhong.SoLuongNguoi
+    //         },
+    //         commandType: CommandType.StoredProcedure
+    //     );
+
+    //     return result;
+    // }
+
 
 }
 
