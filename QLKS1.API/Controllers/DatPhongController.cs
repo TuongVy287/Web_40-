@@ -32,6 +32,17 @@ namespace QLKS1.API.Controllers
 
             return Ok(dichvu);
         }
+        // [HttpPost]
+        // public async Task<IActionResult> DatPhongMoi([FromBody] DatPhong datPhong)
+        // {
+        //     if (!ModelState.IsValid)
+        //         return BadRequest(ModelState);
+
+        //     var id = await _datPhongRepository.InsertDatPhongAsync(datPhong);
+        //     return Ok(new { Message = "Đặt phòng thành công", ID = id });
+        // }
+
+
 
         // POST: api/DichVu
         // [HttpPost]

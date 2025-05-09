@@ -34,4 +34,15 @@ public class KhachHangRepository : IKhachHangRepository
         return kh;
     }
 
+    public async Task<IEnumerable<KhachHangDatPhongViewModel>> GetChiTietKhachHangAsync(int idKhachHang, int idDatPhong)
+    {
+        var result = await _db.QueryAsync<KhachHangDatPhongViewModel>(
+            "spAPI_KhachHang_Select",
+            new { MaKH = idKhachHang, IDDatPhong = idDatPhong },
+            commandType: CommandType.StoredProcedure
+        );
+
+        return result;
+    }
+
 }

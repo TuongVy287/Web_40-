@@ -5,6 +5,9 @@ namespace QLKS1.API.Repositories.Interfaces
     {
         Task<IEnumerable<DatPhong>> GetAllDatPhong();
         Task<DatPhong?> GetDatPhongByIdAsync(int IDDatPhong);
+        // Task<int> InsertDatPhongAsync(DatPhong datPhong);
+        
+
         // Task<HoaDon> CreateAsync(HoaDon hoaDon);
         // Task<HoaDon?> UpdateAsync(int IDHoaDon, HoaDon hoaDon);
         // Task<bool> DeleteAsync(int IDHoaDon);

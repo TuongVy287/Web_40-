@@ -28,5 +28,15 @@ namespace QLKS1.API.Controllers
             }
             return Ok(khachHang);
         }
+
+        [HttpGet("{idKhachHang}/datphong/{idDatPhong}")]
+        public async Task<IActionResult> GetChiTietKhachHang(int idKhachHang, int idDatPhong)
+        {
+            var result = await _khachHangRepository.GetChiTietKhachHangAsync(idKhachHang, idDatPhong);
+            if (!result.Any())
+                return NotFound("Không tìm thấy thông tin khách hàng hoặc đặt phòng.");
+
+            return Ok(result);
+        }
     }
 }
