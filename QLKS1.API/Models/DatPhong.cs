@@ -13,4 +13,8 @@ public class DatPhong
     public string TrangThaiDatPhong { get; set; }   = "Đang đặt";
 
     public int SoLuongNguoi { get; set; }
+
+    public string MaKH { get; set; } 
+
+    public string TenPhong { get; set; }
 }
