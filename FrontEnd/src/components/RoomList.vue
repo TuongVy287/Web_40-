@@ -53,9 +53,10 @@ export default {
     async fetchRooms() {
       try {
         // Gọi API để lấy dữ liệu
-        const response = await axios.post(`http://localhost:3000/api/rooms`);
+        const response = await axios.get(`http://localhost:5250/api/ThongKe/homnay`);
         // Gán dữ liệu trả về cho rooms
         this.rooms = response.data;
+        console.log("Rooms fetched successfully:", this.rooms);
       } catch (error) {
         console.error("Error fetching rooms:", error);
       }
