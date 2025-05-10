@@ -19,6 +19,9 @@ import SignIn from './components/SignIn.vue';
 
 export default {
   name: "App",
+  methods: {
+
+  },
   components: {
     Sidebar,
     Header,
@@ -38,7 +41,7 @@ export default {
 </script>
 
 <style scoped>
-.main-content {
-  margin-left: 220px; /* Kích thước của sidebar */
-}
+/* .main-content {
+  margin-left: 220px; /* Kích thước của sidebar 
+} */
 </style>
