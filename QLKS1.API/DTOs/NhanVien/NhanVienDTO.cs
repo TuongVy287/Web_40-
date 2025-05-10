@@ -6,7 +6,7 @@ public class NhanVienDTO
     public string HoTen { get; set; } = string.Empty;
     public int GioiTinh { get; set; } 
     public string ChucDanh { get; set; } = string.Empty;
-    public string SoDienThoai { get; set; }
+    public string SoDienThoai { get; set; } = string.Empty;
     public string Email { get; set; } = string.Empty;
     public string CaLamViec { get; set; } = string.Empty;
     public string NgayTao { get; set; } = string.Empty;

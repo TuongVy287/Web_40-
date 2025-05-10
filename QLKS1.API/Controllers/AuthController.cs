@@ -20,7 +20,7 @@ namespace QLKS1.API.Controllers
             _db = db;
         }
 
-        [HttpPost("Dang Ky")]
+        [HttpPost("DangKy")]
         public async Task<IActionResult> Register(UserRegisterDTO request)
         {
             var hashedPassword = BCrypt.Net.BCrypt.HashPassword(request.MatKhau);
