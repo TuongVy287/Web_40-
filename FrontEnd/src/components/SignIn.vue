@@ -74,6 +74,180 @@ export default {
     },
     handleRegister() {
       console.log('Register with:', this.username, this.MaNV, this.password)
+    mounted() {
+      window.addEventListener('resize', this.handleResize);
+    },
+    beforeDestroy() {
+      window.removeEventListener('resize', this.handleResize);
+    }
+  };
+  </script>
+
+  <style lang="scss" scoped>
+  .container {
+    position: absolute; // Đảm bảo nó chiếm toàn bộ màn hình
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); // Di chuyển về chính giữa
+    width: 100%;
+    max-width: 768px;
+    min-height: 480px;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, .2),
+      0 10px 10px rgba(0, 0, 0, .2);
+    background: linear-gradient(to bottom, #efefef, #ccc);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .overlay-container {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 50%;
+    height: 100%;
+    overflow: hidden;
+    transition: transform .5s ease-in-out;
+    z-index: 100;
+  }
+
+  .overlay {
+    position: relative;
+    left: -100%;
+    height: 100%;
+    width: 200%;
+    background: linear-gradient(to bottom right, #4464c5, #4169E1);
+    color: #fff;
+    transform: translateX(0);
+    transition: transform .5s ease-in-out;
+  }
+
+  @mixin overlays($property) {
+    position: absolute;
+    top: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 70px 40px;
+    width: calc(50% - 80px);
+    height: calc(100% - 140px);
+    text-align: center;
+    transform: translateX($property);
+    transition: transform .5s ease-in-out;
+  }
+
+  .overlay-left {
+    @include overlays(0);
+    left: 30px;
+    top:30px;
+  }
+
+  .overlay-right {
+    @include overlays(0);
+    right: 30px;
+        top:30px;
+
+  }
+
+  h2 {
+    margin: 0;
+  }
+
+  p {
+    margin: 20px 0 30px;
+  }
+
+  a {
+    color: #222;
+    text-decoration: none;
+    margin: 15px 0;
+    font-size: 1rem;
+  }
+
+  button {
+    border-radius: 20px;
+    border: 1px solid #d9dce7;
+    background-color: #4169E1;
+    color: #fff;
+    font-size: 1rem;
+    font-weight: bold;
+    padding: 10px 40px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: transform .1s ease-in;
+
+    &:active {
+      transform: scale(.9);
+    }
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  button.invert {
+    background-color: transparent;
+    border-color: #fff;
+  }
+
+  button.switch-button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: transparent;
+    border: none;
+    color: #4169E1;
+    cursor: pointer;
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  form {
+    position: absolute;
+    top: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    width: calc(50% - 00px);
+    height: calc(100% - 00px);
+    text-align: center;
+    background: linear-gradient(to bottom, #ece2e2, #ffffff);
+    transition: all .5s ease-in-out;
+  padding: 40px 30px;
+  max-width: 400px;
+  margin: auto;
+  border-radius: 10px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+
+    div {
+      font-size: 1rem;
+    }
+
+    input {
+      background-color: #eee;
+      border: none;
+      color: #000;
+      padding: 8px 15px;
+      margin: 6px 0;
+      width: calc(100% - 30px);
+      border-radius: 15px;
+      border-bottom: 1px solid #ddd;
+      box-shadow: inset 0 1px 2px rgba(0, 0, 0, .4),
+        0 -1px 1px #fff,
+        0 1px 0 #fff;
+      overflow: hidden;
+
+      &:focus {
+        outline: none;
+        background-color: #fff;
+      }
     }
 
   }
