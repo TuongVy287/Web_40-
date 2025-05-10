@@ -17,16 +17,16 @@ export default {
 
   },
 
-  components: {
-    Sidebar,
-    Header
-  }
+  // components: {
+  //   Sidebar,
+  //   Header
+  // }
 };
 </script>
 
 <style scoped>
-.main-content {
-  margin-left: 220px; /* Kích thước của sidebar */
-}
+/* .main-content {
+  margin-left: 220px; /* Kích thước của sidebar 
+} */
 </style>
 

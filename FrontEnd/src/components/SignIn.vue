@@ -1,394 +1,263 @@
 <template>
-    <article>
-      <div class="container"
-        :class="{ 'sign-up-active': view === 'signUp', 'forgot-password-active': view === 'forgotPassword' }">
-        <div class="overlay-container" v-if="!isMobileView">
-          <div class="overlay">
-            <div class="overlay-left">
-              <h2>Chào Mừng Trở Lại!</h2>
-              <p>Vui lòng nhập thông tin cá nhân của bạn</p>
-              <button class="invert" id="signIn" @click="switchToSignIn">Đăng nhập</button>
-            </div>
-            <div class="overlay-right">
-              <h2>Xin Chào Bạn!</h2>
-              <p>Vui lòng đăng ký thông tin cá nhân của bạn</p>
-              <button class="invert" id="signUp" @click="switchToSignUp">Đăng ký</button>
-            </div>
-          </div>
+  <div class="container" :class="{ 'sign-up-mode': isSignUp }">
+    <!-- Sign In Form -->
+    <div class="form-container sign-in-container">
+      <form @submit.prevent="handleLogin">
+        <h2>Đăng Nhập</h2>
+        <input placeholder="Mã nhân viên" v-model="MaNV" required />
+        <input type="password" placeholder="Mật khẩu" v-model="password" required />
+        <a href="#">Quên mật khẩu?</a>
+        <button type="submit">Đăng Nhập</button>
+      </form>
+    </div>
+
+    <!-- Sign Up Form -->
+    <!-- <div class="form-container sign-up-container">
+      <form @submit.prevent="handleRegister">
+        <h2>Đăng Ký</h2>
+        <input type="text" placeholder="Tên người dùng" v-model="username" required />
+        <input type="email" placeholder="Email" v-model="email" required />
+        <input type="password" placeholder="Mật khẩu" v-model="password" required />
+        <button type="submit">Đăng Ký</button>
+      </form>
+    </div> -->
+
+    <!-- Overlay -->
+    <!-- <div class="overlay-container">
+      <div class="overlay">
+        <div class="overlay-panel overlay-left">
+          <h2>Xin Chào Bạn!</h2>
+          <p>Đã có tài khoản? Vui lòng đăng nhập!</p>
+          <button class="ghost" @click="isSignUp = false">Đăng Nhập</button>
         </div>
-
-        <!-- Đăng Nhập -->
-        <form class="sign-in" v-if="view === 'signIn'" @submit.prevent="attemptLogin">
-          <h2>Đăng Nhập</h2>
-          <div>Sử dụng tài khoản của bạn</div>
-          <input type="email" v-model="email" placeholder="Email" />
-          <input type="password" v-model="password" placeholder="Mật khẩu" />
-          <a href="#" @click.prevent="switchToForgotPassword">Quên mật khẩu của bạn?</a>
-          <button type="submit">Đăng nhập</button>
-          <button v-if="isMobileView" class="switch-button" @click="switchToSignUp">Chưa có tài khoản? Đăng ký</button>
-        </form>
-
-        <!-- Đăng Ký -->
-        <form class="sign-up" v-if="view === 'signUp'" @submit.prevent="attemptSignUp">
-          <h2>Đăng Ký</h2>
-          <div>Tạo tài khoản mới</div>
-          <input type="email" v-model="newEmail" placeholder="Email" />
-          <input type="password" v-model="newPassword" placeholder="Mật khẩu" />
-          <button type="submit">Đăng ký</button>
-          <button v-if="isMobileView" class="switch-button" @click="switchToSignIn">Đã có tài khoản? Đăng nhập</button>
-        </form>
-
-        <!-- Quên Mật Khẩu -->
-        <form class="forgot-password" v-if="view === 'forgotPassword'" @submit.prevent="attemptPasswordReset">
-          <h2>Quên Mật Khẩu</h2>
-          <div>Nhập email và mật khẩu mới của bạn</div>
-          <input type="email" v-model="resetEmail" placeholder="Email" />
-          <input type="password" v-model="resetPassword" placeholder="Mật khẩu mới" />
-          <button type="submit">Đặt lại mật khẩu</button>
-          <button v-if="isMobileView" class="switch-button" @click="switchToSignIn">Đăng nhập</button>
-        </form>
+        <div class="overlay-panel overlay-right">
+          <h2>Xin Chào Bạn!</h2>
+          <p>Vui lòng đăng ký thông tin cá nhân của bạn</p>
+          <button class="ghost" @click="isSignUp = true">Đăng Ký</button>
+        </div>
       </div>
-    </article>
-  </template>
+    </div> -->
+  </div>
+</template>
 
-  <script lang="ts">
-  export default {
-    data() {
-      return {
-        view: 'signIn',
-        isMobileView: window.innerWidth <= 768,
-        email: '',
-        password: '',
-        newEmail: '',
-        newPassword: '',
-        resetEmail: '',
-        resetPassword: '',
-        accounts: JSON.parse(localStorage.getItem('accounts'))
-      };
-    },
-    methods: {
-      switchToSignIn() {
-        this.view = 'signIn';
-      },
-      switchToSignUp() {
-        this.view = 'signUp';
-      },
-      switchToForgotPassword() {
-        this.view = 'forgotPassword';
-      },
-      attemptLogin() {
-        const account = this.accounts.find(
-          (account) => account.email === this.email && account.password === this.password
-        );
-        if (account) {
-          localStorage.setItem('loggedIn', "true");
-          localStorage.setItem('userRole', account.type);
-          alert(`Chào mừng ${account.email.split('@')[0]}!`);
-          this.$router.push('/Dashboard'); // Chuyển hướng sau khi đăng nhập thành công
+<script>
+import axios from "axios";
+
+export default {
+  name: 'SignIn',
+  setup() {
+    return {
+      isSignUp: false,
+      username: [],
+      MaNV: '',
+      password: '',
+    }
+  },
+  methods: {
+    async handleLogin() {
+      console.log('Login with:', this.MaNV, this.password)
+      try {
+        const response = await axios.post('http://localhost:5250/api/Auth/login', {
+          MaNV: this.MaNV,
+          password: this.password
+        })
+        console.log('Login with:', response.data)
+        if (response.data) {
+          localStorage.setItem('user', JSON.stringify(response.data))
+          this.$router.push({ name: 'Home' })
         } else {
-          alert('Email hoặc mật khẩu không đúng.');
+          console.log('Login failed');
         }
-      },
-      attemptSignUp() {
-        if (this.accounts.find((account) => account.email === this.newEmail)) {
-          alert('Email đã tồn tại.');
-        } else if (this.newPassword.length < 8) {
-          alert('Mật khẩu phải đủ ít nhất 8 ký tự.');
-        } else {
-          const newAccount = { email: this.newEmail, password: this.newPassword, type: 3 };
-          this.accounts.push(newAccount);
-          localStorage.setItem('accounts', JSON.stringify(this.accounts));
-          alert('Đăng ký thành công!');
-          this.switchToSignIn();
-        }
-      },
-      attemptPasswordReset() {
-        const account = this.accounts.find((account) => account.email === this.resetEmail);
-        if (!account) {
-          alert('Email không tồn tại.');
-        } else if (this.resetPassword.length < 8) {
-          alert('Mật khẩu phải đủ ít nhất 8 ký tự.');
-        } else {
-          account.password = this.resetPassword;
-          localStorage.setItem('accounts', JSON.stringify(this.accounts));
-          alert('Đặt lại mật khẩu thành công!');
-          this.switchToSignIn();
-        }
-      },
-      handleResize() {
-        this.isMobileView = window.innerWidth <= 768;
+      } catch (error) {
+        console.error('Error during login:', error);
       }
     },
-    mounted() {
-      window.addEventListener('resize', this.handleResize);
-    },
-    beforeDestroy() {
-      window.removeEventListener('resize', this.handleResize);
+    handleRegister() {
+      console.log('Register with:', this.username, this.MaNV, this.password)
     }
-  };
-  </script>
 
-  <style lang="scss" scoped>
-  .container {
-    position: absolute; // Đảm bảo nó chiếm toàn bộ màn hình
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%); // Di chuyển về chính giữa
-    width: 100%;
-    max-width: 768px;
-    min-height: 480px;
-    border-radius: 10px;
-    overflow: hidden;
-    box-shadow: 0 15px 30px rgba(0, 0, 0, .2),
-      0 10px 10px rgba(0, 0, 0, .2);
-    background: linear-gradient(to bottom, #efefef, #ccc);
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
   }
+}
 
-  .overlay-container {
-    position: absolute;
-    top: 0;
-    left: 50%;
-    width: 50%;
-    height: 100%;
-    overflow: hidden;
-    transition: transform .5s ease-in-out;
-    z-index: 100;
-  }
+</script>
+<style scoped>
+/* General styles */
+* {
+  box-sizing: border-box;
+}
 
-  .overlay {
-    position: relative;
-    left: -100%;
-    height: 100%;
-    width: 200%;
-    background: linear-gradient(to bottom right, #4464c5, #4169E1);
-    color: #fff;
-    transform: translateX(0);
-    transition: transform .5s ease-in-out;
-  }
+body {
+  font-family: 'Poppins', sans-serif;
+  background-color: #f6f5f7;
+  margin: 0;
+  padding: 0;
+}
 
-  @mixin overlays($property) {
-    position: absolute;
-    top: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    padding: 70px 40px;
-    width: calc(50% - 80px);
-    height: calc(100% - 140px);
-    text-align: center;
-    transform: translateX($property);
-    transition: transform .5s ease-in-out;
-  }
+.container {
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25),
+    0 10px 10px rgba(0, 0, 0, 0.22);
+  position: relative;
+  overflow: hidden;
+  width: 768px;
+  max-width: 100%;
+  min-height: 480px;
+  margin: 50px auto;
+}
 
-  .overlay-left {
-    @include overlays(-20%);
-  }
+.form-container {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  transition: all 0.6s ease-in-out;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 0 50px;
+  text-align: center;
+}
 
-  .overlay-right {
-    @include overlays(0);
-    right: 0;
-  }
+.sign-in-container {
+  left: 0;
+  width: 50%;
+  z-index: 2;
+}
 
-  h2 {
-    margin: 0;
-  }
+.sign-up-container {
+  left: 0;
+  width: 50%;
+  opacity: 0;
+  z-index: 1;
+}
 
-  p {
-    margin: 20px 0 30px;
-  }
+.container.sign-up-mode .sign-in-container {
+  transform: translateX(100%);
+  opacity: 0;
+  z-index: 1;
+}
 
-  a {
-    color: #222;
-    text-decoration: none;
-    margin: 15px 0;
-    font-size: 1rem;
-  }
+.container.sign-up-mode .sign-up-container {
+  transform: translateX(100%);
+  opacity: 1;
+  z-index: 2;
+}
 
-  button {
-    border-radius: 20px;
-    border: 1px solid #d9dce7;
-    background-color: #4169E1;
-    color: #fff;
-    font-size: 1rem;
-    font-weight: bold;
-    padding: 10px 40px;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    cursor: pointer;
-    transition: transform .1s ease-in;
+/* Overlay styles */
+.overlay-container {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 50%;
+  height: 100%;
+  overflow: hidden;
+  transition: transform 0.6s ease-in-out;
+  z-index: 100;
+}
 
-    &:active {
-      transform: scale(.9);
-    }
+.overlay {
+  background: linear-gradient(to right, #f39c12, #f1c40f);
+  background-repeat: no-repeat;
+  background-size: cover;
+  color: white;
+  position: relative;
+  left: -100%;
+  height: 100%;
+  width: 200%;
+  transform: translateX(0);
+  transition: transform 0.6s ease-in-out;
+}
 
-    &:focus {
-      outline: none;
-    }
-  }
+.container.sign-up-mode .overlay-container {
+  transform: translateX(-100%);
+}
 
-  button.invert {
-    background-color: transparent;
-    border-color: #fff;
-  }
+.container.sign-up-mode .overlay {
+  transform: translateX(50%);
+}
 
-  button.switch-button {
-    margin-top: 20px;
-    padding: 10px 20px;
-    background-color: transparent;
-    border: none;
-    color: #4169E1;
-    cursor: pointer;
+.overlay-panel {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0 40px;
+  text-align: center;
+  top: 0;
+  height: 100%;
+  width: 50%;
+  transition: all 0.6s ease-in-out;
+}
 
-    &:focus {
-      outline: none;
-    }
-  }
+.overlay-left {
+  transform: translateX(-20%);
+  left: 0;
+}
 
-  form {
-    position: absolute;
-    top: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    padding: 90px 60px;
-    width: calc(50% - 120px);
-    height: calc(100% - 180px);
-    text-align: center;
-    background: linear-gradient(to bottom, #ece2e2, #ffffff);
-    transition: all .5s ease-in-out;
+.overlay-right {
+  right: 0;
+  transform: translateX(0);
+}
 
-    div {
-      font-size: 1rem;
-    }
+.container.sign-up-mode .overlay-left {
+  transform: translateX(0);
+}
 
-    input {
-      background-color: #eee;
-      border: none;
-      padding: 8px 15px;
-      margin: 6px 0;
-      width: calc(100% - 30px);
-      border-radius: 15px;
-      border-bottom: 1px solid #ddd;
-      box-shadow: inset 0 1px 2px rgba(0, 0, 0, .4),
-        0 -1px 1px #fff,
-        0 1px 0 #fff;
-      overflow: hidden;
+.container.sign-up-mode .overlay-right {
+  transform: translateX(20%);
+}
 
-      &:focus {
-        outline: none;
-        background-color: #fff;
-      }
-    }
-  }
+/* Inputs & buttons */
+form {
+  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+  padding: 0 20px;
+}
 
-  .sign-in {
-    left: 0;
-    z-index: 2;
-  }
+input {
+  background-color: #eee;
+  color: #000000;
+  border: none;
+  padding: 12px 15px;
+  margin: 8px 0;
+  width: 100%;
+  border-radius: 5px;
+}
 
-  .sign-up {
-    left: 0;
-    z-index: 1;
-    opacity: 0;
-  }
+button {
+  border-radius: 20px;
+  border: 1px solid #f39c12;
+  background-color: #f39c12;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: bold;
+  padding: 12px 45px;
+  margin-top: 10px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  transition: transform 80ms ease-in;
+  cursor: pointer;
+}
 
-  .forgot-password {
-    left: 0;
-    z-index: 1;
-    opacity: 0;
-  }
+button:hover {
+  background-color: #e67e22;
+  border-color: #e67e22;
+}
 
-  .sign-up-active,
-  .forgot-password-active {
-    .sign-in {
-      transform: translateX(100%);
-    }
+button:active {
+  transform: scale(0.95);
+}
 
-    .sign-up,
-    .forgot-password {
-      transform: translateX(100%);
-      opacity: 1;
-      z-index: 5;
-      animation: show .5s;
-    }
+button.ghost {
+  background-color: transparent;
+  border-color: #ffffff;
+  color: #ffffff;
+}
 
-    .overlay-container {
-      transform: translateX(-100%);
-    }
-
-    .overlay {
-      transform: translateX(50%);
-    }
-
-    .overlay-left {
-      transform: translateX(0);
-    }
-
-    .overlay-right {
-      transform: translateX(20%);
-    }
-  }
-
-  @keyframes show {
-    0% {
-      opacity: 0;
-      z-index: 1;
-    }
-
-    49% {
-      opacity: 0;
-      z-index: 1;
-    }
-
-    50% {
-      opacity: 1;
-      z-index: 10;
-    }
-  }
-
-  /* Responsive CSS for small screens */
-  @media screen and (max-width: 768px) {
-    .container {
-      width: 100%;
-      height: auto;
-      max-width: none;
-      min-height: 100vh;
-    }
-
-    .overlay-container {
-      display: none;
-    }
-
-    form {
-      position: relative;
-      width: 90%;
-      padding: 20px;
-      height: auto;
-    }
-
-    button,
-    input {
-      width: 100%;
-    }
-
-    .sign-up-active,
-    .forgot-password-active {
-      .sign-in {
-        transform: none;
-      }
-
-      .sign-up,
-      .forgot-password {
-        transform: none;
-        opacity: 1;
-      }
-    }
-  }
-  </style>
-
+button.ghost:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+</style>
