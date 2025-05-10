@@ -186,12 +186,16 @@
   }
 
   .overlay-left {
-    @include overlays(-20%);
+    @include overlays(0);
+    left: 30px;
+    top:30px;
   }
 
   .overlay-right {
     @include overlays(0);
-    right: 0;
+    right: 30px;
+        top:30px;
+
   }
 
   h2 {
@@ -256,12 +260,16 @@
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    padding: 90px 60px;
-    width: calc(50% - 120px);
-    height: calc(100% - 180px);
+    width: calc(50% - 00px);
+    height: calc(100% - 00px);
     text-align: center;
     background: linear-gradient(to bottom, #ece2e2, #ffffff);
     transition: all .5s ease-in-out;
+  padding: 40px 30px;
+  max-width: 400px;
+  margin: auto;
+  border-radius: 10px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
 
     div {
       font-size: 1rem;
@@ -270,6 +278,7 @@
     input {
       background-color: #eee;
       border: none;
+      color: #000;
       padding: 8px 15px;
       margin: 6px 0;
       width: calc(100% - 30px);
