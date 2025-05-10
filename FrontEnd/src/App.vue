@@ -14,11 +14,7 @@ import Header from './components/Header.vue';
 export default {
   name: "App",
   methods: {
-    testApi(){
-    this.axios.get("http://localhost:5250/api/DichVu").then((response) => {
-        console.log(response.data)
-      })
-    }
+
   },
 
   components: {

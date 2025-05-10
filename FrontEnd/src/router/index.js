@@ -7,17 +7,19 @@ import BookingCreate from '../components/BookingCreate.vue';
 import Guest from '../components/GuestPage.vue'
 import Deals from '../components/DealPage.vue'
 import Dashboard from '../components/Dashboard.vue'
+import SignIn from '@/components/SignIn.vue';
 
 const routes = [
-  { path: '/', component: Dashboard }, // Đường dẫn mặc định
+  { path: '/', component: SignIn }, // Đường dẫn mặc định
+  { path: '/Dashboard', component: Dashboard }, // Đường dẫn mặc định
   { path: '/front-desk', component: FrontDesk },
   { path: '/create-booking',component: BookingCreate },
   { path: '/guests',component: Guest },
   { path: '/rooms', component: RoomList },
   { path: '/deals', component: Deals },
   { path: '/rate', component: Rate },
-  
-  
+
+
 ];
 
 const router = createRouter({

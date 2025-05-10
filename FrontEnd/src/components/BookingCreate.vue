@@ -13,7 +13,7 @@
             Booked ({{ bookedRooms.length }})
           </button>
         </div>
-  
+
         <!-- Date Pickers -->
         <div class="date-row">
           <div>
@@ -25,7 +25,7 @@
             <input type="date" v-model="form.checkOut" />
           </div>
         </div>
-  
+
         <!-- Guest Counter -->
         <div class="guest-counter-row">
           <div class="guest-type">
@@ -45,7 +45,7 @@
             </div>
           </div>
         </div>
-  
+
         <!-- Check availability -->
         <div class="check-btn-wrapper">
           <button class="check-button" @click="submitBooking">
@@ -53,7 +53,7 @@
           </button>
         </div>
       </div>
-  
+
       <!-- Booked Room List -->
       <div class='table-booker-room'>
         <h3>Booked Rooms</h3>
@@ -82,7 +82,7 @@
       </div>
     </div>
   </template>
-  
+
   <script>
   export default {
     name: 'BookingCreate',
@@ -147,7 +147,7 @@
     },
   };
   </script>
-  
+
   <style scoped>
   .CheckCheck,
   .table-booker-room {
@@ -160,7 +160,7 @@
     margin-left: 50px;
     margin-top: 80px;
   }
-  
+
   .room-type-buttons {
     display: flex;
     flex-wrap: wrap;
@@ -182,18 +182,18 @@
     color: #fff;
     border-color: transparent;
   }
-  
+
   .date-row {
     display: flex;
     gap: 32px;
     margin-bottom: 20px;
-    
+
   }
   .date-row label {
     font-weight: 600;
     margin-bottom: 4px;
     display: block;
-    
+
   }
   input[type="date"] {
     padding: 8px;
@@ -203,7 +203,7 @@
     color: #000;
     background-color: #ea9c00;
   }
-  
+
   .guest-counter-row {
     display: flex;
     gap: 40px;
@@ -242,7 +242,7 @@
     text-align: center;
     font-weight: 600;
   }
-  
+
   .check-btn-wrapper {
     text-align: right;
     margin-bottom: 0px;
@@ -261,7 +261,7 @@
   .check-button:hover {
     background: #d48806;
   }
-  
+
   h3 {
     color: #ea9c00;
     margin-bottom: 12px;
@@ -310,4 +310,3 @@
     background-color: #17a2b8;
   }
   </style>
-  
