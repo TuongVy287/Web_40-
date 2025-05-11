@@ -10,8 +10,8 @@ import Dashboard from '../components/Dashboard.vue'
 import SignIn from '@/components/SignIn.vue';
 
 const routes = [
-  { path: '/', component: SignIn }, // Đường dẫn mặc định
-  { path: '/Dashboard', component: Dashboard }, // Đường dẫn mặc định
+  // { path: '/', component: SignIn }, // Đường dẫn mặc định
+  { path: '/', component: Dashboard },
   { path: '/front-desk', component: FrontDesk },
   { path: '/create-booking',component: BookingCreate },
   { path: '/guests',component: Guest },

@@ -10,6 +10,7 @@ namespace QLKS1.API.Repositories.Interfaces
         Task<List<NhanVien>> GetAllNhanVienAsync();
         Task<bool> SuaNhanVienAsync(NhanVien nhanVien);
 
+          Task<bool> XoaNhanVienAsync(string maNV);
 
     }
 }

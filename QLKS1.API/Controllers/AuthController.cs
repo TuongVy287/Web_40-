@@ -89,8 +89,8 @@ namespace QLKS1.API.Controllers
             // So sánh mật khẩu nhập vào với mật khẩu đã hash trong cơ sở dữ liệu
             if (!BCrypt.Net.BCrypt.Verify(request.MatKhau, user.MatKhau))
             {
-                return Unauthorized("Sai Mật Khẩu");
-                // return Ok(new { message = "Sai Mật Khẩu", success = false, MaNV = request.MaNV });
+                // return Unauthorized("Sai Mật Khẩu");
+                return Ok(new { message = "Sai Mật Khẩu", success = false, MaNV = request.MaNV, password = request.MatKhau });
             }
 
             // Tạo token nếu đăng nhập thành công
