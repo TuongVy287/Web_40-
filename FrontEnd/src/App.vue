@@ -19,9 +19,7 @@ import SignIn from './components/SignIn.vue';
 
 export default {
   name: "App",
-  methods: {
 
-  },
   components: {
     Sidebar,
     Header,
@@ -29,19 +27,23 @@ export default {
   },
   data() {
     return {
-      isLoggedIn: false
+      isLoggedIn: false, // Trạng thái đăng nhập
     };
   },
-  created() {
-    // Kiểm tra token đăng nhập trong localStorage
-    const token = localStorage.getItem('token');
-    this.isLoggedIn = !!token;
-  }
+  // created() {
+  //   // Kiểm tra token đăng nhập trong localStorage
+  //   // const token = localStorage.getItem('token');
+  //   // this.isLoggedIn = !!token;
+  // },
+
+
 };
 </script>
 
+
 <style scoped>
-/* .main-content {
-  margin-left: 220px; /* Kích thước của sidebar 
-} */
+.main-content {
+  margin-left: 220px;
+  /* Kích thước của sidebar*/
+}
 </style>
