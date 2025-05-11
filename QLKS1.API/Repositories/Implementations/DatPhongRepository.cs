@@ -1,6 +1,8 @@
 using System.Data;
 using Dapper;
 using QLKS1.API.Repositories.Interfaces;
+using System.Data.SqlClient;
+
 
 
 public class DatPhongRepository : IDatPhongRepository
@@ -30,6 +32,30 @@ public class DatPhongRepository : IDatPhongRepository
 
         return datPhong;
     }
+
+
+
+    public async Task<BookingResponse> CreateBookingAsync(DatPhongRequest request)
+    {
+        
+        var parameters = new DynamicParameters();
+
+        parameters.Add("@MaKH", request.MaKH);
+        parameters.Add("@TenPhong", request.TenPhong);
+        parameters.Add("@NgayNhan", request.NgayNhan);
+        parameters.Add("@NgayTra", request.NgayTra);
+        parameters.Add("@SoLuongNguoi", request.SoLuongNguoi);
+
+        var result = await _db.QueryFirstOrDefaultAsync<BookingResponse>(
+            "spAPI_DatPhong_Them",
+            parameters,
+            commandType: CommandType.StoredProcedure
+        );
+
+        return result;
+
+    }
+
     // public async Task<int> InsertDatPhongAsync(DatPhong datPhong)
     // {
     //     var result = await _db.QuerySingleAsync<int>(

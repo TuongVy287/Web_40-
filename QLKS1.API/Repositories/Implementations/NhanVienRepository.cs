@@ -72,6 +72,30 @@ public class NhanVienRepository : INhanVienRepository
             throw;
         }
     }
+    public async Task<bool> XoaNhanVienAsync(string maNV)
+{
+    try
+    {
+        var parameters = new DynamicParameters();
+        parameters.Add("@MaNV", maNV);
+
+        var rowsAffected = await _db.ExecuteAsync(
+            "spAPI_NhanVien_Xoa",
+            parameters,
+            commandType: CommandType.StoredProcedure
+        );
+
+        return rowsAffected > 0;
+    }
+    catch (SqlException ex)
+    {
+        if (ex.Number == 50001) // Mã lỗi từ THROW
+        {
+            return false;
+        }
+        throw; // Nếu là lỗi khác, ném lỗi ra ngoài
+    }
+}
 
 
 }
