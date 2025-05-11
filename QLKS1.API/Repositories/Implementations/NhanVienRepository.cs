@@ -73,29 +73,62 @@ public class NhanVienRepository : INhanVienRepository
         }
     }
     public async Task<bool> XoaNhanVienAsync(string maNV)
-{
-    try
     {
+        try
+        {
+            var parameters = new DynamicParameters();
+            parameters.Add("@MaNV", maNV);
+
+            var rowsAffected = await _db.ExecuteAsync(
+                "spAPI_NhanVien_Xoa",
+                parameters,
+                commandType: CommandType.StoredProcedure
+            );
+
+            return rowsAffected > 0;
+        }
+        catch (SqlException ex)
+        {
+            if (ex.Number == 50001) // Mã lỗi từ THROW
+            {
+                return false;
+            }
+            throw; // Nếu là lỗi khác, ném lỗi ra ngoài
+        }
+
+
+    }
+    public async Task<bool> ChangePasswordAsync(string maNV,string matkhau,string newPassword)
+    {
+        var employee = await _db.QueryFirstOrDefaultAsync<NhanVien>(
+            "SELECT * FROM NhanVien WHERE MaNV = @MaNV",
+            new { MaNV = maNV }
+        );
+
+        if (employee == null)
+            return false;
+
+        var isPasswordValid = BCrypt.Net.BCrypt.Verify(matkhau, employee.MatKhau);
+        if (!isPasswordValid)
+            return false;
+
+        var hashedNewPassword = BCrypt.Net.BCrypt.HashPassword(newPassword);
+
         var parameters = new DynamicParameters();
         parameters.Add("@MaNV", maNV);
+        parameters.Add("@MatKhau", matkhau);
+        parameters.Add("@MatKhauMoi", hashedNewPassword);
 
-        var rowsAffected = await _db.ExecuteAsync(
-            "spAPI_NhanVien_Xoa",
+
+        await _db.ExecuteAsync(
+            "spAPI_NhanVien_Update_MatKhau",
             parameters,
             commandType: CommandType.StoredProcedure
         );
 
-        return rowsAffected > 0;
+        return true;
     }
-    catch (SqlException ex)
-    {
-        if (ex.Number == 50001) // Mã lỗi từ THROW
-        {
-            return false;
-        }
-        throw; // Nếu là lỗi khác, ném lỗi ra ngoài
-    }
-}
+
 
 
 }

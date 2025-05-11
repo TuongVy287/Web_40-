@@ -50,5 +50,26 @@ namespace QLKS1.API.Controllers
             else
                 return NotFound(new { message = "Không tìm thấy nhân viên." });
         }
+
+        [HttpPut("change-password")]
+        public async Task<IActionResult> ChangePassword([FromBody] NhanVien request)
+        {
+            if (string.IsNullOrWhiteSpace(request.MaNV) ||
+                string.IsNullOrWhiteSpace(request.MatKhau) ||
+                string.IsNullOrWhiteSpace(request.NewPassword))
+            {
+                return BadRequest("Thông tin đầu vào không hợp lệ.");
+            }
+
+            var success = await _nhanVienRepository.ChangePasswordAsync(
+                request.MaNV, request.MatKhau, request.NewPassword
+            );
+
+            if (!success)
+                return BadRequest("Mật khẩu cũ không đúng hoặc không tìm thấy nhân viên.");
+
+            return Ok("Đổi mật khẩu thành công.");
+        }
+
     }
 }

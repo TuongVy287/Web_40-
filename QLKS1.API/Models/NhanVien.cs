@@ -12,4 +12,5 @@ public class NhanVien
     public int Luong { get; set; } 
     public string MatKhau { get; set; } = string.Empty;
     public int Xoa { get; set; }
+    public string NewPassword { get; set; }    // Mật khẩu mới
 }
