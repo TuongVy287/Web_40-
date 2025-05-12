@@ -1,37 +1,46 @@
 <template>
   <div class="room-list">
     <h2>Room</h2>
+
     <div class="room-status-buttons">
-      <!-- Tuỳ ý bạn xử lý logic hiển thị tổng số, phòng trống, phòng đã đặt -->
-      <button>All room({{ rooms.length }})</button>
-      <button>Available room( ... )</button>
-      <button>Booked( ... )</button>
+      <button @click="fetchRooms('Tất cả')">
+        All room ({{ rooms.length }})
+      </button>
+      <button @click="fetchRooms('Trống')">
+        Available room ({{ availableCount }})
+      </button>
+      <button @click="fetchRooms('Đã đặt')">
+        Booked ({{ bookedCount }})
+      </button>
     </div>
+
     <table>
       <thead>
         <tr>
-          <th>Room number</th>
-          <th>Bed type</th>
-          <th>Room floor</th>
-          <th>Room facility</th>
+          <th>Room ID</th>
+          <th>Room Type</th>
+          <th>Capacity</th>
+          <th>Price</th>
           <th>Status</th>
         </tr>
       </thead>
       <tbody>
-        <tr v-for="room in rooms" :key="room.number">
-          <td>{{ room.number }}</td>
-          <td>{{ room.bedType }}</td>
-          <td>{{ room.floor }}</td>
-          <td>{{ room.facility }}</td>
-          <!-- Gắn class theo trạng thái để đổi màu chữ -->
-          <td :class="room.status.toLowerCase()">{{ room.status }}</td>
+        <tr v-for="room in paginatedRooms" :key="room.idPhong">
+          <td>{{ room.idPhong }}</td>
+          <td>{{ room.loaiPhong }}</td>
+          <td>{{ room.suChua }}</td>
+          <td>{{ room.gia.toLocaleString() }} VND</td>
+          <td :class="room.trangThaiPhong.toLowerCase().replace(/\s/g, '-')">
+            {{ room.trangThaiPhong }}
+          </td>
         </tr>
       </tbody>
     </table>
+
     <div class="pagination">
-      <button>Previous</button>
-      <span>1</span>
-      <button>Next</button>
+      <button @click="prevPage" :disabled="currentPage === 1">Previous</button>
+      <span>Page {{ currentPage }} of {{ totalPages }}</span>
+      <button @click="nextPage" :disabled="currentPage === totalPages">Next</button>
     </div>
   </div>
 </template>
@@ -43,22 +52,51 @@ export default {
   name: "RoomList",
   data() {
     return {
-      rooms: [], // Chứa danh sách phòng lấy từ API
+      rooms: [],
+      currentStatus: "Tất cả",
+      currentPage: 1,
+      pageSize: 4,
     };
   },
+  computed: {
+    availableCount() {
+      return this.rooms.filter((r) => r.trangThaiPhong === "Trống").length;
+    },
+    bookedCount() {
+      return this.rooms.filter((r) => r.trangThaiPhong === "Đã đặt").length;
+    },
+    paginatedRooms() {
+      const start = (this.currentPage - 1) * this.pageSize;
+      return this.rooms.slice(start, start + this.pageSize);
+    },
+    totalPages() {
+      return Math.ceil(this.rooms.length / this.pageSize);
+    },
+  },
   created() {
-    this.fetchRooms();
+    this.fetchRooms(this.currentStatus);
   },
   methods: {
-    async fetchRooms() {
+    async fetchRooms(status) {
       try {
-        // Gọi API để lấy dữ liệu
-        const response = await axios.get(`http://localhost:5250/api/ThongKe/homnay`);
-        // Gán dữ liệu trả về cho rooms
+        this.currentStatus = status;
+        this.currentPage = 1;
+        const response = await axios.get(
+          `http://localhost:5250/api/Phong/theo-trang-thai?trangThai=${status}`
+        );
         this.rooms = response.data;
-        console.log("Rooms fetched successfully:", this.rooms);
       } catch (error) {
         console.error("Error fetching rooms:", error);
+      }
+    },
+    nextPage() {
+      if (this.currentPage < this.totalPages) {
+        this.currentPage++;
+      }
+    },
+    prevPage() {
+      if (this.currentPage > 1) {
+        this.currentPage--;
       }
     },
   },
@@ -107,6 +145,7 @@ table {
   width: 100%;
   border-collapse: collapse;
   margin-top: 20px;
+  min-height: 265px;
 }
 
 th,
@@ -122,6 +161,7 @@ th {
   background-color: #f1f1f1;
   color: #333;
 }
+
 
 td {
   background-color: #fafafa;
@@ -139,20 +179,16 @@ tr:hover {
   background-color: #e9e9e9;
 }
 
-/* Ví dụ các class đổi màu chữ tuỳ theo trạng thái */
-.available {
+/* Đổi màu trạng thái */
+.trống {
   color: green;
 }
-.booked {
+
+.đã-đặt {
   color: red;
 }
-.reserved {
-  color: orange;
-}
-.waitlist {
-  color: yellow;
-}
-.blocked {
+
+.bảo-trì {
   color: gray;
 }
 

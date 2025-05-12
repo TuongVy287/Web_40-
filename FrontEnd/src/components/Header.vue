@@ -2,7 +2,6 @@
   <header class="header">
     <div class="search-container">
       <input type="text" placeholder="Search for rooms and offers" />
-      <button class="add-room-button">Add room</button>
     </div>
     <div class="user-options">
       <i class="fas fa-bell icon"></i>
@@ -12,18 +11,40 @@
       <div v-if="showDropdown" class="dropdown-menu">
         <p><strong>Mã NV:</strong> {{ user.maNV }}</p>
         <p><strong>Họ tên:</strong> {{ user.hoTen }}</p>
+        <button @click="openEditModal" class="edit-button">Chỉnh sửa thông tin</button>
         <button @click="logout" class="logout-button">Đăng xuất</button>
+      </div>
+    </div>
+
+    <!-- Modal chỉnh sửa thông tin -->
+    <div v-if="showModal" class="modal-overlay">
+      <div class="modal-centered">
+        <div class="modal-content scrollable">
+          <h3>Chỉnh sửa thông tin</h3>
+          <div class="form-group"><label>Họ tên</label><input v-model="user.hoTen" /></div>
+        
+          <div class="form-group"><label>SĐT</label><input v-model="user.soDienThoai" /></div>
+          <div class="form-group"><label>Email</label><input v-model="user.email" /></div>
+          <div class="modal-actions">
+            <button @click="updateNhanVien">Lưu</button>
+            <button @click="closeEditModal">Đóng</button>
+          </div>
+        </div>
       </div>
     </div>
   </header>
 </template>
 
+
 <script>
+import axios from 'axios';
+
 export default {
   name: 'Header',
   data() {
     return {
       showDropdown: false,
+      showModal: false,
       user: {}
     }
   },
@@ -51,6 +72,27 @@ export default {
         this.showDropdown = false;
       }
     },
+    openEditModal() {
+      this.showModal = true;
+      this.showDropdown = false;
+    },
+    closeEditModal() {
+      this.showModal = false;
+    },
+    async updateNhanVien() {
+  try {
+    console.log('Dữ liệu gửi đi:', JSON.stringify(this.user, null, 2));
+
+    const res = await axios.put('http://localhost:5250/api/NhanVien/SuaNhanVien', this.user);
+
+    alert('Cập nhật thành công!');
+    this.closeEditModal();
+    localStorage.setItem('user', JSON.stringify({ user: this.user }));
+  } catch (err) {
+    console.error('Lỗi chi tiết:', err.response?.data || err.message);
+    alert('Lỗi cập nhật: ' + JSON.stringify(err.response?.data || err.message));
+  }
+},
     logout() {
       localStorage.removeItem('user');
       window.dispatchEvent(new Event('user-changed'));
@@ -160,4 +202,94 @@ export default {
 .logout-button:hover {
   background-color: #c0392b;
 }
+.edit-button {
+  margin-top: 10px;
+  background-color: #3498db;
+  color: white;
+  padding: 8px 14px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  width: 100%;
+  transition: background-color 0.3s ease;
+}
+.edit-button:hover {
+  background-color: #2980b9;
+}
+/* Modal overlay và canh giữa */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* nền mờ */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+}
+
+.modal-centered {
+  background-color: white;
+  border-radius: 10px;
+  width: 400px;
+  max-height: 90vh;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.modal-content {
+  padding: 20px;
+}
+
+.scrollable {
+  overflow-y: auto;
+  max-height: 80vh;
+}
+
+.modal-content h3 {
+  color: #f39c12;
+  margin-bottom: 10px;
+}
+
+.form-group {
+  margin-bottom: 10px;
+}
+
+.form-group label {
+  font-size: 14px;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 6px;
+  border: 1px solid #000000;
+  border-radius: 4px;
+  color: black;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.modal-actions button {
+  padding: 6px 12px;
+  background-color: #f39c12;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.modal-actions button:hover {
+  background-color: #e67e22;
+}
+
 </style>
