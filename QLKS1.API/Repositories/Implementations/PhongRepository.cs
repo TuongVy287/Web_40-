@@ -39,5 +39,24 @@ public class PhongRepository : IPhongRepository
         return result;
     }
 
+    public async Task<PhongThongKe> GetThongKePhongAsync()
+    {
+        using var multi = await _db.QueryMultipleAsync(
+            "spAPI_Phong_TrangThai",
+            commandType: CommandType.StoredProcedure
+        );
+
+        var trangThai = await multi.ReadAsync<PhongTrangThai>();
+        var daDat = await multi.ReadAsync<PhongLoai>();
+        var trong = await multi.ReadAsync<PhongLoai>();
+
+        return new PhongThongKe
+        {
+            TrangThai = trangThai,
+            DaDat = daDat,
+            Trong = trong
+        };
+    }
+
 
 }

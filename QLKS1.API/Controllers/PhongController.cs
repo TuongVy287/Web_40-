@@ -39,6 +39,12 @@ namespace QLKS1.API.Controllers
             }
             return Ok(phongs);
         }
+         [HttpGet("thongke")]
+    public async Task<IActionResult> GetThongKePhong()
+    {
+        var result = await _phongRepository.GetThongKePhongAsync();
+        return Ok(result);
+    }
 
     }
 }
