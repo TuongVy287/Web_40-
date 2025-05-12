@@ -29,7 +29,7 @@ namespace QLKS1.API.Controllers
             return Ok(khachHang);
         }
 
-        [HttpGet("ChiTiet")]
+        [HttpGet("ChiTietCheckin")]
         public async Task<IActionResult> GetChiTietKhachHang(int idKhachHang, int idDatPhong)
         {
             var result = await _khachHangRepository.GetChiTietKhachHangAsync(idKhachHang, idDatPhong);

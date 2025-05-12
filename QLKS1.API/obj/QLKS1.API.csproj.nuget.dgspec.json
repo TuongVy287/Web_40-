@@ -1,6 +1,23 @@
 {
   "format": 1,
   "restore": {
+<<<<<<< HEAD
+    "C:\\Users\\BaoAnhBui\\Desktop\\Web_40-\\QLKS1.API\\QLKS1.API.csproj": {}
+  },
+  "projects": {
+    "C:\\Users\\BaoAnhBui\\Desktop\\Web_40-\\QLKS1.API\\QLKS1.API.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\BaoAnhBui\\Desktop\\Web_40-\\QLKS1.API\\QLKS1.API.csproj",
+        "projectName": "QLKS1.API",
+        "projectPath": "C:\\Users\\BaoAnhBui\\Desktop\\Web_40-\\QLKS1.API\\QLKS1.API.csproj",
+        "packagesPath": "C:\\Users\\BaoAnhBui\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\BaoAnhBui\\Desktop\\Web_40-\\QLKS1.API\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\BaoAnhBui\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+=======
     "C:\\LHU\\Lap Trinh Ung Dung Web\\web_40-1\\QLKS1.API\\QLKS1.API.csproj": {}
   },
   "projects": {
@@ -15,11 +32,16 @@
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\ASUS Vivobook\\AppData\\Roaming\\NuGet\\NuGet.Config"
+>>>>>>> 60b8e51de4c09a1132ed65a878139e3e555c02f6
         ],
         "originalTargetFrameworks": [
           "net8.0"
         ],
         "sources": {
+<<<<<<< HEAD
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+=======
+>>>>>>> 60b8e51de4c09a1132ed65a878139e3e555c02f6
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -57,11 +79,15 @@
             },
             "Microsoft.AspNetCore.OpenApi": {
               "target": "Package",
-              "version": "[8.0.5, )"
+              "version": "[8.0.0, )"
             },
             "Microsoft.Data.SqlClient": {
               "target": "Package",
-              "version": "[6.0.1, )"
+              "version": "[6.0.2, )"
+            },
+            "Microsoft.EntityFrameworkCore.Analyzers": {
+              "target": "Package",
+              "version": "[9.0.4, )"
             },
             "Microsoft.EntityFrameworkCore.SqlServer": {
               "target": "Package",
@@ -75,7 +101,7 @@
             },
             "Swashbuckle.AspNetCore": {
               "target": "Package",
-              "version": "[6.4.0, )"
+              "version": "[8.1.1, )"
             },
             "System.Data.SqlClient": {
               "target": "Package",
@@ -101,7 +127,11 @@
               "privateAssets": "all"
             }
           },
+<<<<<<< HEAD
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.206/PortableRuntimeIdentifierGraph.json"
+=======
           "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.408/PortableRuntimeIdentifierGraph.json"
+>>>>>>> 60b8e51de4c09a1132ed65a878139e3e555c02f6
         }
       }
     }
