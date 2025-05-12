@@ -28,5 +28,14 @@ namespace QLKS1.API.Controllers
             }
             return Ok(khachHang);
         }
+
+        [HttpPost("create")]
+        public async Task<IActionResult> CreateInvoice([FromBody] HoaDonRequest request)
+        {
+            var result = await _hoaDonRepository.CreateInvoiceAsync(request);
+            if (result == null)
+                return BadRequest("Không thể tạo hóa đơn.");
+            return Ok(result);
+        }
     }
 }

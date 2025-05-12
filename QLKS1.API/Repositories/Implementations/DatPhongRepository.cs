@@ -37,8 +37,9 @@ public class DatPhongRepository : IDatPhongRepository
 
     public async Task<BookingResponse> CreateBookingAsync(DatPhongRequest request)
     {
-        
+
         var parameters = new DynamicParameters();
+
 
         parameters.Add("@MaKH", request.MaKH);
         parameters.Add("@TenPhong", request.TenPhong);
@@ -56,24 +57,17 @@ public class DatPhongRepository : IDatPhongRepository
 
     }
 
-    // public async Task<int> InsertDatPhongAsync(DatPhong datPhong)
-    // {
-    //     var result = await _db.QuerySingleAsync<int>(
-    //         "sp_InsertDatPhong",
-    //         new
-    //         {
-    //             datPhong.IDKhachHang,
-    //             datPhong.IDPhong,
-    //             datPhong.NgayNhan,
-    //             datPhong.NgayTra,
-    //             datPhong.TrangThaiDatPhong,
-    //             datPhong.SoLuongNguoi
-    //         },
-    //         commandType: CommandType.StoredProcedure
-    //     );
+    public async Task<BookingResponse?> CancelBookingAsync(int idDatPhong)
+    {
+        var parameters = new DynamicParameters();
+        parameters.Add("@IDDatPhong", idDatPhong);
 
-    //     return result;
-    // }
+        return await _db.QueryFirstOrDefaultAsync<BookingResponse>(
+            "spAPI_HuyDatPhong",
+            parameters,
+            commandType: CommandType.StoredProcedure
+        );
+    }
 
 
 }

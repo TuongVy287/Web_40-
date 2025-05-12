@@ -45,5 +45,10 @@ public class KhachHangRepository : IKhachHangRepository
         return result;
     }
 
+    public IEnumerable<KhachHang> GetGuestCheckins()
+    {
+        var sql = "EXEC dbo.spAPI_Guest_Checkin";
+        return _db.Query<KhachHang>(sql);
+    }
 
 }

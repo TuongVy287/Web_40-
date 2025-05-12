@@ -73,29 +73,69 @@ public class NhanVienRepository : INhanVienRepository
         }
     }
     public async Task<bool> XoaNhanVienAsync(string maNV)
-{
-    try
+    {
+        try
+        {
+            var parameters = new DynamicParameters();
+            parameters.Add("@MaNV", maNV);
+
+            var rowsAffected = await _db.ExecuteAsync(
+                "spAPI_NhanVien_Xoa",
+                parameters,
+                commandType: CommandType.StoredProcedure
+            );
+
+            return rowsAffected > 0;
+        }
+        catch (SqlException ex)
+        {
+            if (ex.Number == 50001) // Mã lỗi từ THROW
+            {
+                return false;
+            }
+            throw; // Nếu là lỗi khác, ném lỗi ra ngoài
+        }
+
+
+    }
+
+    public async Task<NhanVien> GetByMaNVAsync(string maNV)
     {
         var parameters = new DynamicParameters();
-        parameters.Add("@MaNV", maNV);
+        parameters.Add("@MaNV", maNV.Trim());
 
-        var rowsAffected = await _db.ExecuteAsync(
-            "spAPI_NhanVien_Xoa",
+        return await _db.QueryFirstOrDefaultAsync<NhanVien>(
+            "spAPI_NhanVien_Login",
+            parameters,
+            commandType: CommandType.StoredProcedure
+        );
+    }
+
+    public async Task<bool> ChangePasswordAsync(string maNV, string currentPassword, string newPassword)
+    {
+        var user = await GetByMaNVAsync(maNV);
+        if (user == null) return false;
+
+        if (!BCrypt.Net.BCrypt.Verify(currentPassword, user.MatKhau))
+            return false;
+
+        string hashedNewPassword = BCrypt.Net.BCrypt.HashPassword(newPassword);
+
+        var parameters = new DynamicParameters();
+        parameters.Add("@MaNV", maNV.Trim());
+        parameters.Add("@MatKhauMoi", hashedNewPassword);
+
+        var result = await _db.ExecuteScalarAsync(
+            "spAPI_NhanVien_Update_MatKhau",
             parameters,
             commandType: CommandType.StoredProcedure
         );
 
-        return rowsAffected > 0;
+        return Convert.ToBoolean(result);
     }
-    catch (SqlException ex)
-    {
-        if (ex.Number == 50001) // Mã lỗi từ THROW
-        {
-            return false;
-        }
-        throw; // Nếu là lỗi khác, ném lỗi ra ngoài
-    }
-}
+
+
+
 
 
 }
