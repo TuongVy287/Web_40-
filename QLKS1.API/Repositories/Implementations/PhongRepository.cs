@@ -57,6 +57,19 @@ public class PhongRepository : IPhongRepository
             Trong = trong
         };
     }
+     public async Task<IEnumerable<Phong>> GetPhongTheoTrangThaiAsync(string trangThai)
+    {
+        var parameters = new DynamicParameters();
+        parameters.Add("@TrangThai", trangThai);
+
+        var result = await _db.QueryAsync<Phong>(
+            "spAPI_Phong_Select",
+            parameters,
+            commandType: CommandType.StoredProcedure
+        );
+
+        return result;
+    }
 
 
 }

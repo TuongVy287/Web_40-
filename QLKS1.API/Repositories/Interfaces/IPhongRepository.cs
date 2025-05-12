@@ -13,6 +13,8 @@ namespace QLKS1.API.Repositories.Interfaces
 
         Task<PhongThongKe> GetThongKePhongAsync();
 
+        Task<IEnumerable<Phong>> GetPhongTheoTrangThaiAsync(string trangThai);
+
 
     }
 }

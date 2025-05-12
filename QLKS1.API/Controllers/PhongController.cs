@@ -45,6 +45,18 @@ namespace QLKS1.API.Controllers
         var result = await _phongRepository.GetThongKePhongAsync();
         return Ok(result);
     }
+     [HttpGet("theo-trang-thai")]
+    public async Task<IActionResult> GetPhongTheoTrangThai([FromQuery] string trangThai)
+    {
+        if (string.IsNullOrWhiteSpace(trangThai))
+        {
+            return BadRequest("Vui lòng nhập trạng thái phòng.");
+        }
+
+        var result = await _phongRepository.GetPhongTheoTrangThaiAsync(trangThai);
+        return Ok(result);
+    }
 
     }
+    
 }
