@@ -98,36 +98,43 @@ public class NhanVienRepository : INhanVienRepository
 
 
     }
-    public async Task<bool> ChangePasswordAsync(string maNV,string matkhau,string newPassword)
+
+    public async Task<NhanVien> GetByMaNVAsync(string maNV)
     {
-        var employee = await _db.QueryFirstOrDefaultAsync<NhanVien>(
-            "SELECT * FROM NhanVien WHERE MaNV = @MaNV",
-            new { MaNV = maNV }
+        var parameters = new DynamicParameters();
+        parameters.Add("@MaNV", maNV.Trim());
+
+        return await _db.QueryFirstOrDefaultAsync<NhanVien>(
+            "spAPI_NhanVien_Login",
+            parameters,
+            commandType: CommandType.StoredProcedure
         );
+    }
 
-        if (employee == null)
+    public async Task<bool> ChangePasswordAsync(string maNV, string currentPassword, string newPassword)
+    {
+        var user = await GetByMaNVAsync(maNV);
+        if (user == null) return false;
+
+        if (!BCrypt.Net.BCrypt.Verify(currentPassword, user.MatKhau))
             return false;
 
-        var isPasswordValid = BCrypt.Net.BCrypt.Verify(matkhau, employee.MatKhau);
-        if (!isPasswordValid)
-            return false;
-
-        var hashedNewPassword = BCrypt.Net.BCrypt.HashPassword(newPassword);
+        string hashedNewPassword = BCrypt.Net.BCrypt.HashPassword(newPassword);
 
         var parameters = new DynamicParameters();
-        parameters.Add("@MaNV", maNV);
-        parameters.Add("@MatKhau", matkhau);
+        parameters.Add("@MaNV", maNV.Trim());
         parameters.Add("@MatKhauMoi", hashedNewPassword);
 
-
-        await _db.ExecuteAsync(
+        var result = await _db.ExecuteScalarAsync(
             "spAPI_NhanVien_Update_MatKhau",
             parameters,
             commandType: CommandType.StoredProcedure
         );
 
-        return true;
+        return Convert.ToBoolean(result);
     }
+
+
 
 
 

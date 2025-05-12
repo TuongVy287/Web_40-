@@ -17,6 +17,8 @@ builder.Services.AddScoped<IChiTietHoaDonRepository, ChiTietHoaDonRepository>();
 builder.Services.AddScoped<IChiPhiRepository, ChiPhiRepository>();
 builder.Services.AddScoped<IDatPhongRepository, DatPhongRepository>();
 builder.Services.AddScoped<IThongKeService, ThongKeService>();
+builder.Services.AddScoped<ICheckinRepository, CheckinRepository>();
+
 
 // Thêm CORS
 builder.Services.AddCors(options =>
