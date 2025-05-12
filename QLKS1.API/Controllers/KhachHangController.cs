@@ -40,5 +40,11 @@ namespace QLKS1.API.Controllers
 
             return Ok(result);
         }
+        [HttpGet("guest")]
+    public async Task<IActionResult> GetGuestInfo()
+    {
+        var guests = await _khachHangRepository.GetGuestInfoAsync();
+        return Ok(guests);
+    }
     }
 }
