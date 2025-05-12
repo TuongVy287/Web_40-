@@ -30,11 +30,16 @@ export default {
       isLoggedIn: false, // Trạng thái đăng nhập
     };
   },
-  // created() {
-  //   // Kiểm tra token đăng nhập trong localStorage
-  //   // const token = localStorage.getItem('token');
-  //   // this.isLoggedIn = !!token;
-  // },
+  created() {
+    // Kiểm tra xem localStorage có user không
+    const user = localStorage.getItem('user');
+    this.isLoggedIn = !!user;
+
+    // Lắng nghe sự kiện thay đổi trạng thái đăng nhập (từ login hoặc logout)
+    window.addEventListener('user-changed', () => {
+      this.isLoggedIn = !!localStorage.getItem('user');
+    });
+  }
 
 
 };

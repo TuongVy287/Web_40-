@@ -6,15 +6,59 @@
     </div>
     <div class="user-options">
       <i class="fas fa-bell icon"></i>
-      <i class="fas fa-user-circle icon user-avatar"></i>
+      <i class="fas fa-user-circle icon user-avatar" @click="toggleDropdown"></i>
+
+      <!-- Dropdown thông tin nhân viên -->
+      <div v-if="showDropdown" class="dropdown-menu">
+        <p><strong>Mã NV:</strong> {{ user.maNV }}</p>
+        <p><strong>Họ tên:</strong> {{ user.hoTen }}</p>
+        <button @click="logout" class="logout-button">Đăng xuất</button>
+      </div>
     </div>
   </header>
 </template>
+
 <script>
 export default {
-  name: 'Header'
-};
+  name: 'Header',
+  data() {
+    return {
+      showDropdown: false,
+      user: {}
+    }
+  },
+  mounted() {
+    const stored = localStorage.getItem('user');
+    if (stored) {
+      const parsed = JSON.parse(stored);
+      this.user = parsed.user; // Lấy ra phần "user" bên trong
+    }
+    // Ẩn dropdown nếu click bên ngoài
+    window.addEventListener('click', this.handleOutsideClick);
+  },
+  beforeDestroy() {
+    window.removeEventListener('click', this.handleOutsideClick);
+  },
+  methods: {
+    toggleDropdown(event) {
+      event.stopPropagation(); // Không cho click lan ra ngoài
+      this.showDropdown = !this.showDropdown;
+      console.log(this.user)
+    },
+    handleOutsideClick(event) {
+      const dropdown = this.$el.querySelector('.dropdown-menu');
+      if (dropdown && !dropdown.contains(event.target)) {
+        this.showDropdown = false;
+      }
+    },
+    logout() {
+      localStorage.removeItem('user');
+      window.dispatchEvent(new Event('user-changed'));
+    }
+  }
+}
 </script>
+
 <style scoped>
 .header {
   padding: 20px;
@@ -25,14 +69,6 @@ export default {
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   margin-left: 50px;
   margin-bottom: 50px;
-  /* border-radius: 10px; */
-}
-
-.header-title h1 {
-  color: #f39c12;
-  margin: 0;
-  font-size: 30px;
-  font-weight: 600;
 }
 
 .search-container {
@@ -72,6 +108,7 @@ export default {
 }
 
 .user-options {
+  position: relative;
   display: flex;
   align-items: center;
 }
@@ -86,5 +123,41 @@ export default {
 .icon:hover {
   transform: scale(1.1);
   color: #f39c12;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 60px;
+  right: 0;
+  background: white;
+  border: 1px solid #ddd;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+  padding: 15px;
+  border-radius: 10px;
+  z-index: 1000;
+  width: 220px;
+}
+
+.dropdown-menu p {
+  margin: 5px 0;
+  font-size: 14px;
+  color: #333;
+}
+
+.logout-button {
+  margin-top: 10px;
+  background-color: #e74c3c;
+  color: white;
+  padding: 8px 14px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  width: 100%;
+  transition: background-color 0.3s ease;
+}
+
+.logout-button:hover {
+  background-color: #c0392b;
 }
 </style>
