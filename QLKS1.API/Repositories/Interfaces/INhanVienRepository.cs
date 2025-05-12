@@ -10,7 +10,10 @@ namespace QLKS1.API.Repositories.Interfaces
         Task<List<NhanVien>> GetAllNhanVienAsync();
         Task<bool> SuaNhanVienAsync(NhanVien nhanVien);
 
-          Task<bool> XoaNhanVienAsync(string maNV);
+        Task<bool> XoaNhanVienAsync(string maNV);
+
+        Task<NhanVien> GetByMaNVAsync(string maNV);
+        Task<bool> ChangePasswordAsync(string maNV, string currentPassword, string newPassword);
 
     }
 }

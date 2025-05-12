@@ -1,5 +1,7 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Dapper;
+using System.Data;
 using QLKS1.API.Repositories.Interfaces;
 
 namespace QLKS1.API.Controllers
@@ -50,5 +52,26 @@ namespace QLKS1.API.Controllers
             else
                 return NotFound(new { message = "Không tìm thấy nhân viên." });
         }
+
+        [HttpPut("change-password")]
+        public async Task<IActionResult> ChangePasswordAsync([FromBody] ChangePasswordRequest request)
+        {
+            if (string.IsNullOrWhiteSpace(request.MaNV) ||
+                string.IsNullOrWhiteSpace(request.MatKhau) ||
+                string.IsNullOrWhiteSpace(request.NewPassword))
+            {
+                return BadRequest("Thông tin đầu vào không hợp lệ.");
+            }
+
+            var success = await _nhanVienRepository.ChangePasswordAsync(
+                request.MaNV, request.MatKhau, request.NewPassword
+            );
+
+            if (!success)
+                return BadRequest("Sai mã nhân viên hoặc mật khẩu.");
+
+            return Ok("Đổi mật khẩu thành công.");
+        }
+
     }
-}
+}   

@@ -12,5 +12,7 @@ namespace QLKS1.API.Repositories.Interfaces
 
         Task<KhachHangDatPhongViewModel> GetChiTietKhachHangAsync(int idKhachHang, int idDatPhong);
 
+        Task<IEnumerable<GuestInfo>> GetGuestInfoAsync();   
+
     }
 }
