@@ -4766,26 +4766,11 @@
     ]
   },
   "packageFolders": {
-<<<<<<< HEAD
-    "C:\\Users\\BaoAnhBui\\.nuget\\packages\\": {}
-=======
     "C:\\Users\\ASUS Vivobook\\.nuget\\packages\\": {}
->>>>>>> 60b8e51de4c09a1132ed65a878139e3e555c02f6
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-<<<<<<< HEAD
-      "projectUniqueName": "C:\\Users\\BaoAnhBui\\Desktop\\Web_40-\\QLKS1.API\\QLKS1.API.csproj",
-      "projectName": "QLKS1.API",
-      "projectPath": "C:\\Users\\BaoAnhBui\\Desktop\\Web_40-\\QLKS1.API\\QLKS1.API.csproj",
-      "packagesPath": "C:\\Users\\BaoAnhBui\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\BaoAnhBui\\Desktop\\Web_40-\\QLKS1.API\\obj\\",
-      "projectStyle": "PackageReference",
-      "configFilePaths": [
-        "C:\\Users\\BaoAnhBui\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
-=======
       "projectUniqueName": "C:\\LHU\\Lap Trinh Ung Dung Web\\web_40-1\\QLKS1.API\\QLKS1.API.csproj",
       "projectName": "QLKS1.API",
       "projectPath": "C:\\LHU\\Lap Trinh Ung Dung Web\\web_40-1\\QLKS1.API\\QLKS1.API.csproj",
@@ -4794,16 +4779,11 @@
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\ASUS Vivobook\\AppData\\Roaming\\NuGet\\NuGet.Config"
->>>>>>> 60b8e51de4c09a1132ed65a878139e3e555c02f6
       ],
       "originalTargetFrameworks": [
         "net8.0"
       ],
       "sources": {
-<<<<<<< HEAD
-        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-=======
->>>>>>> 60b8e51de4c09a1132ed65a878139e3e555c02f6
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -4889,12 +4869,16 @@
             "privateAssets": "all"
           }
         },
-<<<<<<< HEAD
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.206/PortableRuntimeIdentifierGraph.json"
-=======
         "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.408/PortableRuntimeIdentifierGraph.json"
->>>>>>> 60b8e51de4c09a1132ed65a878139e3e555c02f6
       }
     }
-  }
+  },
+  "logs": [
+    {
+      "code": "Undefined",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Problem reading the cache file C:\\LHU\\Lap Trinh Ung Dung Web\\web_40-1\\QLKS1.API\\obj\\project.nuget.cache : Invalid property identifier character: <. Path 'version', line 3, position 0."
+    }
+  ]
 }
