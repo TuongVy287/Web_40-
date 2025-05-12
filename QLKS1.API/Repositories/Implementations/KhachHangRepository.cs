@@ -51,4 +51,14 @@ public class KhachHangRepository : IKhachHangRepository
         return _db.Query<KhachHang>(sql);
     }
 
+    public async Task<IEnumerable<GuestInfo>> GetGuestInfoAsync()
+    {
+        var result = await _db.QueryAsync<GuestInfo>(
+            "spAPI_KhachHang_Select_Guest",
+            commandType: CommandType.StoredProcedure
+        );
+
+        return result;
+    }
+
 }
