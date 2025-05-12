@@ -101,9 +101,7 @@
             "related": ".xml"
           }
         },
-        "frameworkReferences": [
-          "Microsoft.AspNetCore.App"
-        ]
+        "frameworkReferences": ["Microsoft.AspNetCore.App"]
       },
       "Microsoft.AspNetCore.OpenApi/8.0.5": {
         "type": "package",
@@ -120,9 +118,7 @@
             "related": ".xml"
           }
         },
-        "frameworkReferences": [
-          "Microsoft.AspNetCore.App"
-        ]
+        "frameworkReferences": ["Microsoft.AspNetCore.App"]
       },
       "Microsoft.Bcl.AsyncInterfaces/7.0.0": {
         "type": "package",
@@ -1130,9 +1126,7 @@
             "related": ".pdb;.xml"
           }
         },
-        "frameworkReferences": [
-          "Microsoft.AspNetCore.App"
-        ]
+        "frameworkReferences": ["Microsoft.AspNetCore.App"]
       },
       "Swashbuckle.AspNetCore.SwaggerGen/6.4.0": {
         "type": "package",
@@ -1162,9 +1156,7 @@
             "related": ".pdb;.xml"
           }
         },
-        "frameworkReferences": [
-          "Microsoft.AspNetCore.App"
-        ]
+        "frameworkReferences": ["Microsoft.AspNetCore.App"]
       },
       "System.ClientModel/1.0.0": {
         "type": "package",
@@ -4765,24 +4757,22 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\BaoAnhBui\\.nuget\\packages\\": {}
+    "C:\\Users\\tanguyn\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\BaoAnhBui\\Desktop\\Web_40-\\QLKS1.API\\QLKS1.API.csproj",
+      "projectUniqueName": "D:\\Project\\Web_40-\\QLKS1.API\\QLKS1.API.csproj",
       "projectName": "QLKS1.API",
-      "projectPath": "C:\\Users\\BaoAnhBui\\Desktop\\Web_40-\\QLKS1.API\\QLKS1.API.csproj",
-      "packagesPath": "C:\\Users\\BaoAnhBui\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\BaoAnhBui\\Desktop\\Web_40-\\QLKS1.API\\obj\\",
+      "projectPath": "D:\\Project\\Web_40-\\QLKS1.API\\QLKS1.API.csproj",
+      "packagesPath": "C:\\Users\\tanguyn\\.nuget\\packages\\",
+      "outputPath": "D:\\Project\\Web_40-\\QLKS1.API\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\BaoAnhBui\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\tanguyn\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
-      "originalTargetFrameworks": [
-        "net8.0"
-      ],
+      "originalTargetFrameworks": ["net8.0"],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
@@ -4794,9 +4784,7 @@
         }
       },
       "warningProperties": {
-        "warnAsError": [
-          "NU1605"
-        ]
+        "warnAsError": ["NU1605"]
       },
       "restoreAuditProperties": {
         "enableAudit": "true",
@@ -4866,7 +4854,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.206/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.300/PortableRuntimeIdentifierGraph.json"
       }
     }
   }
