@@ -115,7 +115,8 @@ const saveChanges = () => {
               <select
                 v-model="deal.roomType"
                 class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm appearance-none pr-10"
-              >
+                style="color: black;"
+                >
                 <option disabled>Select room type</option>
                 <option value="Single">Single</option>
                 <option value="Double">Double</option>
