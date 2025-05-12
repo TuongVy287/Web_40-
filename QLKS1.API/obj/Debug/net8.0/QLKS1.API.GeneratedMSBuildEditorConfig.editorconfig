@@ -17,11 +17,19 @@ build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = QLKS1.API
 build_property.RootNamespace = QLKS1.API
+<<<<<<< HEAD
 build_property.ProjectDir = C:\Users\BaoAnhBui\Desktop\Web_40-\QLKS1.API\
+=======
+build_property.ProjectDir = C:\LHU\Lap Trinh Ung Dung Web\web_40-1\QLKS1.API\
+>>>>>>> 60b8e51de4c09a1132ed65a878139e3e555c02f6
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
 build_property.RazorLangVersion = 8.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
+<<<<<<< HEAD
 build_property.MSBuildProjectDirectory = C:\Users\BaoAnhBui\Desktop\Web_40-\QLKS1.API
+=======
+build_property.MSBuildProjectDirectory = C:\LHU\Lap Trinh Ung Dung Web\web_40-1\QLKS1.API
+>>>>>>> 60b8e51de4c09a1132ed65a878139e3e555c02f6
 build_property._RazorSourceGeneratorDebug = 

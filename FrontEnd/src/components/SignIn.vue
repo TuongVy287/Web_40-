@@ -23,6 +23,7 @@
 
 <script>
 import axios from "axios";
+import Dashboard from './Dashboard.vue';
 export default {
   name: 'SignIn',
   data() {
@@ -45,7 +46,7 @@ export default {
         if (response.data) {
           localStorage.setItem('user', JSON.stringify(response.data))
           window.dispatchEvent(new Event('user-changed')); // thủ công gửi sự kiện
-        } else {
+          } else {
           console.log('Login failed');
         }
       } catch (error) {
