@@ -68,6 +68,19 @@ public class DatPhongRepository : IDatPhongRepository
             commandType: CommandType.StoredProcedure
         );
     }
+    public async Task<IEnumerable<DatPhongTheoThang>> GetDatPhongTheoThangAsync(string thangChu)
+    {
+        var parameters = new DynamicParameters();
+        parameters.Add("@ThangChu", thangChu);
+
+        var result = await _db.QueryAsync<DatPhongTheoThang>(
+            "spAPI_GetDatPhongTheoThang",
+            parameters,
+            commandType: CommandType.StoredProcedure
+        );
+
+        return result;
+    }
 
 
 }

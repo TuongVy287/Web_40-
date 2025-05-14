@@ -9,6 +9,8 @@ namespace QLKS1.API.Repositories.Interfaces
         Task<BookingResponse> CreateBookingAsync(DatPhongRequest request);
 
         Task<BookingResponse?> CancelBookingAsync(int idDatPhong);
+            Task<IEnumerable<DatPhongTheoThang>> GetDatPhongTheoThangAsync(string thangChu);
+
         // Task<int> InsertDatPhongAsync(DatPhong datPhong);
         
 
