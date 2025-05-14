@@ -200,7 +200,7 @@
     border-radius: 8px;
     border: 1px solid #4a4141;
     font-size: 14px;
-    color: #000;
+    color: #ffffff;
     background-color: #ea9c00;
   }
 

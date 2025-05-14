@@ -235,7 +235,11 @@ const closeModal = () => {
 .guest-page {
   height: 100%;
   width: 100%;
-  background-color: #F9FAFB;
+  background-color: #ffffff;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  border-radius: 1%;
+  margin-top: 80px;
+  padding: 20px;
 }
 
 @media (min-width: 740px) and (max-width: 1023px) {

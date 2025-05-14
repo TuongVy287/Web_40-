@@ -32,7 +32,7 @@
                     <div v-for="day in days" :key="day" class="day-box" :class="{
                         today: isToday(day) && !isSelectedToday,
                         selected: selectedDay === day
-                    }" @click="selectedDay = day">
+                    }" :ref="isToday(day) ? 'todayRef' : null" @click="selectedDay = day">
                         {{ day }}
                     </div>
                 </div>
@@ -58,7 +58,7 @@ export default {
     data() {
         return {
             showModal: false,
-            selectedMonth: (new Date().getMonth() + 12 - 3) % 12, // 'Apr' là index 0 => shift về 3 tháng
+            selectedMonth: (new Date().getMonth() + 12 - 3) % 12,
             selectedDay: null,
             months: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
             bookings: [],
@@ -103,6 +103,16 @@ export default {
         const today = new Date();
         if (this.selectedMonth === today.getMonth()) {
             this.selectedDay = today.getDate();
+            this.$nextTick(() => {
+                const todayEl = this.$refs.todayRef?.[0];
+                if (todayEl && todayEl.scrollIntoView) {
+                    todayEl.scrollIntoView({
+                        behavior: 'smooth',
+                        inline: 'center',
+                        block: 'nearest'
+                    });
+                }
+            });
         }
         this.loadBookings();
     },
@@ -119,6 +129,16 @@ export default {
             const today = new Date();
             if (index === today.getMonth()) {
                 this.selectedDay = today.getDate();
+                this.$nextTick(() => {
+                    const todayEl = this.$refs.todayRef?.[0];
+                    if (todayEl && todayEl.scrollIntoView) {
+                        todayEl.scrollIntoView({
+                            behavior: 'smooth',
+                            inline: 'center',
+                            block: 'nearest'
+                        });
+                    }
+                });
             } else {
                 this.selectedDay = null;
             }

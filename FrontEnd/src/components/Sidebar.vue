@@ -1,6 +1,6 @@
 <template>
   <nav class="sidebar">
-    <h2>Novotel</h2>
+    <h2>Vanhtel</h2>
     <ul>
       <li>
         <router-link to="/" exact-active-class="active" class="sidebar-link">Dashboard</router-link>
