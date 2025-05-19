@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "L9gXaEudYi8JCgTGlX87REulHczCBaSAVNmpgjDc3w9siuU+u2Wrnte41U3KA5QRd5jLXfTghVMpy8dD28yKFg==",
+  "dgSpecHash": "DSkPNFVGmzPbHWStn5LtmU3eA9JpRUn/n1EpMFPB9Qiq+R8rVjymZ5e1x7a2G4hGlGGsyhEVQqdDolADCZKqJQ==",
   "success": true,
   "projectFilePath": "C:\\Users\\BaoAnhBui\\Desktop\\Web_40-\\QLKS1.API\\QLKS1.API.csproj",
   "expectedPackageFiles": [
@@ -75,6 +75,7 @@
     "C:\\Users\\BaoAnhBui\\.nuget\\packages\\system.memory\\4.5.4\\system.memory.4.5.4.nupkg.sha512",
     "C:\\Users\\BaoAnhBui\\.nuget\\packages\\system.memory.data\\1.0.2\\system.memory.data.1.0.2.nupkg.sha512",
     "C:\\Users\\BaoAnhBui\\.nuget\\packages\\system.numerics.vectors\\4.5.0\\system.numerics.vectors.4.5.0.nupkg.sha512",
+    "C:\\Users\\BaoAnhBui\\.nuget\\packages\\system.reflection.emit\\4.7.0\\system.reflection.emit.4.7.0.nupkg.sha512",
     "C:\\Users\\BaoAnhBui\\.nuget\\packages\\system.reflection.metadata\\6.0.1\\system.reflection.metadata.6.0.1.nupkg.sha512",
     "C:\\Users\\BaoAnhBui\\.nuget\\packages\\system.runtime.compilerservices.unsafe\\6.0.0\\system.runtime.compilerservices.unsafe.6.0.0.nupkg.sha512",
     "C:\\Users\\BaoAnhBui\\.nuget\\packages\\system.security.cryptography.pkcs\\8.0.1\\system.security.cryptography.pkcs.8.0.1.nupkg.sha512",
@@ -83,7 +84,8 @@
     "C:\\Users\\BaoAnhBui\\.nuget\\packages\\system.text.encodings.web\\8.0.0\\system.text.encodings.web.8.0.0.nupkg.sha512",
     "C:\\Users\\BaoAnhBui\\.nuget\\packages\\system.text.json\\8.0.0\\system.text.json.8.0.0.nupkg.sha512",
     "C:\\Users\\BaoAnhBui\\.nuget\\packages\\system.threading.channels\\6.0.0\\system.threading.channels.6.0.0.nupkg.sha512",
-    "C:\\Users\\BaoAnhBui\\.nuget\\packages\\system.threading.tasks.extensions\\4.5.4\\system.threading.tasks.extensions.4.5.4.nupkg.sha512"
+    "C:\\Users\\BaoAnhBui\\.nuget\\packages\\system.threading.tasks.extensions\\4.5.4\\system.threading.tasks.extensions.4.5.4.nupkg.sha512",
+    "C:\\Users\\BaoAnhBui\\.nuget\\packages\\tesseract\\5.2.0\\tesseract.5.2.0.nupkg.sha512"
   ],
   "logs": []
 }

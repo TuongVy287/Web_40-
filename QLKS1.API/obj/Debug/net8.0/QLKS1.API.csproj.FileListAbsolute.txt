@@ -675,3 +675,8 @@ C:\LHU\Lap Trinh Ung Dung Web\web_40-1\QLKS1.API\obj\Debug\net8.0\refint\QLKS1.A
 C:\LHU\Lap Trinh Ung Dung Web\web_40-1\QLKS1.API\obj\Debug\net8.0\QLKS1.API.pdb
 C:\LHU\Lap Trinh Ung Dung Web\web_40-1\QLKS1.API\obj\Debug\net8.0\QLKS1.API.genruntimeconfig.cache
 C:\LHU\Lap Trinh Ung Dung Web\web_40-1\QLKS1.API\obj\Debug\net8.0\ref\QLKS1.API.dll
+C:\Users\BaoAnhBui\Desktop\Web_40-\QLKS1.API\bin\Debug\net8.0\x86\leptonica-1.82.0.dll
+C:\Users\BaoAnhBui\Desktop\Web_40-\QLKS1.API\bin\Debug\net8.0\x86\tesseract50.dll
+C:\Users\BaoAnhBui\Desktop\Web_40-\QLKS1.API\bin\Debug\net8.0\x64\leptonica-1.82.0.dll
+C:\Users\BaoAnhBui\Desktop\Web_40-\QLKS1.API\bin\Debug\net8.0\x64\tesseract50.dll
+C:\Users\BaoAnhBui\Desktop\Web_40-\QLKS1.API\bin\Debug\net8.0\Tesseract.dll

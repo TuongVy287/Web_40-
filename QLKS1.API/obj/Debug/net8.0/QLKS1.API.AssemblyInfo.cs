@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("QLKS1.API")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+1ca2c03b815d9130f3fd11b205991b6fc18ed86f")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+fe76a7c3106f199c27372082189620f3cf1efc3e")]
 [assembly: System.Reflection.AssemblyProductAttribute("QLKS1.API")]
 [assembly: System.Reflection.AssemblyTitleAttribute("QLKS1.API")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
