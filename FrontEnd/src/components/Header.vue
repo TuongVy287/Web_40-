@@ -9,8 +9,8 @@
 
       <!-- Dropdown thông tin nhân viên -->
       <div v-if="showDropdown" class="dropdown-menu">
-        <p><strong>Mã NV:</strong> {{ user.maNV }}</p>
-        <p><strong>Họ tên:</strong> {{ user.hoTen }}</p>
+        <p><strong>Mã NV:</strong> {{ this.user.maNV }}</p>
+        <p><strong>Họ tên:</strong> {{ this.user.hoTen }}</p>
         <button @click="openEditModal" class="edit-button">Chỉnh sửa thông tin</button>
         <button @click="logout" class="logout-button">Đăng xuất</button>
       </div>
@@ -22,7 +22,7 @@
         <div class="modal-content scrollable">
           <h3>Chỉnh sửa thông tin</h3>
           <div class="form-group"><label>Họ tên</label><input v-model="user.hoTen" /></div>
-        
+
           <div class="form-group"><label>SĐT</label><input v-model="user.soDienThoai" /></div>
           <div class="form-group"><label>Email</label><input v-model="user.email" /></div>
           <div class="modal-actions">
@@ -51,8 +51,7 @@ export default {
   mounted() {
     const stored = localStorage.getItem('user');
     if (stored) {
-      const parsed = JSON.parse(stored);
-      this.user = parsed.user; // Lấy ra phần "user" bên trong
+      this.user = JSON.parse(stored);
     }
     // Ẩn dropdown nếu click bên ngoài
     window.addEventListener('click', this.handleOutsideClick);
@@ -64,7 +63,6 @@ export default {
     toggleDropdown(event) {
       event.stopPropagation(); // Không cho click lan ra ngoài
       this.showDropdown = !this.showDropdown;
-      console.log(this.user)
     },
     handleOutsideClick(event) {
       const dropdown = this.$el.querySelector('.dropdown-menu');
@@ -80,19 +78,19 @@ export default {
       this.showModal = false;
     },
     async updateNhanVien() {
-  try {
-    console.log('Dữ liệu gửi đi:', JSON.stringify(this.user, null, 2));
+      try {
+        console.log('Dữ liệu gửi đi:', JSON.stringify(this.user, null, 2));
 
-    const res = await axios.put('http://localhost:5250/api/NhanVien/SuaNhanVien', this.user);
+        const res = await axios.put('http://localhost:5250/api/NhanVien/SuaNhanVien', this.user);
 
-    alert('Cập nhật thành công!');
-    this.closeEditModal();
-    localStorage.setItem('user', JSON.stringify({ user: this.user }));
-  } catch (err) {
-    console.error('Lỗi chi tiết:', err.response?.data || err.message);
-    alert('Lỗi cập nhật: ' + JSON.stringify(err.response?.data || err.message));
-  }
-},
+        alert('Cập nhật thành công!');
+        this.closeEditModal();
+        localStorage.setItem('user', JSON.stringify({ user: this.user }));
+      } catch (err) {
+        console.error('Lỗi chi tiết:', err.response?.data || err.message);
+        alert('Lỗi cập nhật: ' + JSON.stringify(err.response?.data || err.message));
+      }
+    },
     logout() {
       localStorage.removeItem('user');
       window.dispatchEvent(new Event('user-changed'));
@@ -202,6 +200,7 @@ export default {
 .logout-button:hover {
   background-color: #c0392b;
 }
+
 .edit-button {
   margin-top: 10px;
   background-color: #3498db;
@@ -214,9 +213,11 @@ export default {
   width: 100%;
   transition: background-color 0.3s ease;
 }
+
 .edit-button:hover {
   background-color: #2980b9;
 }
+
 /* Modal overlay và canh giữa */
 .modal-overlay {
   position: fixed;
@@ -224,7 +225,8 @@ export default {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5); /* nền mờ */
+  background-color: rgba(0, 0, 0, 0.5);
+  /* nền mờ */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -291,5 +293,4 @@ export default {
 .modal-actions button:hover {
   background-color: #e67e22;
 }
-
 </style>

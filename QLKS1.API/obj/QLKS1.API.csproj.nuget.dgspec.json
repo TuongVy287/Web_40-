@@ -1,7 +1,27 @@
 {
   "format": 1,
   "restore": {
+<<<<<<< HEAD
+<<<<<<< HEAD
+    "D:\\Project\\Web_40-\\QLKS1.API\\QLKS1.API.csproj": {}
+  },
+  "projects": {
+    "D:\\Project\\Web_40-\\QLKS1.API\\QLKS1.API.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "D:\\Project\\Web_40-\\QLKS1.API\\QLKS1.API.csproj",
+        "projectName": "QLKS1.API",
+        "projectPath": "D:\\Project\\Web_40-\\QLKS1.API\\QLKS1.API.csproj",
+        "packagesPath": "C:\\Users\\tanguyn\\.nuget\\packages\\",
+        "outputPath": "D:\\Project\\Web_40-\\QLKS1.API\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\tanguyn\\AppData\\Roaming\\NuGet\\NuGet.Config",
+=======
+    "C:\\Users\\BaoAnhBui\\Desktop\\Web_40-\\QLKS1.API\\QLKS1.API.csproj": {}
+=======
     "C:\\LHU\\Lap Trinh Ung Dung Web\\web_40-1\\QLKS1.API\\QLKS1.API.csproj": {}
+>>>>>>> b1cbe9b636409241c7f4848f8a516e8ecbc3304c
   },
   "projects": {
     "C:\\LHU\\Lap Trinh Ung Dung Web\\web_40-1\\QLKS1.API\\QLKS1.API.csproj": {
@@ -14,12 +34,26 @@
         "outputPath": "C:\\LHU\\Lap Trinh Ung Dung Web\\web_40-1\\QLKS1.API\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
+<<<<<<< HEAD
+          "C:\\Users\\BaoAnhBui\\AppData\\Roaming\\NuGet\\NuGet.Config",
+>>>>>>> a11d6e8871f41e283df381f5782246540d0791ed
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+=======
           "C:\\Users\\ASUS Vivobook\\AppData\\Roaming\\NuGet\\NuGet.Config"
+>>>>>>> b1cbe9b636409241c7f4848f8a516e8ecbc3304c
         ],
         "originalTargetFrameworks": [
           "net8.0"
         ],
         "sources": {
+<<<<<<< HEAD
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+<<<<<<< HEAD
+          "C:\\Program Files\\dotnet\\library-packs": {},
+=======
+>>>>>>> a11d6e8871f41e283df381f5782246540d0791ed
+=======
+>>>>>>> b1cbe9b636409241c7f4848f8a516e8ecbc3304c
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -84,6 +118,10 @@
             "System.Data.SqlClient": {
               "target": "Package",
               "version": "[4.9.0, )"
+            },
+            "Tesseract": {
+              "target": "Package",
+              "version": "[5.2.0, )"
             }
           },
           "imports": [
@@ -105,7 +143,15 @@
               "privateAssets": "all"
             }
           },
+<<<<<<< HEAD
+<<<<<<< HEAD
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.300/PortableRuntimeIdentifierGraph.json"
+=======
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.206/PortableRuntimeIdentifierGraph.json"
+>>>>>>> a11d6e8871f41e283df381f5782246540d0791ed
+=======
           "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.408/PortableRuntimeIdentifierGraph.json"
+>>>>>>> b1cbe9b636409241c7f4848f8a516e8ecbc3304c
         }
       }
     }
