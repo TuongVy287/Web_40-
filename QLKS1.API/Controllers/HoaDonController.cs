@@ -29,13 +29,18 @@ namespace QLKS1.API.Controllers
             return Ok(khachHang);
         }
 
-        [HttpPost("create")]
-        public async Task<IActionResult> CreateInvoice([FromBody] HoaDonRequest request)
+        [HttpPost("them")]
+    public async Task<IActionResult> ThemHoaDon([FromBody] HoaDonRequestt request)
+    {
+        try
         {
-            var result = await _hoaDonRepository.CreateInvoiceAsync(request);
-            if (result == null)
-                return BadRequest("Không thể tạo hóa đơn.");
+            var result = await _hoaDonRepository.ThemHoaDonAsync(request);
             return Ok(result);
         }
+        catch (Exception ex)
+        {
+            return BadRequest(new { message = ex.Message });
+        }
+    }
     }
 }

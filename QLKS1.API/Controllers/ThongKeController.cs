@@ -25,6 +25,15 @@ namespace QLKS1.API.Controllers
             var result = await _repo.GetThongKeNgayHomNayAsync();
             return Ok(result);
         }
+        [HttpGet("SoLuongNguoiTheoThang")]
+    public async Task<IActionResult> GetThongKeSoLuongNguoi([FromQuery] string nam)
+    {
+        if (string.IsNullOrWhiteSpace(nam))
+            return BadRequest("Vui lòng nhập giá trị cho năm, ví dụ: 'Tất cả' hoặc '2025'");
+
+        var data = await _repo.GetSoLuongNguoiTheoThangHoacNamAsync(nam);
+        return Ok(data);
+    }
     }
 
 }

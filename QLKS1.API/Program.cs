@@ -4,6 +4,7 @@ using QLKS1.API.Repositories.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+// using QLKS.API.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddScoped<IDbConnection>(cnn => new SqlConnection(builder.Configuration.GetConnectionString("QLKS")));
@@ -18,7 +19,13 @@ builder.Services.AddScoped<IChiPhiRepository, ChiPhiRepository>();
 builder.Services.AddScoped<IDatPhongRepository, DatPhongRepository>();
 builder.Services.AddScoped<IThongKeService, ThongKeService>();
 builder.Services.AddScoped<ICheckinRepository, CheckinRepository>();
-builder.Services.AddScoped<IDatDichVuRepository, DatDichVuRepository>();
+builder.Services.AddScoped<IDashboardPhongRepository, DashboardPhongRepository>();
+builder.Services.AddScoped<ITimPhongPhuHopRepository, TimPhongPhuHopRepository>();
+
+
+// builder.Services.AddScoped<IOcrService, OcrService>();
+
+
 
 
 // Thêm CORS
