@@ -43,10 +43,10 @@ export default {
           MatKhau: this.password
         })
         console.log('Login with:', response.data)
-        if (response.data) {
-          localStorage.setItem('user', JSON.stringify(response.data))
+        if (response.data.user) {
+          localStorage.setItem('user', JSON.stringify(response.data.user));
           window.dispatchEvent(new Event('user-changed')); // thủ công gửi sự kiện
-          } else {
+        } else {
           console.log('Login failed');
         }
       } catch (error) {

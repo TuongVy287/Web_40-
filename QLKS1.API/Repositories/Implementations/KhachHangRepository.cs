@@ -14,8 +14,6 @@ public class KhachHangRepository : IKhachHangRepository
     public async Task<List<KhachHang>> GetAllKhachHang()
     {
 
-
-
         var kh = (await _db.QueryAsync<KhachHang>(
             "sp_GetKhachHangByI", commandType: CommandType.StoredProcedure)).ToList();
 
@@ -50,6 +48,8 @@ public class KhachHangRepository : IKhachHangRepository
         var sql = "EXEC dbo.spAPI_Guest_Checkin";
         return _db.Query<KhachHang>(sql);
     }
+
+    
 
     public async Task<IEnumerable<GuestInfo>> GetGuestInfoAsync()
     {
