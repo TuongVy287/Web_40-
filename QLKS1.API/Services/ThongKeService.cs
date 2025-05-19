@@ -21,5 +21,18 @@ public class ThongKeService : IThongKeService
 
         return result;
     }
+     public async Task<IEnumerable<ThongKeSoLuongNguoiResponse>> GetSoLuongNguoiTheoThangHoacNamAsync(string nam)
+    {
+        var parameters = new DynamicParameters();
+        parameters.Add("@Nam", nam);
+
+        var result = await _db.QueryAsync<ThongKeSoLuongNguoiResponse>(
+            "sp_TinhSoLuongNguoiTheoThang",
+            parameters,
+            commandType: CommandType.StoredProcedure
+        );
+
+        return result;
+    }
 }
 
