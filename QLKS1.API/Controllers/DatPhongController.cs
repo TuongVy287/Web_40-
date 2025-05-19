@@ -59,6 +59,24 @@ namespace QLKS1.API.Controllers
                 return NotFound("Không tìm thấy đặt phòng.");
             return Ok(result);
         }
+        [HttpGet("theo-thang")]
+    public async Task<IActionResult> GetDatPhongTheoThang([FromQuery] string thangChu)
+    {
+        if (string.IsNullOrWhiteSpace(thangChu))
+        {
+            return BadRequest("Tham số tháng không được để trống.");
+        }
+
+        try
+        {
+            var data = await _datPhongRepository.GetDatPhongTheoThangAsync(thangChu);
+            return Ok(data);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, $"Lỗi server: {ex.Message}");
+        }
+    }
     }
 
 }

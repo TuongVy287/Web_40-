@@ -23,11 +23,27 @@ public class ChiTietHoaDonRepository : IChiTietHoaDonRepository
     public async Task<ChiTietHoaDon?> GetChiTietHoaDonByIdAsync(int MaHoaDon)
     {
         var parameters = new DynamicParameters();
-        parameters.Add("@MaHoaDon", MaHoaDon);
+        parameters.Add("@IDChiTietHD", MaHoaDon);
 
         var chiTietHoaDon = await _db.QueryFirstOrDefaultAsync<ChiTietHoaDon>(
             "sp_GetChiTietHoaDonById", parameters, commandType: CommandType.StoredProcedure);
 
         return chiTietHoaDon;
+    }
+
+    public async Task<decimal> ThemChiTietHoaDonAsync(int idHoaDon, int idDichVu, int soLuong)
+    {
+        var parameters = new DynamicParameters();
+        parameters.Add("@IDHoaDon", idHoaDon);
+        parameters.Add("@IDDichVu", idDichVu);
+        parameters.Add("@SoLuong", soLuong);
+
+        var result = await _db.QueryFirstOrDefaultAsync<decimal>(
+            "spAPI_ChiTietHoaDon_Them", 
+            parameters, 
+            commandType: CommandType.StoredProcedure
+        );
+
+        return result;
     }
 }

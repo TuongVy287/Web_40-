@@ -4127,24 +4127,26 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\ASUS Vivobook\\.nuget\\packages\\": {}
+    "C:\\Users\\BaoAnhBui\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\LHU\\Lap Trinh Ung Dung Web\\web_40-1\\QLKS1.API\\QLKS1.API.csproj",
+      "projectUniqueName": "C:\\Users\\BaoAnhBui\\Desktop\\Web_40-\\QLKS1.API\\QLKS1.API.csproj",
       "projectName": "QLKS1.API",
-      "projectPath": "C:\\LHU\\Lap Trinh Ung Dung Web\\web_40-1\\QLKS1.API\\QLKS1.API.csproj",
-      "packagesPath": "C:\\Users\\ASUS Vivobook\\.nuget\\packages\\",
-      "outputPath": "C:\\LHU\\Lap Trinh Ung Dung Web\\web_40-1\\QLKS1.API\\obj\\",
+      "projectPath": "C:\\Users\\BaoAnhBui\\Desktop\\Web_40-\\QLKS1.API\\QLKS1.API.csproj",
+      "packagesPath": "C:\\Users\\BaoAnhBui\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\BaoAnhBui\\Desktop\\Web_40-\\QLKS1.API\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\ASUS Vivobook\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "C:\\Users\\BaoAnhBui\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "net8.0"
       ],
       "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -4230,16 +4232,8 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.408/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.206/PortableRuntimeIdentifierGraph.json"
       }
     }
-  },
-  "logs": [
-    {
-      "code": "Undefined",
-      "level": "Warning",
-      "warningLevel": 1,
-      "message": "Problem reading the cache file C:\\LHU\\Lap Trinh Ung Dung Web\\web_40-1\\QLKS1.API\\obj\\project.nuget.cache : Invalid property identifier character: <. Path 'version', line 3, position 0."
-    }
-  ]
+  }
 }
