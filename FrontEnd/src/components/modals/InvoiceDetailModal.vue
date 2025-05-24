@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { defineProps, defineEmits, ref, onMounted } from 'vue';
+import { defineProps, defineEmits, ref, onMounted, watch } from 'vue';
 import axios from 'axios';
 
 // Các interface không thay đổi
@@ -71,25 +71,61 @@ const fetchInvoiceServices = async (idHoaDon: number) => {
   }
 };
 
+const groupServices = (servicesData: any[]) => {
+  const groupedServices = servicesData.reduce((acc: any, current: any) => {
+    const existing = acc.find((item: any) => item.tenDichVu === current.tenDichVu);
+    if (existing) {
+      existing.soLuong += current.soLuong;
+    } else {
+      acc.push({ ...current });
+    }
+    return acc;
+  }, []);
+  return groupedServices;
+};
+
 onMounted(() => {
   fetchServices();
   if (props.invoice) {
     fetchInvoiceServices(props.invoice.id).then((servicesData) => {
-      if (props.invoice && servicesData.length > 0) {
-        props.invoice.services = servicesData.map((service: any) => ({
+      if (props.invoice) {
+        const groupedServices = groupServices(servicesData);
+        props.invoice.services = groupedServices.map((service: any) => ({
           name: service.tenDichVu,
           price: service.giaDichVu,
           quantity: service.soLuong
         }));
       }
     });
-    fetchInvoiceTotalAmount(props.invoice.id).then(amount => {
+
+    fetchInvoiceTotalAmount(props.invoice.id).then((amount) => {
       if (props.invoice) {
         props.invoice.totalAmount = amount;
       }
     });
   }
 });
+
+watch(() => props.invoice, (newInvoice) => {
+  if (newInvoice) {
+    fetchInvoiceServices(newInvoice.id).then((servicesData) => {
+      if (newInvoice) {
+        const groupedServices = groupServices(servicesData);
+        newInvoice.services = groupedServices.map((service: any) => ({
+          name: service.tenDichVu,
+          price: service.giaDichVu,
+          quantity: service.soLuong
+        }));
+      }
+    });
+
+    fetchInvoiceTotalAmount(newInvoice.id).then((amount) => {
+      if (newInvoice) {
+        newInvoice.totalAmount = amount;
+      }
+    });
+  }
+}, { immediate: true });
 
 const closeModal = () => {
   emit('close');
@@ -142,7 +178,6 @@ const addServiceToInvoice = async (invoiceId: number, service: ServiceSelection)
     }
   }
 };
-
 </script>
 
 <template>
@@ -164,8 +199,6 @@ const addServiceToInvoice = async (invoiceId: number, service: ServiceSelection)
             <input type="text" v-model="invoice.roomType" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm" />
           </div>
 
-
-
           <div>
             <label class="block text-sm font-medium text-gray-700 mb-1">Price</label>
             <input type="number" v-model="invoice.price" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm" />
@@ -183,12 +216,12 @@ const addServiceToInvoice = async (invoiceId: number, service: ServiceSelection)
 
           <div class="col-span-2">
             <label class="block text-sm font-medium text-gray-700 mb-1">Services</label>
-            <div class="flex flex-col space-y-2">
+            <div class="services-container flex flex-col space-y-2">
               <div v-for="(service, index) in invoice.services" :key="index" class="flex items-center">
                 <select v-model="service.name" class="px-3 py-2 border border-gray-300 rounded-md flex-grow" style="width: 33%; margin-bottom: 10px;">
                   <option v-for="s in services" :key="s.idDichVu" :value="s.tenDichVu">{{ s.tenDichVu }}</option>
                 </select>
-                <input type="number" readonly class="px-3 py-2 border border-gray-300 rounded-md ml-2" style="width: 33%; margin-bottom: 10px;" :value="services.find(s => s.tenDichVu === service.name)?.giaDichVu" placeholder="Price" />
+                <input type="number" readonly class="px-3 py-2 border border-gray-300 rounded-md ml-2" style="width: 33%; margin-bottom: 10px;" :value="service.price" placeholder="Price" />
                 <input type="number" class="px-3 py-2 border border-gray-300 rounded-md ml-2" style="width: 33%; margin-bottom: 10px;" v-model="service.quantity" placeholder="Quantity" />
               </div>
             </div>
@@ -232,11 +265,14 @@ const addServiceToInvoice = async (invoiceId: number, service: ServiceSelection)
 </template>
 
 <style scoped>
-/* Add any additional styling here */
 input {
   color: black;
 }
 select {
   color: black;
+}
+.services-container {
+  max-height: 300px; /* Đặt chiều cao tối đa */
+  overflow-y: auto;  /* Thêm thanh cuộn dọc */
 }
 </style>
