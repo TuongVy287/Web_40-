@@ -18,7 +18,7 @@
         <router-link to="/deals" exact-active-class="active" class="sidebar-link">Deals</router-link>
       </li>
       <li>
-        <router-link to="/rate" exact-active-class="active" class="sidebar-link">Rate</router-link>
+        <router-link to="/rate" exact-active-class="active" class="sidebar-link">Personnel</router-link>
       </li>
     </ul>
   </nav>

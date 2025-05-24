@@ -6,10 +6,12 @@
         <button :class="['room-btn', selectedRoomType === 'all' ? 'active' : '']" @click="selectedRoomType = 'all'">
           All room ({{ rooms.length }})
         </button>
-        <button :class="['room-btn', selectedRoomType === 'available' ? 'active' : '']" @click="selectedRoomType = 'available'">
+        <button :class="['room-btn', selectedRoomType === 'available' ? 'active' : '']"
+          @click="selectedRoomType = 'available'">
           Available room ({{ availableRooms.length }})
         </button>
-        <button :class="['room-btn', selectedRoomType === 'booked' ? 'active' : '']" @click="selectedRoomType = 'booked'">
+        <button :class="['room-btn', selectedRoomType === 'booked' ? 'active' : '']"
+          @click="selectedRoomType = 'booked'">
           Booked ({{ bookedRooms.length }})
         </button>
       </div>
@@ -54,7 +56,7 @@
       </div>
     </div>
 
-    <!-- Booked Room List -->
+    <!-- Danh sách phòng đã đặt -->
     <div class="table-booker-room">
       <h3>Booked Rooms</h3>
       <table class="room-table">
@@ -70,7 +72,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="room in filteredRooms" :key="room.idPhong">
+          <tr v-for="room in filteredRooms" :key="room.idPhong" @click="openModal(room)" style="cursor: pointer">
             <td>{{ room.tenPhong.trim() }}</td>
             <td>{{ room.loaiPhong }}</td>
             <td>{{ room.sucChua }}</td>
@@ -78,7 +80,14 @@
             <td>{{ room.viTriPhong }}</td>
             <td>{{ formatPrice(room.gia) }}</td>
             <td>
-              <span :class="['status-label', room.trangThaiPhong?.toLowerCase() === 'trống' ? 'trống' : (room.trangThaiPhong?.toLowerCase() === 'đã đặt' ? 'booked' : 'unknown')]">
+              <span :class="[
+                'status-label',
+                room.trangThaiPhong?.toLowerCase() === 'trống'
+                  ? 'trống'
+                  : room.trangThaiPhong?.toLowerCase() === 'đã đặt'
+                    ? 'booked'
+                    : 'unknown'
+              ]">
                 {{ room.trangThaiPhong || 'Unknown' }}
               </span>
             </td>
@@ -86,22 +95,32 @@
         </tbody>
       </table>
     </div>
+
+    <!-- Modal -->
+<ModalRoom :isOpen="showModal" :room="selectedRoom" @close="closeModal" />
+    <p v-if="showModal">showModal is TRUE</p>
+    <p v-if="selectedRoom">selectedRoom: {{ selectedRoom.guestName }}</p>
   </div>
 </template>
 
+
 <script>
+import ModalRoom from './modals/ModalRoom.vue';
+
 export default {
-  name: 'BookingCreate',
+  components: { ModalRoom },
   data() {
     return {
+      rooms: [],
+      selectedRoom: null,
+      showModal: false,
+      selectedRoomType: 'all',
       form: {
         checkIn: '',
         checkOut: '',
         adults: 1,
         children: 0,
       },
-      selectedRoomType: 'all',
-      rooms: [],
     };
   },
   computed: {
@@ -112,14 +131,10 @@ export default {
       return this.rooms.filter(room => room.trangThaiPhong?.toLowerCase() === 'đã đặt');
     },
     filteredRooms() {
-      if (this.selectedRoomType === 'available') {
-        return this.availableRooms;
-      } else if (this.selectedRoomType === 'booked') {
-        return this.bookedRooms;
-      } else {
-        return this.rooms;
-      }
-    }
+      if (this.selectedRoomType === 'available') return this.availableRooms;
+      if (this.selectedRoomType === 'booked') return this.bookedRooms;
+      return this.rooms;
+    },
   },
   methods: {
     async fetchRooms() {
@@ -154,7 +169,17 @@ export default {
       if (!value) return '';
       return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(value);
     },
+    openModal(room) {
+      this.selectedRoom = room;
+      this.showModal = true;
+    },
+    closeModal() {
+      this.selectedRoom = null;
+       this.showModal = false; 
+    },
   },
+
+
   mounted() {
     this.fetchRooms();
   },
