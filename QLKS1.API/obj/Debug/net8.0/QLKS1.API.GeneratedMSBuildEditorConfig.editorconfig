@@ -9,27 +9,11 @@ build_property.EnforceExtendedAnalyzerRules =
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = QLKS1.API
 build_property.RootNamespace = QLKS1.API
-<<<<<<< HEAD
-<<<<<<< HEAD
-build_property.ProjectDir = D:\Project\Web_40-\QLKS1.API\
-=======
-build_property.ProjectDir = C:\Users\BaoAnhBui\Desktop\Web_40-\QLKS1.API\
->>>>>>> a11d6e8871f41e283df381f5782246540d0791ed
-=======
-build_property.ProjectDir = C:\LHU\Lap Trinh Ung Dung Web\web_40-1\QLKS1.API\
->>>>>>> b1cbe9b636409241c7f4848f8a516e8ecbc3304c
+build_property.ProjectDir = C:\Users\Tram\Music\web-40\Web_40-\QLKS1.API\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
 build_property.RazorLangVersion = 8.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-<<<<<<< HEAD
-<<<<<<< HEAD
-build_property.MSBuildProjectDirectory = D:\Project\Web_40-\QLKS1.API
-=======
-build_property.MSBuildProjectDirectory = C:\Users\BaoAnhBui\Desktop\Web_40-\QLKS1.API
->>>>>>> a11d6e8871f41e283df381f5782246540d0791ed
-=======
-build_property.MSBuildProjectDirectory = C:\LHU\Lap Trinh Ung Dung Web\web_40-1\QLKS1.API
->>>>>>> b1cbe9b636409241c7f4848f8a516e8ecbc3304c
+build_property.MSBuildProjectDirectory = C:\Users\Tram\Music\web-40\Web_40-\QLKS1.API
 build_property._RazorSourceGeneratorDebug = 

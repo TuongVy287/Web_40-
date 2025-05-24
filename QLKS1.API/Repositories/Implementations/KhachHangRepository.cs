@@ -61,4 +61,24 @@ public class KhachHangRepository : IKhachHangRepository
         return result;
     }
 
+    
+    public async Task<int> ThemKhachHang(KhachHang khachHang)
+{
+    var parameters = new DynamicParameters();
+    parameters.Add("@HoTen", khachHang.HoTen);
+    parameters.Add("@GioiTinh", khachHang.GioiTinh);
+    parameters.Add("@NgaySinh", khachHang.NgaySinh);
+    parameters.Add("@SoDienThoai", khachHang.SoDienThoai);
+    parameters.Add("@Email", khachHang.Email);
+    parameters.Add("@CCCD", khachHang.CCCD);
+    parameters.Add("@DiaChi", khachHang.DiaChi);
+
+    var result = await _db.ExecuteAsync(
+        "spAPI_KhachHang_Them",
+        parameters,
+        commandType: CommandType.StoredProcedure
+    );
+
+    return result; // Có thể trả về số lượng dòng bị ảnh hưởng
+}
 }

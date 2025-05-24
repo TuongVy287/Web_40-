@@ -15,7 +15,7 @@ public class DichVuRepository : IDichVuRepository
     public async Task<IEnumerable<DichVu>> GetAllDichVu()
     {
         var dichvuList = (await _db.QueryAsync<DichVu>(
-        "sp_GetAllDichVu", commandType: CommandType.StoredProcedure)).ToList();
+        "spAPI_DichVu_Select", commandType: CommandType.StoredProcedure)).ToList();
 
     return dichvuList;
     }

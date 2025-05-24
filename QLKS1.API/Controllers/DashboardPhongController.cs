@@ -16,12 +16,12 @@ namespace QLKS1.API.Controllers
             _dashboardPhongRepository = dashboardPhongRepository;
         }
 
-         [HttpGet]
-    public async Task<IActionResult> GetDashboard([FromQuery] DateTime? ngayBatDau, [FromQuery] DateTime? ngayKetThuc)
-    {
-        var data = await _dashboardPhongRepository.GetDashboardPhongAsync(ngayBatDau, ngayKetThuc);
-        return Ok(data);
-    }
+        [HttpGet]
+public async Task<IActionResult> GetDashboard([FromQuery] DateTime? ngayBatDau, [FromQuery] DateTime? ngayKetThuc)
+{
+    var data = await _dashboardPhongRepository.GetDashboardPhongAsync(ngayBatDau, ngayKetThuc);
+    return Ok(data);
+}
     }
 
 }

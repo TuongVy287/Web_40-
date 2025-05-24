@@ -20,11 +20,19 @@ public class DashboardPhongRepository : IDashboardPhongRepository
         return chitiethoadonList;
     }
 
-    public async Task<IEnumerable<DashboardPhong>> GetDashboardPhongAsync(DateTime? ngayBatDau, DateTime? ngayKetThuc)
+    public async Task<IEnumerable<DashboardPhong>> GetDashboardPhongAsync(DateTime? ngayBatDau = null, DateTime? ngayKetThuc = null)
 {
     var parameters = new DynamicParameters();
-    parameters.Add("@NgayBatDau", ngayBatDau);
-    parameters.Add("@NgayKetThuc", ngayKetThuc);
+
+    // Chỉ thêm tham số nếu chúng có giá trị
+    if (ngayBatDau.HasValue)
+    {
+        parameters.Add("@NgayBatDau", ngayBatDau);
+    }
+    if (ngayKetThuc.HasValue)
+    {
+        parameters.Add("@NgayKetThuc", ngayKetThuc);
+    }
 
     var result = await _db.QueryAsync<DashboardPhong>(
         "spAPI_DashboardPhong",

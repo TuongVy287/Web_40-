@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import GuestDetailModal from './modals/GuestDetailModal.vue';
 
 // Define guest item interface
@@ -9,71 +9,49 @@ interface GuestItem {
   email: string;
   phone: string;
   roomPreference: string;
-  lastStay: string;
-  status: string;
-  // Additional fields for detail view
-  registrationNumber: string; // Make required to match GuestDetail
-  checkInDate: string; // Make required to match GuestDetail
-  stay: string; // Make required to match GuestDetail
-  discount: string; // Make required to match GuestDetail
+  registrationNumber: string;
+  checkInDate: string;
+  stay: string;
+  discount: string;
   avatar?: string;
 }
 
-// Sample data
-const guests = ref<GuestItem[]>([
-  {
-    id: 1,
-    name: 'John Smith',
-    email: 'john.smith@example.com',
-    phone: '+1 (123) 456-7890',
-    roomPreference: 'Single',
-    lastStay: '12/03/2023',
-    status: 'Repeat',
-    registrationNumber: '24665',
-    checkInDate: '18/12/23',
-    stay: '4 nights',
-    discount: '$ 100'
-  },
-  {
-    id: 2,
-    name: 'Emma Johnson',
-    email: 'emma.j@example.com',
-    phone: '+1 (234) 567-8901',
-    roomPreference: 'Double',
-    lastStay: '05/02/2023',
-    status: 'New',
-    registrationNumber: '25542',
-    checkInDate: '20/12/23',
-    stay: '2 nights',
-    discount: '$ 0'
-  },
-  {
-    id: 3,
-    name: 'Michael Brown',
-    email: 'michael.b@example.com',
-    phone: '+1 (345) 678-9012',
-    roomPreference: 'VIP',
-    lastStay: '20/03/2023',
-    status: 'VIP',
-    registrationNumber: '26778',
-    checkInDate: '15/12/23',
-    stay: '7 nights',
-    discount: '$ 250'
-  },
-  {
-    id: 4,
-    name: 'Olivia Davis',
-    email: 'olivia.d@example.com',
-    phone: '+1 (456) 789-0123',
-    roomPreference: 'Double',
-    lastStay: '08/01/2023',
-    status: 'Repeat',
-    registrationNumber: '27889',
-    checkInDate: '22/12/23',
-    stay: '3 nights',
-    discount: '$ 75'
-  },
-]);
+// Guests data from API
+const guests = ref<GuestItem[]>([]);
+
+// Fetch data from API
+const fetchGuests = async () => {
+  try {
+    const response = await fetch('http://localhost:5250/api/KhachHang/guest');
+    const data = await response.json();
+    
+    // Map API data to GuestItem
+    guests.value = data.map((guest, index) => {
+      const checkInDate = new Date(guest.ngayNhan);
+      const checkOutDate = new Date(guest.ngayTra);
+      const stayDuration = Math.ceil(
+        (checkOutDate.getTime() - checkInDate.getTime()) / (1000 * 3600 * 24)
+      );
+
+      return {
+        id: index + 1,
+        name: guest.hoTen,
+        email: guest.email,
+        phone: guest.soDienThoai,
+        roomPreference: guest.loaiPhong,
+        registrationNumber: `KH${index + 1}`,
+        checkInDate: checkInDate.toLocaleDateString('en-GB'), // Định dạng ngày
+        stay: `${stayDuration} đêm`,
+        discount: '$0', // Add logic for discount if available
+      };
+    });
+  } catch (error) {
+    console.error('Failed to fetch guests:', error);
+  }
+};
+
+// Call fetchGuests on mounted
+onMounted(fetchGuests);
 
 // Filter option
 const filterActive = ref('All');
@@ -84,12 +62,7 @@ const setFilter = (filter: string) => {
 };
 
 // Computed property for filtered guests
-const filteredGuests = computed(() => {
-  if (filterActive.value === 'All') {
-    return guests.value;
-  }
-  return guests.value.filter(guest => guest.status === filterActive.value);
-});
+const filteredGuests = computed(() => guests.value);
 
 // Modal state
 const isModalOpen = ref(false);
@@ -114,66 +87,30 @@ const closeModal = () => {
       <h1 class="text-xl font-medium text-gray-700">Guest</h1>
     </div>
 
-    <!-- Filter and Add Guest Button -->
-    <div class="flex justify-between items-center mb-6 w-bar">
-      <div class="flex space-x-2">
-        <button
-          @click="setFilter('All')"
-          :class="[
-            'py-2 px-4 rounded-full text-sm font-medium',
-            filterActive === 'All' ? 'bg-blue-500 text-white' : 'bg-white text-gray-600 border'
-          ]"
-        >
-          All
-        </button>
-        <button
-          @click="setFilter('VIP')"
-          :class="[
-            'py-2 px-4 rounded-full text-sm font-medium',
-            filterActive === 'VIP' ? 'bg-blue-500 text-white' : 'bg-white text-gray-600 border'
-          ]"
-        >
-          VIP
-        </button>
-        <button
-          @click="setFilter('Repeat')"
-          :class="[
-            'py-2 px-4 rounded-full text-sm font-medium',
-            filterActive === 'Repeat' ? 'bg-blue-500 text-white' : 'bg-white text-gray-600 border'
-          ]"
-        >
-          Repeat
-        </button>
-      </div>
-      <button class="bg-blue-500 text-white py-2 px-4 rounded-lg text-sm font-medium">
-        Add guest
-      </button>
-    </div>
-
     <!-- Guests Table -->
     <div class="bg-white rounded-lg shadow overflow-hidden w-bar">
       <table class="min-w-full divide-y divide-gray-200 w-table">
         <thead class="bg-gray-50">
           <tr>
-            <th scope="col" class="px-6 px-tablet-table py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
               Name
             </th>
-            <th scope="col" class="px-6 px-tablet-table py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
               Email
             </th>
-            <th scope="col" class="px-6 px-tablet-table py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
               Phone
             </th>
-            <th scope="col" class="px-6 px-tablet-table py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
               Room Preference
             </th>
-            <th scope="col" class="px-6 px-tablet-table py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-              Last Stay
+            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              Check-In Date
             </th>
-            <th scope="col" class="px-6 px-tablet-table py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-              Status
+            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              Stay
             </th>
-            <th scope="col" class="relative px-6 px-tablet-table py-3">
+            <th scope="col" class="relative px-6 py-3">
               <span class="sr-only">Actions</span>
             </th>
           </tr>
@@ -185,34 +122,25 @@ const closeModal = () => {
             @click="openGuestDetails(guest)"
             class="cursor-pointer hover:bg-gray-50"
           >
-            <td class="px-6 px-tablet-table py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
               {{ guest.name }}
             </td>
-            <td class="px-6 px-tablet-table py-4 whitespace-nowrap text-sm text-gray-500">
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
               {{ guest.email }}
             </td>
-            <td class="px-6 px-tablet-table py-4 whitespace-nowrap text-sm text-gray-500">
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
               {{ guest.phone }}
             </td>
-            <td class="px-6 px-tablet-table py-4 whitespace-nowrap text-sm text-gray-500">
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
               {{ guest.roomPreference }}
             </td>
-            <td class="px-6 px-tablet-table py-4 whitespace-nowrap text-sm text-gray-500">
-              {{ guest.lastStay }}
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+              {{ guest.checkInDate }}
             </td>
-            <td class="px-6 px-tablet-table py-4 whitespace-nowrap">
-              <span
-                :class="[
-                  'px-2 inline-flex text-xs leading-5 font-semibold rounded-full',
-                  guest.status === 'VIP' ? 'bg-purple-100 text-purple-800' :
-                  guest.status === 'Repeat' ? 'bg-blue-100 text-blue-800' :
-                  'bg-green-100 text-green-800'
-                ]"
-              >
-                {{ guest.status }}
-              </span>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+              {{ guest.stay }}
             </td>
-            <td class="px-6 px-tablet-table py-4 whitespace-nowrap text-right text-sm font-medium">
+            <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
               <button type="button" class="text-gray-400 hover:text-gray-500">
                 ⋮
               </button>

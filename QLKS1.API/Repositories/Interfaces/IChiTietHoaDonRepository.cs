@@ -4,8 +4,8 @@ namespace QLKS1.API.Repositories.Interfaces
     public interface IChiTietHoaDonRepository
     {
         Task<IEnumerable<ChiTietHoaDon>> GetAllChiTietHoaDon();
-        Task<ChiTietHoaDon?> GetChiTietHoaDonByIdAsync(int MaHoaDon);
-            Task<decimal> ThemChiTietHoaDonAsync(int idHoaDon, int idDichVu, int soLuong);
+        Task<IEnumerable<ChiTietHoaDon>> GetChiTietHoaDonByIdAsync(int maHoaDon);
+        Task<int> ThemChiTietHoaDonAsync(ChiTietHoaDon chiTietHoaDon);
 
         // Task<HoaDon> CreateAsync(HoaDon hoaDon);
         // Task<HoaDon?> UpdateAsync(int IDHoaDon, HoaDon hoaDon);

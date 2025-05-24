@@ -21,6 +21,7 @@ builder.Services.AddScoped<IThongKeService, ThongKeService>();
 builder.Services.AddScoped<ICheckinRepository, CheckinRepository>();
 builder.Services.AddScoped<IDashboardPhongRepository, DashboardPhongRepository>();
 builder.Services.AddScoped<ITimPhongPhuHopRepository, TimPhongPhuHopRepository>();
+builder.Services.AddScoped<IThongTinDealRepository, ThongTinDealRepository>();
 
 
 // builder.Services.AddScoped<IOcrService, OcrService>();
