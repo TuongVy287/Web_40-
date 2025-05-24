@@ -14,5 +14,7 @@ namespace QLKS1.API.Repositories.Interfaces
 
         Task<IEnumerable<GuestInfo>> GetGuestInfoAsync();   
 
+        Task<int> ThemKhachHang(KhachHang khachHang); // Thêm dòng này
+
     }
 }

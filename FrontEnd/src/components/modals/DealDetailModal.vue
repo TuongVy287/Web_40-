@@ -1,184 +1,207 @@
 <script setup lang="ts">
-import { defineProps, defineEmits } from 'vue';
+import { defineProps, defineEmits, ref, onMounted } from 'vue';
+import axios from 'axios';
 
-interface DealDetail {
-  id: number;
+// Các interface không thay đổi
+interface Service {
+  idDichVu: number;
+  tenDichVu: string;
+  giaDichVu: number;
+  moTa: string;
+  xoa: boolean;
+}
+
+interface ServiceSelection {
   name: string;
-  reference: string;
-  price: string;
-  discount: string;
+  price: number;
+  quantity: number;
+}
+
+interface InvoiceDetail {
+  id: number;
+  guestName: string;
   roomType: string;
-  roomFacility: string;
-  startDate: string;
-  endDate: string;
-  reservations?: number; // Add as optional
-  status?: string; // Add as optional
-  tags?: string[];
+  price: number;
+  checkInDate: string;
+  checkOutDate: string;
+  totalAmount: number;
+  paymentStatus: string;
+  customerCode?: string;
+  paymentMethod?: string;
+  services?: ServiceSelection[];
 }
 
 const props = defineProps<{
   isOpen: boolean;
-  deal: DealDetail | null;
+  invoice: InvoiceDetail | null;
 }>();
 
 const emit = defineEmits(['close', 'save']);
+
+const services = ref<Service[]>([]);
+
+const fetchServices = async () => {
+  try {
+    const response = await axios.get('http://localhost:5250/api/DichVu');
+    services.value = response.data;
+  } catch (error) {
+    console.error("Có lỗi xảy ra khi tải danh sách dịch vụ!", error);
+  }
+};
+
+const fetchInvoiceDetails = async (idHoaDon: number) => {
+  try {
+    const response = await axios.get(`http://localhost:5250/api/ChiTietHoaDon/${idHoaDon}`);
+    props.invoice.services = response.data.map((service: any) => ({
+      name: service.tenDichVu,
+      price: service.giaDichVu,
+      quantity: service.soLuong
+    }));
+  } catch (error) {
+    console.error("Có lỗi xảy ra khi tải danh sách dịch vụ trong hóa đơn!", error);
+  }
+};
+
+onMounted(() => {
+  fetchServices();
+  if (props.invoice) {
+    fetchInvoiceTotalAmount(props.invoice.id).then(amount => {
+      if (props.invoice) {
+        props.invoice.totalAmount = amount;
+      }
+    });
+  }
+});
 
 const closeModal = () => {
   emit('close');
 };
 
-const saveChanges = () => {
-  // In a real app, you would validate and save the data here
-  if (props.deal) {
-    emit('save', props.deal);
+const calculateTotalAmount = (invoice: InvoiceDetail): number => {
+  return invoice.totalAmount;
+};
+
+const saveChanges = async () => {
+  if (props.invoice) {
+    for (const service of props.invoice.services || []) {
+      await addServiceToInvoice(props.invoice.id, service);
+    }
+    emit('save', props.invoice);
   }
   closeModal();
 };
+
+const addService = () => {
+  if (props.invoice) {
+    if (!props.invoice.services) {
+      props.invoice.services = [];
+    }
+    props.invoice.services.push({
+      name: '',
+      price: 0,
+      quantity: 0
+    });
+  }
+};
+
+const addServiceToInvoice = async (invoiceId: number, service: ServiceSelection) => {
+  const selectedService = services.value.find(s => s.tenDichVu === service.name);
+  if (selectedService) {
+    try {
+      await axios.post('http://localhost:5250/api/ChiTietHoaDon/them', {
+        IDHoaDon: invoiceId,
+        IDDichVu: selectedService.idDichVu,
+        SoLuong: service.quantity,
+        DVT: 'Item'
+      }).then(() => {
+        service.price = selectedService.giaDichVu; // cập nhật giá dịch vụ
+      });
+    } catch (error) {
+      console.error("Có lỗi xảy ra khi thêm dịch vụ vào hóa đơn!", error);
+    }
+  }
+};
+
 </script>
 
 <template>
   <div v-if="isOpen" class="fixed inset-0 z-50 flex items-center justify-center">
-    <!-- Backdrop -->
     <div class="fixed inset-0 bg-black bg-opacity-50" @click="closeModal"></div>
 
-    <!-- Modal content -->
     <div class="relative bg-white rounded-lg w-full max-w-3xl mx-auto p-6 shadow-lg">
-      <div v-if="deal" class="flex flex-col">
-        <!-- Title -->
-        <h3 class="text-lg font-medium text-gray-900 mb-4">Deal Details</h3>
-
-        <!-- Form Grid -->
+      <div v-if="invoice" class="flex flex-col">
+        <h3 class="text-lg font-medium text-gray-900 mb-4">Invoice Details</h3>
+        
         <div class="grid grid-cols-2 gap-x-6 gap-y-4">
-          <!-- Deal name -->
           <div>
-            <label class="block text-sm font-medium text-gray-700 mb-1">Deal name</label>
-            <input
-              type="text"
-              v-model="deal.name"
-              class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm w-9"
-            />
+            <label class="block text-sm font-medium text-gray-700 mb-1">Guest Name</label>
+            <input type="text" v-model="invoice.guestName" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm" />
           </div>
 
-          <!-- Reference number -->
           <div>
-            <label class="block text-sm font-medium text-gray-700 mb-1">Reference number</label>
-            <input
-              type="text"
-              v-model="deal.reference"
-              class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm w-9"
-            />
+            <label class="block text-sm font-medium text-gray-700 mb-1">Room Type</label>
+            <input type="text" v-model="invoice.roomType" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm" />
           </div>
 
-          <!-- Tags -->
-          <div>
-            <label class="block text-sm font-medium text-gray-700 mb-1">Tags</label>
-            <div class="relative">
-              <select
-                class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm appearance-none pr-10"
-              >
-                <option disabled selected>Select tags</option>
-              </select>
-              <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                  <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
-                </svg>
-              </div>
-            </div>
-          </div>
-
-          <!-- Price -->
           <div>
             <label class="block text-sm font-medium text-gray-700 mb-1">Price</label>
-            <input
-              type="text"
-              v-model="deal.price"
-              placeholder="Enter the price of deal"
-              class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm w-9"
-            />
+            <input type="number" v-model="invoice.price" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm" />
           </div>
 
-          <!-- Room facility - full width text area -->
-          <div class="col-span-2">
-            <label class="block text-sm font-medium text-gray-700 mb-1">Room facility</label>
-            <textarea
-              v-model="deal.roomFacility"
-              rows="4"
-              placeholder="Enter a description..."
-              class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm w-input"
-            ></textarea>
-          </div>
-
-          <!-- Room type -->
           <div>
-            <label class="block text-sm font-medium text-gray-700 mb-1">Room type</label>
-            <div class="relative">
-              <select
-                v-model="deal.roomType"
-                class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm appearance-none pr-10"
-                style="color: black;"
-                >
-                <option disabled>Select room type</option>
-                <option value="Single">Single</option>
-                <option value="Double">Double</option>
-                <option value="Triple">Triple</option>
-                <option value="VIP">VIP</option>
-              </select>
-              <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                  <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
-                </svg>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Check-In Date</label>
+            <input type="text" v-model="invoice.checkInDate" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm" />
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Check-Out Date</label>
+            <input type="text" v-model="invoice.checkOutDate" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm" />
+          </div>
+
+          <div class="col-span-2">
+            <label class="block text-sm font-medium text-gray-700 mb-1">Services</label>
+            <div class="flex flex-col space-y-2">
+              <div v-for="(service, index) in invoice.services" :key="index" class="flex items-center">
+                <select v-model="service.name" class="px-3 py-2 border border-gray-300 rounded-md flex-grow" style="width: 33%; margin-bottom: 10px;">
+                  <option v-for="s in services" :key="s.idDichVu" :value="s.tenDichVu">{{ s.tenDichVu }}</option>
+                </select>
+                <input type="number" readonly class="px-3 py-2 border border-gray-300 rounded-md ml-2" style="width: 33%; margin-bottom: 10px;" :value="services.find(s => s.tenDichVu === service.name)?.giaDichVu" placeholder="Price" />
+                <input type="number" class="px-3 py-2 border border-gray-300 rounded-md ml-2" style="width: 33%; margin-bottom: 10px;" v-model="service.quantity" placeholder="Quantity" />
               </div>
             </div>
-          </div>
-
-          <!-- Discount -->
-          <div>
-            <label class="block text-sm font-medium text-gray-700 mb-1">Discount</label>
-            <input
-              type="text"
-              v-model="deal.discount"
-              placeholder="Enter discount value"
-              class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm w-9"
-            />
-          </div>
-
-          <!-- Start date -->
-          <div>
-            <label class="block text-sm font-medium text-gray-700 mb-1">Start date</label>
-            <input
-              type="text"
-              v-model="deal.startDate"
-              placeholder="Start date"
-              class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm w-9"
-            />
-          </div>
-
-          <!-- End date -->
-          <div>
-            <label class="block text-sm font-medium text-gray-700 mb-1">End date</label>
-            <input
-              type="text"
-              v-model="deal.endDate"
-              placeholder="End date"
-              class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm w-9"
-            />
+            <button @click="addService" class="mt-2 flex items-center justify-center w-8 h-8 text-white bg-green-600 border border-transparent rounded-full shadow-sm hover:bg-green-700">
+              <span class="text-xl" style="color: #000 !important;">+</span>
+            </button>
           </div>
         </div>
 
-        <!-- Action buttons -->
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Total Amount</label>
+          <input type="number" :value="calculateTotalAmount(invoice)" readonly class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm" />
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Payment Status</label>
+          <select v-model="invoice.paymentStatus" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm">
+            <option value="Paid">Paid</option>
+            <option value="Unpaid">Unpaid</option>
+            <option value="Pending">Pending</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Payment Method</label>
+          <select v-model="invoice.paymentMethod" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm">
+            <option value="Credit Card">Credit Card</option>
+            <option value="Cash">Cash</option>
+            <option value="Bank Transfer">Bank Transfer</option>
+            <option value="PayPal">PayPal</option>
+          </select>
+        </div>
+
         <div class="flex justify-end space-x-3 mt-6">
-          <button
-            @click="closeModal"
-            class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50"
-          >
-            Cancel
-          </button>
-          <button
-            @click="saveChanges"
-            class="px-4 py-2 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-md shadow-sm hover:bg-blue-700"
-          >
-            Save
-          </button>
+          <button @click="closeModal" class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50">Hủy</button>
+          <button @click="saveChanges" class="px-4 py-2 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-md shadow-sm hover:bg-blue-700">Cập nhật</button>
         </div>
       </div>
     </div>
@@ -187,4 +210,10 @@ const saveChanges = () => {
 
 <style scoped>
 /* Add any additional styling here */
+input {
+  color: black;
+}
+select {
+  color: black;
+}
 </style>

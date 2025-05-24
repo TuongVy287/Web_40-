@@ -31,13 +31,18 @@ export default {
     };
   },
   created() {
-    // Kiểm tra xem localStorage có user không
-    const user = localStorage.getItem('user');
-    this.isLoggedIn = !!user;
 
     // Lắng nghe sự kiện thay đổi trạng thái đăng nhập (từ login hoặc logout)
     window.addEventListener('user-changed', () => {
-      this.isLoggedIn = !!localStorage.getItem('user');
+      // this.isLoggedIn = !!localStorage.getItem('user');
+      // Kiểm tra xem localStorage có user không
+      const user = localStorage.getItem('user');
+      if (user) {
+        this.isLoggedIn = true; // Đã đăng nhập
+      } else {
+        this.isLoggedIn = false; // Chưa đăng nhập
+      }
+
     });
   }
 
