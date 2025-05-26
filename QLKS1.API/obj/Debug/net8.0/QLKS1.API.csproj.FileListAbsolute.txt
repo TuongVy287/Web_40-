@@ -826,3 +826,9 @@ C:\Users\Tram\Music\web-40\Web_40-\QLKS1.API\obj\Debug\net8.0\QLKS1.API.genrunti
 C:\Users\Tram\Music\web-40\Web_40-\QLKS1.API\obj\Debug\net8.0\ref\QLKS1.API.dll
 >>>>>>> 72b2b3618bde37a500c55b734104465686c6b78a
 D:\Project\Web_40-\QLKS1.API\bin\Debug\net8.0\package-lock.json
+C:\LHU\Lap Trinh Ung Dung Web\web_40-1\QLKS1.API\bin\Debug\net8.0\x86\leptonica-1.82.0.dll
+C:\LHU\Lap Trinh Ung Dung Web\web_40-1\QLKS1.API\bin\Debug\net8.0\x86\tesseract50.dll
+C:\LHU\Lap Trinh Ung Dung Web\web_40-1\QLKS1.API\bin\Debug\net8.0\x64\leptonica-1.82.0.dll
+C:\LHU\Lap Trinh Ung Dung Web\web_40-1\QLKS1.API\bin\Debug\net8.0\x64\tesseract50.dll
+C:\LHU\Lap Trinh Ung Dung Web\web_40-1\QLKS1.API\bin\Debug\net8.0\package-lock.json
+C:\LHU\Lap Trinh Ung Dung Web\web_40-1\QLKS1.API\bin\Debug\net8.0\Tesseract.dll

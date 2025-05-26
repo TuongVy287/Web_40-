@@ -18,7 +18,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="nv in nhanVienList" :key="nv.idNhanVien">
+        <tr v-for="nv in pagedNhanVienList" :key="nv.idNhanVien">
           <td>{{ nv.maNV }}</td>
           <td>{{ nv.hoTen }}</td>
           <td>{{ nv.gioiTinh === 1 ? 'Nam' : 'Nữ' }}</td>
@@ -34,6 +34,13 @@
         </tr>
       </tbody>
     </table>
+
+    <!-- Pagination controls -->
+    <div class="pagination">
+      <button @click="prevPage" :disabled="currentPage === 1">Previous</button>
+      <span>Page {{ currentPage }} of {{ totalPages }}</span>
+      <button @click="nextPage" :disabled="currentPage === totalPages">Next</button>
+    </div>
 
     <!-- Modal sửa nhân viên -->
     <transition name="fade">
@@ -66,7 +73,7 @@
               <input v-model="editedNhanVien.soDienThoai" />
 
               <label>Ca làm việc:</label>
-              <select v-model.number="editedNhanVien.caLamViec" required>
+              <select v-model="editedNhanVien.caLamViec" required>
                 <option value="Sáng">Sáng</option>
                 <option value="Chiều">Chiều</option>
                 <option value="Tối">Tối</option>
@@ -177,12 +184,33 @@ export default {
         matKhau: '',
         xoa: 0,
       },
-      isAdding: false
+      isAdding: false,
+      currentPage: 1,
+      pageSize: 4,
     };
   },
   created() {
     this.fetchNhanVien();
   },
+  computed: {
+    pagedNhanVienList() {
+      const start = (this.currentPage - 1) * this.pageSize;
+      return this.nhanVienList.slice(start, start + this.pageSize);
+    },
+    totalPages() {
+      return Math.ceil(this.nhanVienList.length / this.pageSize);
+    },
+  },
+  watch: {
+    currentPage(newPage) {
+      if (newPage < 1) this.currentPage = 1;
+      if (newPage > this.totalPages) this.currentPage = this.totalPages;
+    },
+  },
+  mounted() {
+    this.fetchNhanVien();
+  },
+
   methods: {
     async fetchNhanVien() {
       try {
@@ -208,7 +236,16 @@ export default {
         }
       }
     },
-
+    async nextPage() {
+      if (this.currentPage < this.totalPages) {
+        this.currentPage++;
+      }
+    },
+    async prevPage() {
+      if (this.currentPage > 1) {
+        this.currentPage--;
+      }
+    },
     openEditModal(nv) {
 
       this.editedNhanVien = { ...nv };
@@ -312,10 +349,14 @@ export default {
     },
 
     formatDate(dateString) {
-      if (!dateString) return 'N/A';
+      if (!dateString) return '';
       const date = new Date(dateString);
-      return date.toLocaleDateString();
-    },
+      const day = String(date.getDate()).padStart(2, '0');
+      const month = String(date.getMonth() + 1).padStart(2, '0');
+      const year = date.getFullYear();
+      return `${day}/${month}/${year}`;
+    }
+    ,
   },
 };
 </script>
@@ -323,10 +364,173 @@ export default {
 <style scoped>
 .nhanvien {
   margin: 40px;
-  background: #fff;
+  background: #ffffff;
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.pagination button {
+  background-color: #f39c12;
+  border: none;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  margin: 0 5px;
+}
+
+.pagination button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.nhanvien h2 {
+  color: #f39c12;
+  margin-bottom: 20px;
+  font-size: 24px;
+}
+
+.nhanvien table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  margin-top: 20px;
+  height: 300px;
+  overflow-y: auto;
+}
+
+.nhanvien th,
+.nhanvien td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: center;
+  width:400px;
+  
+}
+
+.nhanvien th {
+  background-color: #f39c12;
+  color: white;
+  font-weight: 600;
+}
+
+.nhanvien tr:hover {
+  background-color: #f1f1f1;
+}
+
+.nhanvien .action-btn {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+  margin: 0 4px;
+}
+
+.nhanvien .action-btn:hover {
+  color: #f39c12;
+}
+
+.nhanvien .modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.nhanvien .modal-content {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  width: 700px;
+  max-width: 90vw;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.nhanvien .edit-form {
+  display: flex;
+  gap: 24px;
+  justify-content: space-between;
+  margin-top: 15px;
+}
+
+.nhanvien .form-col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.nhanvien label {
+  font-weight: 600;
+  font-size: 13px;
+  margin-bottom: 3px;
+}
+
+.nhanvien input,
+.nhanvien select {
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: 1.5px solid #ccc;
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.3s;
+  color: black;
+}
+
+.nhanvien input:focus,
+.nhanvien select:focus {
+  border-color: #f39c12;
+}
+
+.nhanvien .modal-actions {
+  margin-top: 20px;
+  text-align: right;
+}
+
+.nhanvien .modal-actions button {
+  background-color: #f39c12;
+  border: none;
+  color: white;
+  padding: 8px 18px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-left: 12px;
+  transition: background-color 0.3s ease;
+}
+
+.nhanvien .modal-actions button:hover:not(:disabled) {
+  background-color: #d78c0b;
+}
+
+.nhanvien .modal-actions button:disabled {
+  background-color: #f0c27b;
+  cursor: default;
+}
+
+.nhanvien .fade-enter-active,
+.nhanvien .fade-leave-active {
+  transition: opacity 0.25s;
+}
+
+.nhanvien .fade-enter-from,
+.nhanvien .fade-leave-to {
+  opacity: 0;
 }
 
 h2 {
@@ -345,6 +549,7 @@ h2 {
   margin-bottom: 15px;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  
 }
 
 table {
