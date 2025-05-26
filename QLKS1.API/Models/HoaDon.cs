@@ -7,6 +7,7 @@ public class HoaDon
     public string TrangThai { get; set; }
     public string PhuongThucThanhToan { get; set; }
     public DateTime NgayTT { get; set; }
+    public string TrangThaiThanhToan { get; set; }
 }
 public class DichVuRequest
 {

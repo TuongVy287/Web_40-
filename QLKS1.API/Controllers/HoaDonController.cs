@@ -42,5 +42,19 @@ namespace QLKS1.API.Controllers
             return BadRequest(new { message = ex.Message });
         }
     }
+
+    [HttpPost("thanhtoan/{IDHoaDon}")]
+    public async Task<IActionResult> ThanhToanHoaDon([FromRoute] int IDHoaDon)
+    {
+        try
+        {
+            var result = await _hoaDonRepository.ThanhToanHoaDonAsync(IDHoaDon);
+            return Ok(new { ThongBao = result });
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new { message = ex.Message });
+        }
+    }
     }
 }
