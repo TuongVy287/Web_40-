@@ -7,12 +7,14 @@ namespace QLKS1.API.Repositories.Interfaces
 {
     public interface IKhachHangRepository
     {
-        Task<KhachHang> GetKhachHangByIdAsync(int maKH);
+        Task<KhachHang> GetKhachHangByCCCDAsync(string CCCD);
         Task<List<KhachHang>> GetAllKhachHang();
 
         Task<KhachHangDatPhongViewModel> GetChiTietKhachHangAsync(int idKhachHang, int idDatPhong);
 
         Task<IEnumerable<GuestInfo>> GetGuestInfoAsync();   
+
+        Task<int> ThemKhachHang(KhachHang khachHang); // Thêm dòng này
 
     }
 }

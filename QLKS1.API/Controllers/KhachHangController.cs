@@ -17,14 +17,21 @@ namespace QLKS1.API.Controllers
             _khachHangRepository = khachHangRepository;
         }
 
+        // [HttpGet("all")]
+        // public async Task<IActionResult> GetAllKhachHang()
+        // {
+        //     var khachHangs = await _khachHangRepository.GetAllKhachHangAsync();
+        //     return Ok(khachHangs);
+        // }
+
         //GET /api/khachhang/1
-        [HttpGet]
-        public async Task<IActionResult> GetKhachHangById([FromRoute] int maKH)
+        [HttpGet("{cccd}")]
+        public async Task<IActionResult> GetKhachHangByCCCD([FromRoute] string cccd)
         {
-            var khachHang = await _khachHangRepository.GetKhachHangByIdAsync(maKH);
+            var khachHang = await _khachHangRepository.GetKhachHangByCCCDAsync(cccd);
             if (khachHang == null)
             {
-                return NotFound();
+            return NotFound();
             }
             return Ok(khachHang);
         }
@@ -46,5 +53,25 @@ namespace QLKS1.API.Controllers
         var guests = await _khachHangRepository.GetGuestInfoAsync();
         return Ok(guests);
     }
+
+    [HttpPost("Them")]
+    public async Task<IActionResult> ThemKhachHang([FromBody] KhachHang khachHang)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+
+        var result = await _khachHangRepository.ThemKhachHang(khachHang);
+        
+        if (result > 0)
+        {
+            return Ok(new { Message = "Khách hàng đã được thêm thành công!" });
+        }
+
+        return StatusCode(500, "Có lỗi xảy ra khi thêm khách hàng.");
     }
+    }
+
+     
 }

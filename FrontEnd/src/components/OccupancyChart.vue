@@ -1,19 +1,9 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
+import axios from 'axios';
 
 // Monthly occupancy percentages data
-const monthlyData = [
-  { month: 'May', percentage: 85 },
-  { month: 'Jun', percentage: 70 },
-  { month: 'Jul', percentage: 80 },
-  { month: 'Aug', percentage: 45 },
-  { month: 'Sep', percentage: 95 },
-  { month: 'Oct', percentage: 85 },
-  { month: 'Nov', percentage: 85 },
-  { month: 'Dec', percentage: 85 },
-  { month: 'Jan', percentage: 95 },
-  { month: 'Feb', percentage: 95 },
-];
+const monthlyData = ref<{ month: string; percentage: number }[]>([]);
 
 // Yearly occupancy percentages data (initially empty)
 const yearlyData = ref<{ year: number; percentage: number }[]>([]);
@@ -21,23 +11,41 @@ const yearlyData = ref<{ year: number; percentage: number }[]>([]);
 // A variable to decide which data to show
 const isMonthly = ref(true);
 
-// Function to fetch yearly data from the backend
-const fetchYearlyData = async () => {
-  const response = await new Promise<{ year: number; percentage: number }[]>(resolve =>
-    setTimeout(() => {
-      resolve([
-        { year: 2023, percentage: 80 },
-        { year: 2024, percentage: 85 },
-        { year: 2025, percentage: 90 }, // Thêm năm để kiểm tra
-      ]);
-    }, 1000)
-  );
-
-  yearlyData.value = response; // Set fetched data to the yearlyData ref
+// Function to fetch monthly data from the backend
+const fetchMonthlyData = async () => {
+  try {
+    console.log("Fetching monthly data...");
+    const response = await axios.get('http://localhost:5250/api/ThongKe/SoLuongNguoiTheoThang?nam=2025');
+    console.log("Monthly raw data:", response.data);
+    monthlyData.value = response.data.map(item => ({
+      month: new Date(2025, item.month - 1).toLocaleString('default', { month: 'short' }),
+      percentage: item.tyLeSuDungPhanTram // Chuyển thành %
+    }));
+    console.log("Processed monthly data:", monthlyData.value);
+  } catch (error) {
+    console.error("Error fetching monthly data:", error);
+  }
 };
 
-// Fetch yearly data on component mount
+// Function to fetch yearly data from the backend
+const fetchYearlyData = async () => {
+  try {
+    console.log("Fetching yearly data...");
+    const response = await axios.get('http://localhost:5250/api/ThongKe/SoLuongNguoiTheoThang?nam=t%E1%BA%A5t%20c%E1%BA%A3');
+    console.log("Yearly raw data:", response.data);
+    yearlyData.value = response.data.map(item => ({
+      year: item.year,
+      percentage: item.tyLeSuDungPhanTram // Chuyển thành %
+    }));
+    console.log("Processed yearly data:", yearlyData.value);
+  } catch (error) {
+    console.error("Error fetching yearly data:", error);
+  }
+};
+
+// Fetch data on component mount
 onMounted(() => {
+  fetchMonthlyData();
   fetchYearlyData();
 });
 
@@ -72,20 +80,19 @@ const toggleMode = () => {
 
       <!-- Chart bars -->
       <div v-if="isMonthly" class="h-44 flex items-end space-x-4 flex-1">
-        <!-- <div > -->
-          <div v-for="(data, index) in monthlyData" :key="index" class="flex flex-col items-center flex-1 w-full bg-blue-400 rounded-t-sm" :style="{ height: `${data.percentage}%`, maxWidth: '99px' }">
-            <!-- Month label -->
-            <div class="text-xs text-gray-500 mt-2" style="font-weight:bold">{{ data.month }}</div>
-          <!-- </div> -->
+        <div v-for="(data, index) in monthlyData" :key="index" class="flex flex-col items-center flex-1 w-full bg-blue-400 rounded-t-sm" :style="{ height: `${data.percentage}%`, maxWidth: '99px', position: 'relative' }">
+          <!-- Percentage label -->
+          <div class="percentage-label">{{ data.percentage == 0 ? undefined :  data.percentage }}</div>
+          <!-- Month label -->
+          <div class="text-xs text-gray-500 mt-2" style="font-weight:bold; position: absolute; bottom: -25px;">{{ data.month }}</div>
         </div>
-        </div>
+      </div>
 
-        <div v-else class="h-44 flex items-end space-x-4 flex-1">
-        <!-- <div class="h-44 flex items-end space-x-4 flex-1"> -->
-          <div v-for="(data, index) in yearlyData" :key="index" class="flex flex-col items-center flex-1 w-full bg-blue-400 rounded-t-sm" :style="{ height: `${data.percentage}%` , maxWidth: '99px' }">
-            <!-- Year label -->
-            <div class="text-xs text-gray-500 mt-2" style="font-weight:bold">{{ data.year }}</div>
-        <!-- </div> -->
+      <div v-else class="h-44 flex items-end space-x-4 flex-1">
+        <div v-for="(data, index) in yearlyData" :key="index" class="flex flex-col items-center flex-1 w-full bg-blue-400 rounded-t-sm" :style="{ height: `${data.percentage}%` , maxWidth: '99px', position: 'relative' }">
+          <!-- Year label -->
+          <div class="percentage-label">{{ data.percentage == 0 ? '' :  data.percentage}}</div>
+          <div class="text-xs text-gray-500 mt-2" style="font-weight:bold; position: absolute; bottom: -25px;">{{ data.year }}</div>
         </div>
       </div>
     </div>
@@ -98,5 +105,47 @@ const toggleMode = () => {
     display: none;
   }
 }
-/* Any additional styles */
+
+.chart-column {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 99px;
+  width: 100%;
+  position: relative;
+}
+
+.chart-bar {
+  background-color: #3b82f6;
+  width: 100%;
+  border-radius: 4px 4px 0 0;
+  transition: height 0.3s ease;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  overflow: hidden;
+}
+
+.chart-label {
+  font-weight: bold;
+  color: #4b5563;
+  margin-top: 4px;
+}
+
+.percentage-label {
+  color: white;
+  font-size: 12px;
+  margin-bottom: 4px;
+}
+
+.percentage-label {
+  color: #000;
+  font-size: 12px;
+  font-weight: 500;
+  margin-bottom: 4px;
+  text-align: center;
+  position: absolute;
+  bottom: 98%;
+}
 </style>

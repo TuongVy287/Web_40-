@@ -33,19 +33,25 @@ namespace QLKS1.API.Controllers
             return Ok(dichvu);
         }
 
-        [HttpPost("them")]
-    public async Task<IActionResult> ThemChiTietHoaDon(int idHoaDon, int idDichVu, int soLuong)
+         [HttpPost("them")]
+    public async Task<IActionResult> ThemChiTietHoaDon([FromBody] ChiTietHoaDon chiTietHoaDon)
     {
-        try
+        // if (!ModelState.IsValid)
+        // {
+        //     return BadRequest(ModelState);
+        // }
+
+        var result = await _chitiethoaDonRepository.ThemChiTietHoaDonAsync(chiTietHoaDon);
+        
+        if (result > 0)
         {
-            var tongTien = await _chitiethoaDonRepository.ThemChiTietHoaDonAsync(idHoaDon, idDichVu, soLuong);
-            return Ok(new { TongTien = tongTien });
+            return Ok(new { Message = "Chi tiết hóa đơn đã được thêm thành công!" });
         }
-        catch (Exception ex)
-        {
-            return BadRequest(new { Message = ex.Message });
-        }
+
+        return StatusCode(500, "Có lỗi xảy ra khi thêm chi tiết hóa đơn.");
     }
+
+    
 
         // POST: api/DichVu
         // [HttpPost]

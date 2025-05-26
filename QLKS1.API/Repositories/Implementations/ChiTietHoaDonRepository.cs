@@ -20,30 +20,36 @@ public class ChiTietHoaDonRepository : IChiTietHoaDonRepository
         return chitiethoadonList;
     }
 
-    public async Task<ChiTietHoaDon?> GetChiTietHoaDonByIdAsync(int MaHoaDon)
+     public async Task<IEnumerable<ChiTietHoaDon>> GetChiTietHoaDonByIdAsync(int maHoaDon)
     {
         var parameters = new DynamicParameters();
-        parameters.Add("@IDChiTietHD", MaHoaDon);
+        parameters.Add("@IDHoaDon", maHoaDon);
 
-        var chiTietHoaDon = await _db.QueryFirstOrDefaultAsync<ChiTietHoaDon>(
-            "sp_GetChiTietHoaDonById", parameters, commandType: CommandType.StoredProcedure);
+        var chiTietHoaDons = await _db.QueryAsync<ChiTietHoaDon>(
+            "spAPI_ChiTietHoaDon_Select", 
+            parameters, 
+            commandType: CommandType.StoredProcedure);
 
-        return chiTietHoaDon;
+        return chiTietHoaDons;
     }
 
-    public async Task<decimal> ThemChiTietHoaDonAsync(int idHoaDon, int idDichVu, int soLuong)
+
+   public async Task<int> ThemChiTietHoaDonAsync(ChiTietHoaDon chiTietHoaDon)
     {
         var parameters = new DynamicParameters();
-        parameters.Add("@IDHoaDon", idHoaDon);
-        parameters.Add("@IDDichVu", idDichVu);
-        parameters.Add("@SoLuong", soLuong);
+        parameters.Add("@IDHoaDon", chiTietHoaDon.IDHoaDon);
+        parameters.Add("@IDDichVu", chiTietHoaDon.IDDichVu);
+        parameters.Add("@SoLuong", chiTietHoaDon.SoLuong);
+        parameters.Add("@DVT", chiTietHoaDon.DVT);
 
-        var result = await _db.QueryFirstOrDefaultAsync<decimal>(
-            "spAPI_ChiTietHoaDon_Them", 
-            parameters, 
+        var result = await _db.ExecuteAsync(
+            "spAPI_ChiTietHoaDon_Them",
+            parameters,
             commandType: CommandType.StoredProcedure
         );
 
-        return result;
+        return result; // Trả về số lượng dòng bị ảnh hưởng
     }
+
+    
 }

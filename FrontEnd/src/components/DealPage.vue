@@ -1,12 +1,13 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue';
-// import InvoiceDetailModal from './modals/InvoiceDetailModal.vue'; // Sử dụng modal hóa đơn
+import { ref, computed, onMounted } from 'vue';
+import axios from 'axios';
 import InvoiceDetailModal from './modals/InvoiceDetailModal.vue';
-// Define service interface
+
+// Service and Invoice interfaces
 interface Service {
   name: string;
   price: number;
-  quantity: number; // Thêm trường số lượng
+  quantity: number;
 }
 
 interface InvoiceItem {
@@ -14,73 +15,49 @@ interface InvoiceItem {
   guestName: string;
   reference: string;
   roomType: string;
-  price: number; // Giá phòng
+  price: number;
   checkInDate: string;
   checkOutDate: string;
-  totalAmount: number; // Sẽ được tính toán từ modal
+  totalAmount: number;
   paymentStatus: string;
-  customerCode?: string; // Mã khách hàng
-  paymentMethod?: string; // Phương thức thanh toán
-  services?: Service[]; // Danh sách dịch vụ
+  customerCode?: string;
+  paymentMethod?: string;
+  services?: Service[];
 }
 
-// Hàm tính tổng tiền
-const calculateTotalAmount = (invoice: InvoiceItem): number => {
-  const numberOfDays = Math.floor((new Date(invoice.checkOutDate).getTime() - new Date(invoice.checkInDate).getTime()) / (1000 * 3600 * 24));
-  const servicesTotal = invoice.services?.reduce((sum, service) => sum + (service.price * service.quantity), 0) || 0;
-  return (invoice.price * numberOfDays) + servicesTotal;
+// Invoice data
+const invoices = ref<InvoiceItem[]>([]);
+
+// Fetch invoices from API
+const fetchInvoices = async () => {
+  try {
+    const response = await axios.get('http://localhost:5250/api/ThongTinDeal/all');
+    invoices.value = response.data.map((item: any) => ({
+      id: item.idHoaDon,
+      guestName: item.hoTen,
+      reference: `#${item.idDatPhong}`,
+      roomType: item.loaiPhong,
+      price: item.gia,
+      checkInDate: item.ngayNhan.split('T')[0],
+      checkOutDate: item.ngayTra.split('T')[0],
+      totalAmount: item.tongTien,
+      paymentStatus: 'Unknown',
+      services: []
+    }));
+  } catch (error) {
+    console.error('Failed to fetch invoices', error);
+  }
 };
 
-// Dữ liệu mẫu cho hóa đơn
-const invoices = ref<InvoiceItem[]>([
-  {
-    id: 1,
-    guestName: 'Nguyễn Văn A',
-    reference: '#5644',
-    roomType: 'VIP',
-    price: 199,
-    checkInDate: '2023-03-01',
-    checkOutDate: '2023-03-21',
-    totalAmount: 0,
-    paymentStatus: 'Paid',
-    customerCode: 'CUST001',
-    paymentMethod: 'Credit Card',
-    services: [
-      { name: 'Room Service', price: 20, quantity: 1 },
-      { name: 'Spa', price: 50, quantity: 2 },
-    ]
-  },
-  {
-    id: 2,
-    guestName: 'Trần Thị B',
-    reference: '#6112',
-    roomType: 'Double',
-    price: 249,
-    checkInDate: '2023-03-10',
-    checkOutDate: '2023-03-25',
-    totalAmount: 0,
-    paymentStatus: 'Unpaid',
-    customerCode: 'CUST002',
-    paymentMethod: 'Cash',
-    services: [
-      { name: 'Laundry', price: 10, quantity: 1 },
-    ]
-  },
-]);
+// Effect to fetch data when component mounts
+onMounted(fetchInvoices);
 
-// Tính tổng tiền cho mỗi hóa đơn
-invoices.value.forEach(invoice => {
-  invoice.totalAmount = calculateTotalAmount(invoice);
-});
-
-// Trạng thái modal
+// Modal control
 const isModalOpen = ref(false);
 const selectedInvoice = ref<InvoiceItem | null>(null);
 
-// Biến tìm kiếm
+// Search and filter invoices
 const searchQuery = ref('');
-
-// Tính toán danh sách hóa đơn đã lọc
 const filteredInvoices = computed(() => {
   if (!searchQuery.value) {
     return invoices.value;
@@ -90,25 +67,25 @@ const filteredInvoices = computed(() => {
   );
 });
 
-// Mở modal với hóa đơn đã chọn
+// Open and close modal
 const openInvoiceDetails = (invoice: InvoiceItem) => {
-  selectedInvoice.value = { ...invoice }; // Tạo bản sao để tránh vấn đề phản ứng
+  selectedInvoice.value = { ...invoice };
   isModalOpen.value = true;
 };
 
-// Đóng modal
 const closeModal = () => {
   isModalOpen.value = false;
   selectedInvoice.value = null;
 };
 
-// Xử lý lưu
-const handleSave = (updatedInvoice: InvoiceItem) => {
+const handleSave = async (updatedInvoice: InvoiceItem) => {
   if (updatedInvoice && updatedInvoice.id) {
     const index = invoices.value.findIndex(i => i.id === updatedInvoice.id);
     if (index !== -1) {
-      invoices.value[index] = { ...updatedInvoice, totalAmount: calculateTotalAmount(updatedInvoice) }; // Cập nhật totalAmount
+      invoices.value[index] = { ...updatedInvoice };
     }
+    // Gọi lại API để tải dữ liệu cập nhật
+    await fetchInvoices();
   }
   closeModal();
 };
@@ -118,12 +95,8 @@ const handleSave = (updatedInvoice: InvoiceItem) => {
   <div class="invoice-page">
     <h1>Thanh toán</h1>
     <div class="rate-controls">
-      <input
-        type="text"
-        v-model="searchQuery"
-        placeholder="Tìm kiếm theo tên khách hàng"
-        class="search-input"
-      />
+      <input type="text" v-model="searchQuery" placeholder="Tìm kiếm theo tên khách hàng" class="search-input"
+        style="color: black;" />
     </div>
     <div class="table-container">
       <table>
@@ -140,7 +113,8 @@ const handleSave = (updatedInvoice: InvoiceItem) => {
           </tr>
         </thead>
         <tbody>
-          <tr v-for="invoice in filteredInvoices" :key="invoice.id" @click="openInvoiceDetails(invoice)" class="cursor-pointer hover:bg-gray-50 transition-colors duration-150 ease-in-out">
+          <tr v-for="invoice in filteredInvoices" :key="invoice.id" @click="openInvoiceDetails(invoice)"
+            class="cursor-pointer hover:bg-gray-50 transition-colors duration-150 ease-in-out">
             <td>{{ invoice.reference }}</td>
             <td>{{ invoice.guestName }}</td>
             <td>{{ invoice.roomType }}</td>
@@ -149,73 +123,73 @@ const handleSave = (updatedInvoice: InvoiceItem) => {
             <td>{{ invoice.checkOutDate }}</td>
             <td>{{ invoice.totalAmount }}</td>
             <td>
-              <button type="button" class="text-gray-400 hover:text-gray-600 transition duration-150 ease-in-out">⋮</button>
+              <button type="button"
+                class="text-gray-400 hover:text-gray-600 transition duration-150 ease-in-out">⋮</button>
             </td>
           </tr>
         </tbody>
       </table>
     </div>
 
-    <!-- Invoice Detail Modal -->
     <InvoiceDetailModal :is-open="isModalOpen" :invoice="selectedInvoice" @close="closeModal" @save="handleSave" />
   </div>
 </template>
 
 <style scoped>
 .invoice-page {
-    margin-left: 50px;
-    padding: 20px;
-    background-color: #f9f9f9;
-    border-radius: 1%;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    margin-top: 80px;
+  margin-left: 50px;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 1%;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  margin-top: 80px;
 }
 
 h1 {
-    color: #f39c12;
-    margin-bottom: 20px;
-    font-size: 24px;
+  color: #f39c12;
+  margin-bottom: 20px;
+  font-size: 24px;
 }
 
 .search-input {
-    padding: 12px;
-    border: 1px solid #ddd;
-    border-radius: 30px;
-    width: 300px;
-    font-size: 16px;
-    transition: border-color 0.3s ease;
-    position: relative;
-    left: 75%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 30px;
+  width: 300px;
+  font-size: 16px;
+  transition: border-color 0.3s ease;
+  position: relative;
+  left: 75%;
 }
 
 .search-input:focus {
-    border-color: #f39c12;
-    outline: none;
+  border-color: #f39c12;
+  outline: none;
 }
 
 .table-container {
-    margin-top: 20px;
+  margin-top: 20px;
 }
 
 table {
-    width: 100%;
-    border-collapse: collapse;
+  width: 100%;
+  border-collapse: collapse;
 }
 
 th,
 td {
-    padding: 14px;
-    text-align: center;
-    font-size: 16px;
+  padding: 14px;
+  text-align: center;
+  font-size: 16px;
 }
 
 th {
-    background-color: #f1f1f1;
-    color: #333;
-    border: 1px solid #ddd;
+  background-color: #f1f1f1;
+  color: #333;
+  border: 1px solid #ddd;
 }
 
 tr:hover {
-    background-color: #e9e9e9;
+  background-color: #e9e9e9;
 }
 </style>

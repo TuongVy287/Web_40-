@@ -9,7 +9,7 @@ export default {
         { title: "Today's Check-out", value: 13 },
         { title: "Total In hotel", value: 60 },
         { title: "Total Available room", value: 10 },
-        { title: "Total Occupied room", value: 90 },
+        { title: "Total Occupied room", value: 90  },
       ],
     };
   },
