@@ -27,7 +27,7 @@ export default {
   },
   data() {
     return {
-      isLoggedIn: false, // Trạng thái đăng nhập
+      isLoggedIn: localStorage.getItem('user') ? true : false, // Trạng thái đăng nhập
     };
   },
   created() {

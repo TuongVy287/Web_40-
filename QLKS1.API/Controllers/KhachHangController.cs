@@ -25,13 +25,13 @@ namespace QLKS1.API.Controllers
         // }
 
         //GET /api/khachhang/1
-        [HttpGet]
-        public async Task<IActionResult> GetKhachHangById([FromRoute] int maKH)
+        [HttpGet("{cccd}")]
+        public async Task<IActionResult> GetKhachHangByCCCD([FromRoute] string cccd)
         {
-            var khachHang = await _khachHangRepository.GetKhachHangByIdAsync(maKH);
+            var khachHang = await _khachHangRepository.GetKhachHangByCCCDAsync(cccd);
             if (khachHang == null)
             {
-                return NotFound();
+            return NotFound();
             }
             return Ok(khachHang);
         }

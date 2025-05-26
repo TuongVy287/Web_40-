@@ -37,20 +37,20 @@ namespace QLKS1.API.Controllers
         }
 
         // DELETE: api/NhanVien/Xoa/{maNV}
-        [HttpDelete("Xoa")]
-        public async Task<IActionResult> XoaNhanVien([FromBody] NhanVien request)
+        [HttpDelete("Xoa/{maNV}")]
+        public async Task<IActionResult> XoaNhanVien(string maNV)
         {
-            if (request == null || string.IsNullOrEmpty(request.MaNV))
+            if (string.IsNullOrEmpty(maNV))
             {
-                return BadRequest(new { message = "Yêu cầu không hợp lệ." });
+            return BadRequest(new { message = "Yêu cầu không hợp lệ." });
             }
 
-            var result = await _nhanVienRepository.XoaNhanVienAsync(request.MaNV);
+            var result = await _nhanVienRepository.XoaNhanVienAsync(maNV);
 
             if (result)
-                return Ok(new { message = "Xóa nhân viên thành công." });
+            return Ok(new { message = "Xóa nhân viên thành công." });
             else
-                return NotFound(new { message = "Không tìm thấy nhân viên." });
+            return NotFound(new { message = "Không tìm thấy nhân viên." });
         }
 
         [HttpPut("change-password")]

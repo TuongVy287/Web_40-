@@ -73,7 +73,7 @@
         </thead>
         <tbody>
           <tr v-for="room in filteredRooms" :key="room.idPhong" @click="openModal(room)" style="cursor: pointer">
-            <td>{{ room.tenPhong.trim() }}</td>
+            <td>{{ room.tenPhong }}</td>
             <td>{{ room.loaiPhong }}</td>
             <td>{{ room.sucChua }}</td>
             <td>{{ room.tang }}</td>
@@ -97,9 +97,9 @@
     </div>
 
     <!-- Modal -->
-<ModalRoom :isOpen="showModal" :room="selectedRoom" @close="closeModal" />
-    <p v-if="showModal">showModal is TRUE</p>
-    <p v-if="selectedRoom">selectedRoom: {{ selectedRoom.guestName }}</p>
+    <ModalRoom :isOpen="showModal" :room="selectedRoom" :ThongTinDatPhong="form" @close="closeModal" />
+    <!-- <p v-if="showModal">showModal is TRUE</p>
+    <p v-if="selectedRoom">selectedRoom: {{ selectedRoom.guestName }}</p> -->
   </div>
 </template>
 
@@ -149,12 +149,14 @@ export default {
     async submitBooking() {
       try {
         const params = new URLSearchParams({
-          trangThai: 'Trống',
-          ngayNhan: this.form.checkIn,
-          ngayTra: this.form.checkOut,
+          checkIn: this.form.checkIn,
+          checkOut: this.form.checkOut,
+          adults: this.form.adults,
+          children: this.form.children,
         }).toString();
-
-        const res = await fetch(`http://localhost:5250/api/Phong/theo-trang-thai?${params}`);
+        console.log('Fetching rooms with params:', params);
+        const res = await fetch(`http://localhost:5250/api/TimPhong/phong-phu-hop?${params}`);
+        // const res = await fetch(`http://localhost:5250/api/TimPhong/phong-phu-hop?checkIn=2025-05-26&checkOut=2025-05-28&adults=4&children=0`);
         if (res.ok) {
           this.rooms = await res.json();
           console.log('Rooms after filter:', this.rooms);
@@ -175,7 +177,7 @@ export default {
     },
     closeModal() {
       this.selectedRoom = null;
-       this.showModal = false; 
+      this.showModal = false;
     },
   },
 

@@ -17,13 +17,8 @@
       <li>
         <router-link to="/deals" exact-active-class="active" class="sidebar-link">Deals</router-link>
       </li>
-      <li>
-<<<<<<< HEAD
+      <li v-if="user.chucDanh === 'Quản lý'">
         <router-link to="/rate" exact-active-class="active" class="sidebar-link">Personnel</router-link>
-=======
-        <router-link v-if="user.chucDanh == 'Quản lý'" to="/rate" exact-active-class="active" class="sidebar-link">Nhân
-          viên</router-link>
->>>>>>> 462159742cf7b81e52d104d12ecff069071d0284
       </li>
     </ul>
   </nav>

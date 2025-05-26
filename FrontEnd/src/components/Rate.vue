@@ -42,12 +42,11 @@
           <h3>Chỉnh sửa nhân viên</h3>
           <form @submit.prevent="updateNhanVien" class="edit-form">
             <div class="form-col">
-
-              <label>Mã nhân viên:</label>
-              <input v-model="editedNhanVien.maNV" disabled />
-
               <label>Họ tên:</label>
               <input v-model="editedNhanVien.hoTen" />
+
+              <label>Chức danh:</label>
+              <input v-model="editedNhanVien.chucDanh" />
 
               <label>Giới tính:</label>
               <select v-model.number="editedNhanVien.gioiTinh">
@@ -55,37 +54,33 @@
                 <option :value="0">Nữ</option>
               </select>
 
-              <label>Chức danh:</label>
-              <input v-model="editedNhanVien.chucDanh" />
-
-              <label>Số điện thoại:</label>
-              <input v-model="editedNhanVien.soDienThoai" />
-
               <label>Email:</label>
               <input v-model="editedNhanVien.email" type="email" />
             </div>
 
             <div class="form-col">
-              <label>Ca làm việc:</label>
-              <input v-model="editedNhanVien.caLamViec" />
+              <label>Mã nhân viên:</label>
+              <input v-model="editedNhanVien.maNV" disabled />
 
-              <label>Ngày tạo:</label>
-              <input v-model="editedNhanVien.ngayTao" type="date" disabled />
+              <label>Số điện thoại:</label>
+              <input v-model="editedNhanVien.soDienThoai" />
+
+              <label>Ca làm việc:</label>
+              <select v-model.number="editedNhanVien.caLamViec" required>
+                <option value="Sáng">Sáng</option>
+                <option value="Chiều">Chiều</option>
+                <option value="Tối">Tối</option>
+              </select>
 
               <label>Lương:</label>
               <input v-model.number="editedNhanVien.luong" type="number" min="0" />
 
-              <label>Mật khẩu hiện tại:</label>
+              <!-- <label>Mật khẩu hiện tại:</label>
               <input v-model="editedNhanVien.matKhau" type="password" disabled />
 
               <label>Mật khẩu mới:</label>
-              <input v-model="editedNhanVien.newPassword" type="password" disabled />
+              <input v-model="editedNhanVien.newPassword" type="password" disabled /> -->
 
-              <label>Xóa (0: không xóa, 1: đã xóa):</label>
-              <select v-model.number="editedNhanVien.xoa" disabled>
-                <option :value="0">0</option>
-                <option :value="1">1</option>
-              </select>
             </div>
 
             <div class="modal-actions">
@@ -107,20 +102,14 @@
           <form @submit.prevent="addNhanVien" class="edit-form">
             <div class="form-col">
 
-              <label>Mã nhân viên:</label>
-              <input v-model="newNhanVien.maNV" required />
-
               <label>Họ tên:</label>
               <input v-model="newNhanVien.hoTen" required />
 
-              <label>Giới tính:</label>
-              <select v-model.number="newNhanVien.gioiTinh" required>
-                <option :value="1">Nam</option>
-                <option :value="0">Nữ</option>
-              </select>
-
               <label>Chức danh:</label>
-              <input v-model="newNhanVien.chucDanh" required />
+              <select v-model="newNhanVien.chucDanh" required>
+                <option value="Quản lý">Quản lý</option>
+                <option value="Nhân viên">Nhân viên</option>
+              </select>
 
               <label>Số điện thoại:</label>
               <input v-model="newNhanVien.soDienThoai" required />
@@ -130,23 +119,24 @@
             </div>
 
             <div class="form-col">
-              <label>Ca làm việc:</label>
-              <input v-model="newNhanVien.caLamViec" required />
+              <label>Giới tính:</label>
+              <select v-model.number="newNhanVien.gioiTinh" required>
+                <option :value="1">Nam</option>
+                <option :value="0">Nữ</option>
+              </select>
 
-              <label>Ngày tạo:</label>
-              <input v-model="newNhanVien.ngayTao" type="date" required />
+              <label>Ca làm việc:</label>
+              <select v-model.number="newNhanVien.caLamViec" required>
+                <option value="Sáng">Sáng</option>
+                <option value="Chiều">Chiều</option>
+                <option value="Tối">Tối</option>
+              </select>
 
               <label>Lương:</label>
               <input v-model.number="newNhanVien.luong" type="number" min="0" required />
 
               <label>Mật khẩu:</label>
               <input v-model="newNhanVien.matKhau" type="password" required />
-
-              <label>Xóa (0: không xóa, 1: đã xóa):</label>
-              <select v-model.number="newNhanVien.xoa" required>
-                <option :value="0">0</option>
-                <option :value="1">1</option>
-              </select>
             </div>
 
             <div class="modal-actions">
@@ -187,7 +177,7 @@ export default {
         matKhau: '',
         xoa: 0,
       },
-      isAdding: false,
+      isAdding: false
     };
   },
   created() {
@@ -203,24 +193,26 @@ export default {
       }
     },
     async deleteNhanVien(nv) {
-  if (!nv || !nv.maNV) {
-    alert("Mã nhân viên không hợp lệ!");
-    return;
-  }
-  
-  if (confirm('Bạn có chắc muốn xoá nhân viên này không?')) {
-    try {
-      await axios.delete(`http://localhost:5250/api/NhanVien/Xoa/${maNV}`);
-      await this.fetchNhanVien();
-    } catch (err) {
-      console.error('Lỗi khi xoá nhân viên:', err);
-      alert('Xóa nhân viên thất bại!');
-    }
-  }
-},
+      if (!nv || !nv.maNV) {
+        alert("Mã nhân viên không hợp lệ!");
+        return;
+      }
+      console.log('Xoá nhân viên:', nv);
+      if (confirm('Bạn có chắc muốn xoá nhân viên này không?')) {
+        try {
+          await axios.delete(`http://localhost:5250/api/NhanVien/Xoa/${nv.maNV}`,);
+          await this.fetchNhanVien();
+        } catch (err) {
+          console.error('Lỗi khi xoá nhân viên:', err);
+          alert('Xóa nhân viên thất bại!');
+        }
+      }
+    },
 
     openEditModal(nv) {
+
       this.editedNhanVien = { ...nv };
+      console.log('editedNhanVien', this.editedNhanVien.ngayTao);
       if (this.editedNhanVien.newPassword === null) {
         this.editedNhanVien.newPassword = '';
       }
@@ -252,9 +244,9 @@ export default {
           caLamViec: this.editedNhanVien.caLamViec,
           ngayTao: this.editedNhanVien.ngayTao,
           luong: this.editedNhanVien.luong,
-          matKhau: this.editedNhanVien.matKhau,
-          xoa: this.editedNhanVien.xoa,
-          newPassword: this.editedNhanVien.newPassword || '',
+          // matKhau: this.editedNhanVien.matKhau,
+          // xoa: this.editedNhanVien.xoa,
+          // newPassword: this.editedNhanVien.newPassword || '',
         };
         await axios.put('http://localhost:5250/api/NhanVien/SuaNhanVien', payload);
         await this.fetchNhanVien();
@@ -289,10 +281,6 @@ export default {
     },
     async addNhanVien() {
       // Validate dữ liệu
-      if (!this.newNhanVien.maNV.trim()) {
-        alert('Mã nhân viên không được để trống');
-        return;
-      }
       if (!this.newNhanVien.hoTen.trim()) {
         alert('Họ tên không được để trống');
         return;
@@ -365,7 +353,8 @@ table {
   font-size: 14px;
 }
 
-th, td {
+th,
+td {
   border: 1px solid #ddd;
   padding: 8px;
   text-align: center;
@@ -397,7 +386,7 @@ th {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0,0,0,0.5);
+  background-color: rgba(0, 0, 0, 0.5);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -434,11 +423,12 @@ label {
   margin-bottom: 3px;
 }
 
-input[type="text"],
+/* input[type="text"],
 input[type="email"],
 input[type="number"],
 input[type="password"],
-input[type="date"],
+input[type="date"], */
+input,
 select {
   padding: 6px 10px;
   border-radius: 6px;
@@ -446,9 +436,11 @@ select {
   font-size: 14px;
   outline: none;
   transition: border-color 0.3s;
+  color: black;
 }
 
-input:focus, select:focus {
+input:focus,
+select:focus {
   border-color: #f39c12;
 }
 
@@ -480,10 +472,13 @@ input:focus, select:focus {
 }
 
 /* Transition */
-.fade-enter-active, .fade-leave-active {
+.fade-enter-active,
+.fade-leave-active {
   transition: opacity 0.25s;
 }
-.fade-enter-from, .fade-leave-to {
+
+.fade-enter-from,
+.fade-leave-to {
   opacity: 0;
 }
 </style>

@@ -1,7 +1,7 @@
 <template>
   <header class="header">
     <div class="search-container">
-      <input type="text" placeholder="Search for rooms and offers" />
+      <input type="text" placeholder="Search for rooms and offers" style="color: black;" />
     </div>
     <div class="user-options">
       <i class="fas fa-bell icon"></i>
@@ -116,6 +116,7 @@ export default {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  color: black;
 }
 
 .search-container input {

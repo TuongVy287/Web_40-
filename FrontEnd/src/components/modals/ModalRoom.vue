@@ -9,7 +9,7 @@
           <div class="form-group full-width id-card-group">
             <label>Căn cước công dân</label>
             <div class="id-card-input">
-              <input v-model="form.idCard"  />
+              <input v-model="form.idCard" />
               <button type="button" @click="searchGuestByIdCard">Tìm</button>
             </div>
           </div>
@@ -20,12 +20,13 @@
             <input v-model="form.guestName" required />
           </div>
           <div class="form-group">
+            <label>Mã KH</label>
+            <input v-model="form.maKH" required />
+          </div>
+
+          <div class="form-group">
             <label>Ngày sinh</label>
             <input type="date" v-model="form.birthDate" />
-          </div>
-          <div class="form-group">
-            <label>SĐT</label>
-            <input v-model="form.phone" required />
           </div>
           <div class="form-group">
             <label>Giới tính</label>
@@ -35,8 +36,11 @@
               <option value="Khác">Khác</option>
             </select>
           </div>
-          
-          
+
+          <div class="form-group">
+            <label>SĐT</label>
+            <input v-model="form.phone" required />
+          </div>
           <div class="form-group">
             <label>Email</label>
             <input type="email" v-model="form.email" />
@@ -63,7 +67,7 @@
 
         <!-- Nút hành động -->
         <div class="form-actions">
-          <button type="submit">Xác nhận</button>
+          <button type="submit" @click="submitForm">Xác nhận</button>
           <button type="button" @click="$emit('close')">Hủy</button>
         </div>
       </form>
@@ -72,14 +76,18 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
   props: {
     isOpen: Boolean,
     room: Object,
+    ThongTinDatPhong: Object,
   },
   data() {
     return {
       form: {
+        maKH: '',
         guestName: '',
         gender: 'Nam',
         birthDate: '',
@@ -91,12 +99,31 @@ export default {
     };
   },
   methods: {
-    submitForm() {
-      console.log('Đặt phòng:', {
-        ...this.form,
-        roomId: this.room.idPhong,
-      });
+
+    async submitForm() {
+      try {
+        const res = await axios.post('http://localhost:5250/api/DatPhong/DatPhong', {
+          maKH: this.form.maKH,
+          tenPhong: this.room.tenPhong,
+          ngayNhan: this.toValidDateString(this.ThongTinDatPhong.checkIn),
+          ngayTra: this.toValidDateString(this.ThongTinDatPhong.checkOut),
+          soLuongNguoi: this.ThongTinDatPhong.adults + Math.floor(this.ThongTinDatPhong.children / 2),
+        });
+        console.log('Kết quả đặt phòng:', res.data);
+      }
+      catch (error) {
+        console.error('Lỗi khi đặt phòng:', error);
+        alert('Đặt phòng không thành công. Vui lòng thử lại sau.');
+        return;
+      }
       this.$emit('close');
+    },
+    toValidDateString(date) {
+      const d = new Date(date);
+      if (isNaN(d.getTime()) || d.getFullYear() < 1753) {
+        return null; // hoặc throw Error
+      }
+      return d.toISOString().split('T')[0]; // trả về dạng YYYY-MM-DD
     },
     formatPrice(value) {
       if (!value) return '';
@@ -105,24 +132,32 @@ export default {
         currency: 'VND',
       }).format(value);
     },
-    searchGuestByIdCard() {
+    async searchGuestByIdCard() {
+      const res = await axios.get(`http://localhost:5250/api/KhachHang/${this.form.idCard}`);
       console.log('Tìm khách theo CCCD:', this.form.idCard);
-      const mockGuest = {
-        guestName: 'Nguyễn Văn A',
-        gender: 'Nam',
-        birthDate: '1990-01-01',
-        phone: '0909123456',
-        email: 'vana@example.com',
-        address: '123 Đường ABC, Quận 1, TP.HCM',
-      };
-      if (this.form.idCard === '123456789') {
-        Object.assign(this.form, mockGuest);
-      } else {
-        alert('Không tìm thấy khách hàng với CCCD này.');
+      console.log('Kết quả:', res.data);
+      if (res.data) {
+        this.form.maKH = res.data.maKH;
+        this.form.guestName = res.data.hoTen;
+        // Định dạng ngày sinh về yyyy-MM-dd cho input type="date"
+        if (res.data.ngaySinh) {
+          const date = new Date(res.data.ngaySinh);
+          const day = String(date.getDate()).padStart(2, '0');
+          const month = String(date.getMonth() + 1).padStart(2, '0');
+          const year = date.getFullYear();
+          this.form.birthDate = `${year}-${month}-${day}`;
+        } else {
+          this.form.birthDate = '';
+        }
+        this.form.phone = res.data.soDienThoai;
+        this.form.email = res.data.email;
+        this.form.address = res.data.diaChi;
+        this.form.gender = res.data.gioiTinh ? 'Nam' : 'Nữ'; // Mặc định là Nam nếu không có dữ liệu
+        alert(res.data.thongBao)
       }
-    },
-  },
-};
+    }
+  }
+}
 </script>
 
 <style scoped>

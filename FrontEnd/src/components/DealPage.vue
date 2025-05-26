@@ -95,12 +95,8 @@ const handleSave = async (updatedInvoice: InvoiceItem) => {
   <div class="invoice-page">
     <h1>Thanh toán</h1>
     <div class="rate-controls">
-      <input
-        type="text"
-        v-model="searchQuery"
-        placeholder="Tìm kiếm theo tên khách hàng"
-        class="search-input"
-      />
+      <input type="text" v-model="searchQuery" placeholder="Tìm kiếm theo tên khách hàng" class="search-input"
+        style="color: black;" />
     </div>
     <div class="table-container">
       <table>
@@ -117,7 +113,8 @@ const handleSave = async (updatedInvoice: InvoiceItem) => {
           </tr>
         </thead>
         <tbody>
-          <tr v-for="invoice in filteredInvoices" :key="invoice.id" @click="openInvoiceDetails(invoice)" class="cursor-pointer hover:bg-gray-50 transition-colors duration-150 ease-in-out">
+          <tr v-for="invoice in filteredInvoices" :key="invoice.id" @click="openInvoiceDetails(invoice)"
+            class="cursor-pointer hover:bg-gray-50 transition-colors duration-150 ease-in-out">
             <td>{{ invoice.reference }}</td>
             <td>{{ invoice.guestName }}</td>
             <td>{{ invoice.roomType }}</td>
@@ -126,7 +123,8 @@ const handleSave = async (updatedInvoice: InvoiceItem) => {
             <td>{{ invoice.checkOutDate }}</td>
             <td>{{ invoice.totalAmount }}</td>
             <td>
-              <button type="button" class="text-gray-400 hover:text-gray-600 transition duration-150 ease-in-out">⋮</button>
+              <button type="button"
+                class="text-gray-400 hover:text-gray-600 transition duration-150 ease-in-out">⋮</button>
             </td>
           </tr>
         </tbody>
@@ -139,59 +137,59 @@ const handleSave = async (updatedInvoice: InvoiceItem) => {
 
 <style scoped>
 .invoice-page {
-    margin-left: 50px;
-    padding: 20px;
-    background-color: #f9f9f9;
-    border-radius: 1%;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    margin-top: 80px;
+  margin-left: 50px;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 1%;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  margin-top: 80px;
 }
 
 h1 {
-    color: #f39c12;
-    margin-bottom: 20px;
-    font-size: 24px;
+  color: #f39c12;
+  margin-bottom: 20px;
+  font-size: 24px;
 }
 
 .search-input {
-    padding: 12px;
-    border: 1px solid #ddd;
-    border-radius: 30px;
-    width: 300px;
-    font-size: 16px;
-    transition: border-color 0.3s ease;
-    position: relative;
-    left: 75%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 30px;
+  width: 300px;
+  font-size: 16px;
+  transition: border-color 0.3s ease;
+  position: relative;
+  left: 75%;
 }
 
 .search-input:focus {
-    border-color: #f39c12;
-    outline: none;
+  border-color: #f39c12;
+  outline: none;
 }
 
 .table-container {
-    margin-top: 20px;
+  margin-top: 20px;
 }
 
 table {
-    width: 100%;
-    border-collapse: collapse;
+  width: 100%;
+  border-collapse: collapse;
 }
 
 th,
 td {
-    padding: 14px;
-    text-align: center;
-    font-size: 16px;
+  padding: 14px;
+  text-align: center;
+  font-size: 16px;
 }
 
 th {
-    background-color: #f1f1f1;
-    color: #333;
-    border: 1px solid #ddd;
+  background-color: #f1f1f1;
+  color: #333;
+  border: 1px solid #ddd;
 }
 
 tr:hover {
-    background-color: #e9e9e9;
+  background-color: #e9e9e9;
 }
 </style>

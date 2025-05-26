@@ -28,7 +28,7 @@
         <tr v-for="room in paginatedRooms" :key="room.idPhong">
           <td>{{ room.idPhong }}</td>
           <td>{{ room.loaiPhong }}</td>
-          <td>{{ room.suChua }}</td>
+          <td>{{ room.sucChua }}</td>
           <td>{{ room.gia.toLocaleString() }} VND</td>
           <td :class="room.trangThaiPhong.toLowerCase().replace(/\s/g, '-')">
             {{ room.trangThaiPhong }}

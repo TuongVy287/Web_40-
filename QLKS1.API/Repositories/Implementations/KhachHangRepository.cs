@@ -20,14 +20,14 @@ public class KhachHangRepository : IKhachHangRepository
         return kh;
     }
 
-    public async Task<KhachHang> GetKhachHangByIdAsync(int maKH)
+    public async Task<KhachHang> GetKhachHangByCCCDAsync(string CCCD)
     {
         var parameters = new DynamicParameters();
-        parameters.Add("@MaKH", maKH);
+        parameters.Add("@CCCD", CCCD);
 
 
         var kh = await _db.QueryFirstOrDefaultAsync<KhachHang>(
-            "sp_GetKhachHangById", parameters, commandType: CommandType.StoredProcedure);
+            "spAPI_KhachHang_Check", parameters, commandType: CommandType.StoredProcedure);
 
         return kh;
     }
