@@ -44,7 +44,6 @@ const services = ref<Service[]>([]);
 const fetchServices = async () => {
   try {
     const response = await axios.get('http://localhost:5250/api/DichVu');
-    console.log("Dữ liệu dịch vụ:", response.data);
     services.value = response.data;
   } catch (error) {
     console.error("Có lỗi xảy ra khi tải danh sách dịch vụ!", error);
@@ -65,7 +64,6 @@ const fetchInvoiceTotalAmount = async (idHoaDon: number) => {
 const fetchInvoiceServices = async (idHoaDon: number) => {
   try {
     const response = await axios.get(`http://localhost:5250/api/ChiTietHoaDon/${idHoaDon}`);
-    // console.log("Dữ liệu từ API:", response.data);
     return response.data;
   } catch (error) {
     console.error("Có lỗi xảy ra khi lấy dịch vụ của hóa đơn!", error);
@@ -163,7 +161,7 @@ const addServiceToInvoice = async (invoiceId: number, service: ServiceSelection)
       const payload = {
         IDHoaDon: invoiceId,
         IDDichVu: selectedService.idDichVu,
-        TenDichVu: selectedService.tenDichVu, // Thêm trường này
+        TenDichVu: selectedService.tenDichVu,
         SoLuong: service.quantity,
         DVT: 'Kg'
       };
@@ -178,6 +176,25 @@ const addServiceToInvoice = async (invoiceId: number, service: ServiceSelection)
         console.error("Có lỗi xảy ra khi thêm dịch vụ vào hóa đơn!", error.message);
       }
     }
+  }
+};
+
+const handlePayment = async () => {
+  if (!props.invoice) return;
+
+  try {
+    const response = await axios.post(`http://localhost:5250/api/hoadon/thanhtoan/${props.invoice.id}`);
+    
+    if (response.data && response.data.ThongBao) {
+      alert(response.data.ThongBao); // Hiển thị thông báo
+      emit('save', props.invoice); // Phát sự kiện lưu nếu cần cập nhật dữ liệu
+    } else {
+      alert("Lỗi: Không nhận được thông báo từ server");
+    }
+    
+    closeModal();
+  } catch (error) {
+    console.error("Có lỗi xảy ra khi thanh toán hóa đơn!", error.message);
   }
 };
 </script>
@@ -259,25 +276,6 @@ const addServiceToInvoice = async (invoiceId: number, service: ServiceSelection)
             class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm" />
         </div>
 
-        <!-- <div>
-          <label class="block text-sm font-medium text-gray-700 mb-1">Payment Status</label>
-          <select v-model="invoice.paymentStatus" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm">
-            <option value="Paid">Paid</option>
-            <option value="Unpaid">Unpaid</option>
-            <option value="Pending">Pending</option>
-          </select>
-        </div> -->
-
-        <!-- <div>
-          <label class="block text-sm font-medium text-gray-700 mb-1">Payment Method</label>
-          <select v-model="invoice.paymentMethod" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm">
-            <option value="Credit Card">Credit Card</option>
-            <option value="Cash">Cash</option>
-            <option value="Bank Transfer">Bank Transfer</option>
-            <option value="PayPal">PayPal</option>
-          </select>
-        </div> -->
-
         <div class="flex justify-end space-x-3 mt-6">
           <button @click="closeModal"
             class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50">Hủy
@@ -286,7 +284,7 @@ const addServiceToInvoice = async (invoiceId: number, service: ServiceSelection)
             class="px-4 py-2 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-md shadow-sm hover:bg-blue-700">Cập
             nhật
           </button>
-          <button @click=""
+          <button @click="handlePayment"
             class="px-4 py-2 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-md shadow-sm hover:bg-blue-700">Thanh
             toán
           </button>
@@ -306,9 +304,7 @@ select {
 }
 
 .services-container {
-  max-height: 200px;
-  /* Đặt chiều cao tối đa */
-  overflow-y: auto;
-  /* Thêm thanh cuộn dọc */
+  max-height: 200px; /* Đặt chiều cao tối đa */
+  overflow-y: auto; /* Thêm thanh cuộn dọc */
 }
 </style>

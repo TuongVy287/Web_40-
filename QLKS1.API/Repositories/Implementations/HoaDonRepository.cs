@@ -58,4 +58,26 @@ public class HoaDonRepository : IHoaDonRepository
     }
 
 
+    public async Task<string> ThanhToanHoaDonAsync(int IDHoaDon)
+    {
+        var parameters = new DynamicParameters();
+        parameters.Add("@IDHoaDon", IDHoaDon);
+
+        // Giả sử stored procedure spAPI_HoaDon_ThanhToan thực hiện việc cập nhật trạng thái thanh toán
+        var status = await _db.QueryFirstOrDefaultAsync<string>(
+            "spAPI_HoaDon_ThanhToan",
+            parameters,
+            commandType: CommandType.StoredProcedure
+        );
+
+        if (status == "Đã Thanh Toán")
+        {
+            return "ThongBao: Hóa đơn đã được thanh toán";
+        }
+        else
+        {
+            return "ThongBao: Thanh toán thành công";
+        }
+    }
+
 }

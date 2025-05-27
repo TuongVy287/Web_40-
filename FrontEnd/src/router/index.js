@@ -1,7 +1,7 @@
 // src/router/index.js
 import { createRouter, createWebHistory } from 'vue-router';
 import RoomList from '../components/RoomList.vue';
-import Rate from '../components/Rate.vue';
+import Rate from '../components/Personnel.vue';
 import FrontDesk from '../components/FrontDesk.vue';
 import BookingCreate from '../components/BookingCreate.vue';
 import Guest from '../components/GuestPage.vue'

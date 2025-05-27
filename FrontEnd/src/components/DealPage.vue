@@ -131,7 +131,12 @@ const handleSave = async (updatedInvoice: InvoiceItem) => {
       </table>
     </div>
 
-    <InvoiceDetailModal :is-open="isModalOpen" :invoice="selectedInvoice" @close="closeModal" @save="handleSave" />
+    <InvoiceDetailModal 
+      :is-open="isModalOpen" 
+      :invoice="selectedInvoice" 
+      @close="closeModal"   
+      @save="handleSave" 
+    />
   </div>
 </template>
 
