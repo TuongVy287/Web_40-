@@ -93,11 +93,10 @@ const handleSave = async (updatedInvoice: InvoiceItem) => {
 
 <template>
   <div class="invoice-page">
-    <h1>Thanh toán</h1>
-    <div class="rate-controls">
+    <h1>Thanh toán
       <input type="text" v-model="searchQuery" placeholder="Tìm kiếm theo tên khách hàng" class="search-input"
         style="color: black;" />
-    </div>
+    </h1>
     <div class="table-container">
       <table>
         <thead>
@@ -118,10 +117,10 @@ const handleSave = async (updatedInvoice: InvoiceItem) => {
             <td>{{ invoice.reference }}</td>
             <td>{{ invoice.guestName }}</td>
             <td>{{ invoice.roomType }}</td>
-            <td>{{ invoice.price }}</td>
+            <td>{{ invoice.price.toLocaleString() }}</td>
             <td>{{ invoice.checkInDate }}</td>
             <td>{{ invoice.checkOutDate }}</td>
-            <td>{{ invoice.totalAmount }}</td>
+            <td>{{ invoice.totalAmount.toLocaleString() }}</td>
             <td>
               <button type="button"
                 class="text-gray-400 hover:text-gray-600 transition duration-150 ease-in-out">⋮</button>
@@ -131,12 +130,7 @@ const handleSave = async (updatedInvoice: InvoiceItem) => {
       </table>
     </div>
 
-    <InvoiceDetailModal 
-      :is-open="isModalOpen" 
-      :invoice="selectedInvoice" 
-      @close="closeModal"   
-      @save="handleSave" 
-    />
+    <InvoiceDetailModal :is-open="isModalOpen" :invoice="selectedInvoice" @close="closeModal" @save="handleSave" />
   </div>
 </template>
 
@@ -164,7 +158,7 @@ h1 {
   font-size: 16px;
   transition: border-color 0.3s ease;
   position: relative;
-  left: 75%;
+  left: 60%;
 }
 
 .search-input:focus {

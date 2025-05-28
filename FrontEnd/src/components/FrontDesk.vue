@@ -18,12 +18,8 @@
     </div>
 
     <div class="months-row">
-      <div
-        v-for="(month, index) in months"
-        :key="`month-${index}`"
-        :class="['month-item', { active: index === selectedMonth }]"
-        @click="selectMonth(index)"
-      >
+      <div v-for="(month, index) in months" :key="`month-${index}`"
+        :class="['month-item', { active: index === selectedMonth }]" @click="selectMonth(index)">
         {{ month }}
       </div>
     </div>
@@ -32,14 +28,9 @@
       <div class="scroll-wrapper">
         <!-- Ngày -->
         <div class="days-row">
-          <div
-            v-for="day in days"
-            :key="`day-${day}`"
-            class="day-box"
+          <div v-for="day in days" :key="`day-${day}`" class="day-box"
             :class="{ today: isToday(day) && !isSelectedToday, selected: selectedDay === day }"
-            :ref="isToday(day) ? 'todayRef' : null"
-            @click="selectedDay = day"
-          >
+            :ref="isToday(day) ? 'todayRef' : null" @click="selectedDay = day">
             {{ day }}
           </div>
         </div>
@@ -47,18 +38,12 @@
         <!-- Booking theo ngày -->
         <div class="bookings-row">
           <div class="booking-day-slot" style="position: relative; min-height: 100px;">
-            <div
-              v-for="(booking, index) in bookings"
-              :key="`booking-${index}`"
-              class="booking-block"
-              :style="{
-                backgroundColor: booking.color,
-                left: (booking.startDay - 1) * dayWidth + 'px',
-                width: (booking.endDay - booking.startDay + 1) * dayWidth - dayGap + 'px',
-                top: booking.top + 'px'
-              }"
-              :title="`Phòng: ${booking.tenPhong.trim()}, Trạng thái: ${booking.trangThaiDatPhong}`"
-            >
+            <div v-for="(booking, index) in bookings" :key="`booking-${index}`" class="booking-block" :style="{
+              backgroundColor: booking.color,
+              left: (booking.startDay - 1) * dayWidth + 'px',
+              width: (booking.endDay - booking.startDay + 1) * dayWidth - dayGap + 'px',
+              top: booking.top + 'px'
+            }" :title="`Phòng: ${booking.tenPhong.trim()}, Trạng thái: ${booking.trangThaiDatPhong}`">
               {{ booking.tenPhong.trim() }} - {{ booking.trangThaiDatPhong }}
             </div>
           </div>
@@ -125,7 +110,7 @@ export default {
           `http://localhost:5250/api/DatPhong/theo-thang?thangChu=${tenThang}`
         );
         const data = await response.json();
-
+        console.log("Bookings loaded:", data);
         const year = new Date().getFullYear();
         const month = this.selectedMonth;
 
@@ -325,12 +310,13 @@ export default {
 }
 
 .day-box {
-  width: 100px; /* Trùng với dayWidth trong js */
+  width: 100px;
+  /* Trùng với dayWidth trong js */
   height: 40px;
   text-align: center;
   font-weight: bold;
   color: #000;
-  
+
   line-height: 40px;
   border-radius: 8px;
   transition: all 0.3s ease;
@@ -381,8 +367,8 @@ export default {
   overflow: hidden;
   text-overflow: ellipsis;
   cursor: pointer;
-  box-shadow: 0 0 5px rgba(0,0,0,0.2);
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
   user-select: none;
-  
+
 }
 </style>

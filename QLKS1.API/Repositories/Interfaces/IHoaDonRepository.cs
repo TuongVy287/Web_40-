@@ -7,7 +7,7 @@ namespace QLKS1.API.Repositories.Interfaces
         Task<HoaDon?> GetHoaDonByIdAsync(int IDHoaDon);
 
         Task<HoaDonResponsee> ThemHoaDonAsync(HoaDonRequestt request);
-        Task<string> ThanhToanHoaDonAsync(int IDHoaDon);
+        Task<ThanhToanResponse> ThanhToanHoaDonAsync(ThanhToanRequest request);
         // Task<HoaDon> CreateAsync(HoaDon hoaDon);
         // Task<HoaDon?> UpdateAsync(int IDHoaDon, HoaDon hoaDon);
         // Task<bool> DeleteAsync(int IDHoaDon);

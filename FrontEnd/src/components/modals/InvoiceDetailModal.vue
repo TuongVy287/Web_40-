@@ -9,6 +9,7 @@ interface Service {
   giaDichVu: number;
   moTa: string;
   xoa: boolean;
+  dvt: string; // Đơn vị tính, có thể là 'Kg', 'L', v.v.
 }
 
 interface ServiceSelection {
@@ -45,11 +46,21 @@ const fetchServices = async () => {
   try {
     const response = await axios.get('http://localhost:5250/api/DichVu');
     services.value = response.data;
+    console.log("Danh sách dịch vụ:", services.value);
   } catch (error) {
     console.error("Có lỗi xảy ra khi tải danh sách dịch vụ!", error);
   }
 };
-
+function onServiceChange(service: any) {
+  const selected = services.value.find(s => s.tenDichVu === service.name);
+  if (selected) {
+    service.price = selected.giaDichVu;
+    service.dvt = selected.dvt || ''; // hoặc selected.dvt nếu có trường này
+  } else {
+    service.price = 0;
+    service.dvt = '';
+  }
+}
 const fetchInvoiceTotalAmount = async (idHoaDon: number) => {
   try {
     const response = await axios.get('http://localhost:5250/api/ThongTinDeal/all');
@@ -93,7 +104,8 @@ onMounted(() => {
         props.invoice.services = groupedServices.map((service: any) => ({
           name: service.tenDichVu,
           price: service.giaDichVu,
-          quantity: service.soLuong
+          quantity: service.soLuong,
+          dvt: service.dvt
         }));
       }
     });
@@ -114,7 +126,8 @@ watch(() => props.invoice, (newInvoice) => {
         newInvoice.services = groupedServices.map((service: any) => ({
           name: service.tenDichVu,
           price: service.giaDichVu,
-          quantity: service.soLuong
+          quantity: service.soLuong,
+          dvt: service.dvt
         }));
       }
     });
@@ -163,7 +176,7 @@ const addServiceToInvoice = async (invoiceId: number, service: ServiceSelection)
         IDDichVu: selectedService.idDichVu,
         TenDichVu: selectedService.tenDichVu,
         SoLuong: service.quantity,
-        DVT: 'Kg'
+        DVT: service.dvt
       };
 
       console.log("Payload:", payload);
@@ -183,24 +196,29 @@ const handlePayment = async () => {
   if (!props.invoice) return;
 
   try {
-    const response = await axios.post(`http://localhost:5250/api/hoadon/thanhtoan/${props.invoice.id}`);
-    
-    if (response.data && response.data.ThongBao) {
-      alert(response.data.ThongBao); // Hiển thị thông báo
+    const payload = {
+      IDHoaDon: props.invoice.id,
+      PhuongThucThanhToan: props.invoice.paymentMethod || 'Credit Card'
+    };
+    const response = await axios.post(`http://localhost:5250/api/hoadon/thanhtoan`, payload);
+    // console.log("Thanh toán thành công:", response.data);
+    if (response.data && response.data.thongBao) {
+      // alert(response.data.thongBao); // Hiển thị thông báo
       emit('save', props.invoice); // Phát sự kiện lưu nếu cần cập nhật dữ liệu
     } else {
       alert("Lỗi: Không nhận được thông báo từ server");
     }
-    
+
     closeModal();
   } catch (error) {
     console.error("Có lỗi xảy ra khi thanh toán hóa đơn!", error.message);
   }
 };
+
 </script>
 
 <template>
-  <div v-if="isOpen" class="fixed inset-0 z-50 flex items-center justify-center">
+  <div v-if="isOpen" class="fixed inset-0 z-50 flex items-center justify-center modal-container">
     <div class="fixed inset-0 bg-black bg-opacity-50" @click="closeModal"></div>
 
     <div class="relative bg-white rounded-lg w-full max-w-3xl mx-auto p-6 shadow-lg">
@@ -234,7 +252,7 @@ const handlePayment = async () => {
 
           <div>
             <label class="block text-sm font-medium text-gray-700 mb-1">Price</label>
-            <input type="number" v-model="invoice.price"
+            <input type="text" :value="invoice.price.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })"
               class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm" />
           </div>
 
@@ -248,7 +266,7 @@ const handlePayment = async () => {
               <option value="PayPal">PayPal</option>
             </select>
           </div>
-          <div class="col-span-2">
+          <!-- <div class="col-span-2">
             <label class="block text-sm font-medium text-gray-700 mb-1">Services</label>
             <div class="services-container flex flex-col space-y-2">
               <div v-for="(service, index) in invoice.services" :key="index" class="flex items-center">
@@ -256,11 +274,41 @@ const handlePayment = async () => {
                   style="width: 33%; margin-bottom: 10px;">
                   <option v-for="s in services" :key="s.idDichVu" :value="s.tenDichVu">{{ s.tenDichVu }}</option>
                 </select>
-                <input type="number" readonly class="px-3
+                <input type="text" readonly class="px-3
                 py-2 border border-gray-300 rounded-md ml-2" style="width: 33%; margin-bottom: 10px;"
-                  v-model="service.price" placeholder="Price" />
+                  :value="service.price.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })"
+                  placeholder="Price" />
                 <input type="number" class="px-3 py-2 border border-gray-300 rounded-md ml-2"
                   style="width: 33%; margin-bottom: 10px;" v-model="service.quantity" placeholder="Quantity" />
+                <input type="text" class="px-3 py-2 border border-gray-300 rounded-md ml-2"
+                  style="width: 33%; margin-bottom: 10px;" v-model="service.dvt" placeholder="DVT" />
+              </div>
+            </div>
+            <button @click="addService"
+              class="mt-2 flex items-center justify-center w-8 h-8 text-white bg-green-600 border border-transparent rounded-full shadow-sm hover:bg-green-700">
+              <span class="text-xl" style="color: #000 !important;">+</span>
+            </button>
+          </div> -->
+          <div class="col-span-2">
+            <label class="block text-sm font-medium text-gray-700 mb-1">Services</label>
+            <div class="services-container flex flex-col space-y-2">
+              <div v-for="(service, index) in invoice.services" :key="index" class="flex items-center">
+                <select v-model="service.name" @change="onServiceChange(service)"
+                  class="px-3 py-2 border border-gray-300 rounded-md flex-grow"
+                  style="width: 33%; margin-bottom: 10px;">
+                  <option value="" disabled>Chọn dịch vụ</option>
+                  <option v-for="s in services" :key="s.idDichVu" :value="s.tenDichVu">
+                    {{ s.tenDichVu }}
+                  </option>
+                </select>
+                <input type="text" readonly class="px-3 py-2 border border-gray-300 rounded-md ml-2"
+                  style="width: 33%; margin-bottom: 10px;"
+                  :value="service.price ? service.price.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) : 'Miễn phí'"
+                  placeholder="Price" />
+                <input type="number" class="px-3 py-2 border border-gray-300 rounded-md ml-2"
+                  style="width: 33%; margin-bottom: 10px;" v-model="service.quantity" placeholder="Quantity" />
+                <input type="text" class="px-3 py-2 border border-gray-300 rounded-md ml-2"
+                  style="width: 33%; margin-bottom: 10px;" v-model="service.dvt" placeholder="DVT" readonly />
               </div>
             </div>
             <button @click="addService"
@@ -272,7 +320,8 @@ const handlePayment = async () => {
 
         <div>
           <label class="block text-sm font-medium text-gray-700 mb-1">Total Amount</label>
-          <input type="number" v-model="invoice.totalAmount" readonly
+          <input type="text"
+            :value="invoice.totalAmount.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })" readonly
             class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm" />
         </div>
 
@@ -304,7 +353,17 @@ select {
 }
 
 .services-container {
-  max-height: 200px; /* Đặt chiều cao tối đa */
-  overflow-y: auto; /* Thêm thanh cuộn dọc */
+  max-height: 200px;
+  /* Đặt chiều cao tối đa */
+  overflow-y: auto;
+
+  height: 100vh;
+  /* Thêm thanh cuộn dọc */
+}
+
+.modal-container {
+  height: 100vh;
+  max-height: 100vh;
+  align-items: stretch !important;
 }
 </style>

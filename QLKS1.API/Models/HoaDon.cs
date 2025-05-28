@@ -38,3 +38,12 @@ public class DichVuItem
 }
 
 
+public class ThanhToanRequest
+{
+    public int IDHoaDon { get; set; }
+    public string PhuongThucThanhToan { get; set; } = string.Empty;
+}
+public class ThanhToanResponse
+{
+    public string ThongBao { get; set; } = string.Empty;
+}

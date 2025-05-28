@@ -4,7 +4,7 @@
     <Overview />
     <Rooms />
     <RoomStatus />
-    <Occupacy />
+    <Occupacy :user="user" />
   </div>
 </template>
 
@@ -24,6 +24,7 @@ export default {
   },
   data() {
     return {
+      user: localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : null,
       // Các biến dữ liệu khác nếu cần
     }
   },

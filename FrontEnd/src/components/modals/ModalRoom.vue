@@ -67,7 +67,7 @@
 
         <!-- Nút hành động -->
         <div class="form-actions">
-          <button type="submit" @click="submitForm">Xác nhận</button>
+          <button type="button" @click="submitForm">Xác nhận</button>
           <button type="button" @click="$emit('close')">Hủy</button>
         </div>
       </form>

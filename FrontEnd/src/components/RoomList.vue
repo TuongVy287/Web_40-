@@ -141,15 +141,15 @@ h2 {
   transform: scale(1.05);
 }
 
-table {
+.room-list table {
   width: 100%;
   border-collapse: collapse;
   margin-top: 20px;
   min-height: 265px;
 }
 
-th,
-td {
+.room-list th,
+.room-list td {
   padding: 14px;
   border: 1px solid #ddd;
   text-align: center;
@@ -157,26 +157,13 @@ td {
   border-radius: 8px;
 }
 
-th {
+.room-list th {
   background-color: #f1f1f1;
   color: #333;
 }
 
-
-td {
-  background-color: #fafafa;
-}
-
-td:hover {
+.room-list tr:hover {
   background-color: #f1f1f1;
-}
-
-tr:nth-child(even) {
-  background-color: #f9f9f9;
-}
-
-tr:hover {
-  background-color: #e9e9e9;
 }
 
 /* Đổi màu trạng thái */

@@ -1,7 +1,8 @@
 <template>
   <div class="nhanvien">
-    <h2>Danh sách nhân viên</h2>
-    <button @click="openAddModal" class="add-btn">+ Thêm nhân viên</button>
+    <h2>Danh sách nhân viên
+      <button @click="openAddModal" class="add-btn">+ Thêm nhân viên</button>
+    </h2>
 
     <table>
       <thead>
@@ -363,28 +364,35 @@ export default {
 
 <style scoped>
 .nhanvien {
-  margin: 40px;
-  background: #ffffff;
+  margin-left: 50px;
   padding: 20px;
-  border-radius: 10px;
+  background-color: #f9f9f9;
+  border-radius: 1%;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  margin-top: 80px;
 }
 
 .pagination {
-  display: flex;
-  justify-content: center;
   margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .pagination button {
+  padding: 12px 20px;
   background-color: #f39c12;
-  border: none;
   color: white;
-  padding: 8px 16px;
-  border-radius: 8px;
-  font-weight: 600;
+  border: none;
+  border-radius: 30px;
   cursor: pointer;
-  margin: 0 5px;
+  font-size: 16px;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.pagination button:hover {
+  background-color: #e67e22;
+  transform: scale(1.05);
 }
 
 .pagination button:disabled {
@@ -409,17 +417,20 @@ export default {
 
 .nhanvien th,
 .nhanvien td {
-  border: 1px solid #ddd;
+  /* border: 1px solid #ddd;
   padding: 8px;
   text-align: center;
-  width:400px;
-  
+  width: 400px; */
+  padding: 14px;
+  border: 1px solid #ddd;
+  text-align: center;
+  font-size: 16px;
+  border-radius: 8px;
 }
 
 .nhanvien th {
-  background-color: #f39c12;
-  color: white;
-  font-weight: 600;
+  background-color: #f1f1f1;
+  color: #333;
 }
 
 .nhanvien tr:hover {
@@ -533,42 +544,23 @@ export default {
   opacity: 0;
 }
 
-h2 {
-  color: #f39c12;
-  margin-bottom: 10px;
-}
-
 /* Nút thêm nhân viên */
 .add-btn {
-  background-color: #f31212;
-  border: none;
-  color: white;
-  padding: 10px 16px;
-  border-radius: 8px;
-  font-weight: 600;
-  margin-bottom: 15px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  
+  padding: 12px;
+  font-size: 16px;
+  position: absolute;
+  right: 0;
+  top: 0;
+  /* Nếu muốn nút nằm cùng dòng với tiêu đề, dùng float hoặc flex ở h2 */
 }
 
-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 14px;
-}
-
-th,
-td {
-  border: 1px solid #ddd;
-  padding: 8px;
-  text-align: center;
-}
-
-th {
-  background-color: #f39c12;
-  color: white;
-  font-weight: 600;
+.nhanvien h2 {
+  color: #f39c12;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
 }
 
 /* Nút hành động */
