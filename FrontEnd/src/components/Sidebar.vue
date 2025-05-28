@@ -20,6 +20,9 @@
       <li v-if="user.chucDanh === 'Quản lý'">
         <router-link to="/rate" exact-active-class="active" class="sidebar-link">Personnel</router-link>
       </li>
+      <!-- <li>
+        <router-link to="/cccdreader" exact-active-class="active" class="sidebar-link">cccdreader</router-link>
+      </li> -->
     </ul>
   </nav>
 </template>

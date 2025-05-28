@@ -24,7 +24,7 @@ const fetchGuests = async () => {
   try {
     const response = await fetch('http://localhost:5250/api/KhachHang/guest');
     const data = await response.json();
-    
+
     // Map API data to GuestItem
     guests.value = data.map((guest, index) => {
       const checkInDate = new Date(guest.ngayNhan);
@@ -84,7 +84,7 @@ const closeModal = () => {
 <template>
   <div class="guest-page p-6">
     <div class="flex justify-between items-center mb-6">
-      <h1 class="text-xl font-medium text-gray-700">Guest</h1>
+      <h2>Guest</h2>
     </div>
 
     <!-- Guests Table -->
@@ -116,12 +116,8 @@ const closeModal = () => {
           </tr>
         </thead>
         <tbody class="bg-white divide-y divide-gray-200">
-          <tr
-            v-for="guest in filteredGuests"
-            :key="guest.id"
-            @click="openGuestDetails(guest)"
-            class="cursor-pointer hover:bg-gray-50"
-          >
+          <tr v-for="guest in filteredGuests" :key="guest.id" @click="openGuestDetails(guest)"
+            class="cursor-pointer hover:bg-gray-50">
             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
               {{ guest.name }}
             </td>
@@ -151,23 +147,24 @@ const closeModal = () => {
     </div>
 
     <!-- Guest Detail Modal -->
-    <GuestDetailModal
-      :is-open="isModalOpen"
-      :guest="selectedGuest"
-      @close="closeModal"
-    />
+    <GuestDetailModal :is-open="isModalOpen" :guest="selectedGuest" @close="closeModal" />
   </div>
 </template>
 
 <style scoped>
 .guest-page {
-  height: 100%;
-  width: 100%;
-  background-color: #ffffff;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-  border-radius: 1%;
-  margin-top: 80px;
+  margin-left: 50px;
   padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 1%;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  margin-top: 80px;
+}
+
+h2 {
+  color: #f39c12;
+  margin-bottom: 20px;
+  font-size: 24px;
 }
 
 @media (min-width: 740px) and (max-width: 1023px) {
@@ -196,5 +193,4 @@ const closeModal = () => {
     padding-right: 2rem !important;
   }
 }
-
 </style>

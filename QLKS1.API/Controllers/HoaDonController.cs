@@ -30,31 +30,31 @@ namespace QLKS1.API.Controllers
         }
 
         [HttpPost("them")]
-    public async Task<IActionResult> ThemHoaDon([FromBody] HoaDonRequestt request)
-    {
-        try
+        public async Task<IActionResult> ThemHoaDon([FromBody] HoaDonRequestt request)
         {
-            var result = await _hoaDonRepository.ThemHoaDonAsync(request);
-            return Ok(result);
+            try
+            {
+                var result = await _hoaDonRepository.ThemHoaDonAsync(request);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
         }
-        catch (Exception ex)
-        {
-            return BadRequest(new { message = ex.Message });
-        }
-    }
 
-    [HttpPost("thanhtoan/{IDHoaDon}")]
-    public async Task<IActionResult> ThanhToanHoaDon([FromRoute] int IDHoaDon)
-    {
-        try
+        [HttpPost("thanhtoan")]
+        public async Task<IActionResult> ThanhToanHoaDon([FromBody] ThanhToanRequest request)
         {
-            var result = await _hoaDonRepository.ThanhToanHoaDonAsync(IDHoaDon);
-            return Ok(new { ThongBao = result });
+            try
+            {
+                var result = await _hoaDonRepository.ThanhToanHoaDonAsync(request);
+                return Ok(new { ThongBao = result });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
         }
-        catch (Exception ex)
-        {
-            return BadRequest(new { message = ex.Message });
-        }
-    }
     }
 }

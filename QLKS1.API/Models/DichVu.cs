@@ -9,6 +9,7 @@ public class DichVu
     public string? MoTa { get; set; }
 
     public bool Xoa { get; set; }
+    public string DVT { get; set; }
 }
 
 

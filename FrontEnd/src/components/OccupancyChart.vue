@@ -1,6 +1,11 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, defineProps } from 'vue';
 import axios from 'axios';
+
+// Props for the component
+const props = defineProps({
+  user: Object
+});
 
 // Monthly occupancy percentages data
 const monthlyData = ref<{ month: string; percentage: number }[]>([]);
@@ -56,13 +61,15 @@ const toggleMode = () => {
 </script>
 
 <template>
-  <div class="bg-white p-6 rounded-md relative none">
+  <div v-if="props.user.chucDanh === 'Quản lý'" class="bg-white p-6 rounded-md relative none">
     <div class="flex justify-between items-center mb-4">
       <h2 class="text-xl font-semibold text-gray-800">Occupancy Statistics</h2>
 
-      <button @click="toggleMode" class="bg-gray-100 hover:bg-gray-200 px-3 py-1 rounded-md text-gray-700 text-sm flex items-center">
+      <button @click="toggleMode"
+        class="bg-gray-100 hover:bg-gray-200 px-3 py-1 rounded-md text-gray-700 text-sm flex items-center">
         <span>{{ isMonthly ? 'Doanh thu theo tháng' : 'Doanh thu theo năm' }}</span>
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24"
+          stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
         </svg>
       </button>
@@ -80,19 +87,25 @@ const toggleMode = () => {
 
       <!-- Chart bars -->
       <div v-if="isMonthly" class="h-44 flex items-end space-x-4 flex-1">
-        <div v-for="(data, index) in monthlyData" :key="index" class="flex flex-col items-center flex-1 w-full bg-blue-400 rounded-t-sm" :style="{ height: `${data.percentage}%`, maxWidth: '99px', position: 'relative' }">
+        <div v-for="(data, index) in monthlyData" :key="index"
+          class="flex flex-col items-center flex-1 w-full bg-blue-400 rounded-t-sm"
+          :style="{ height: `${data.percentage}%`, maxWidth: '99px', position: 'relative' }">
           <!-- Percentage label -->
-          <div class="percentage-label">{{ data.percentage == 0 ? undefined :  data.percentage }}</div>
+          <div class="percentage-label">{{ data.percentage == 0 ? undefined : data.percentage }}</div>
           <!-- Month label -->
-          <div class="text-xs text-gray-500 mt-2" style="font-weight:bold; position: absolute; bottom: -25px;">{{ data.month }}</div>
+          <div class="text-xs text-gray-500 mt-2" style="font-weight:bold; position: absolute; bottom: -25px;">{{
+            data.month }}</div>
         </div>
       </div>
 
       <div v-else class="h-44 flex items-end space-x-4 flex-1">
-        <div v-for="(data, index) in yearlyData" :key="index" class="flex flex-col items-center flex-1 w-full bg-blue-400 rounded-t-sm" :style="{ height: `${data.percentage}%` , maxWidth: '99px', position: 'relative' }">
+        <div v-for="(data, index) in yearlyData" :key="index"
+          class="flex flex-col items-center flex-1 w-full bg-blue-400 rounded-t-sm"
+          :style="{ height: `${data.percentage}%`, maxWidth: '99px', position: 'relative' }">
           <!-- Year label -->
-          <div class="percentage-label">{{ data.percentage == 0 ? '' :  data.percentage}}</div>
-          <div class="text-xs text-gray-500 mt-2" style="font-weight:bold; position: absolute; bottom: -25px;">{{ data.year }}</div>
+          <div class="percentage-label">{{ data.percentage == 0 ? '' : data.percentage }}</div>
+          <div class="text-xs text-gray-500 mt-2" style="font-weight:bold; position: absolute; bottom: -25px;">{{
+            data.year }}</div>
         </div>
       </div>
     </div>
