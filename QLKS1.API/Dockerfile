@@ -6,7 +6,7 @@ WORKDIR /app
 COPY . ./
 
 # Publish ứng dụng về thư mục /out
-RUN dotnet publish -c Release -o out
+RUN dotnet publish  QLKS1.API.csproj -c Release -o out
 
 # ===== RUNTIME STAGE =====
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
