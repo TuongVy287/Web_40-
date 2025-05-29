@@ -31,7 +31,7 @@ const invoices = ref<InvoiceItem[]>([]);
 // Fetch invoices from API
 const fetchInvoices = async () => {
   try {
-    const response = await axios.get('http://localhost:5250/api/ThongTinDeal/all');
+    const response = await axios.get('https://web-40.onrender.com/api/ThongTinDeal/all');
     invoices.value = response.data.map((item: any) => ({
       id: item.idHoaDon,
       guestName: item.hoTen,

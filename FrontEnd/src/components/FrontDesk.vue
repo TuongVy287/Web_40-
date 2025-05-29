@@ -107,7 +107,7 @@ export default {
       try {
         const tenThang = this.months[this.selectedMonth].toLowerCase();
         const response = await fetch(
-          `http://localhost:5250/api/DatPhong/theo-thang?thangChu=${tenThang}`
+          `https://web-40.onrender.com/api/DatPhong/theo-thang?thangChu=${tenThang}`
         );
         const data = await response.json();
         console.log("Bookings loaded:", data);

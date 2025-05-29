@@ -22,7 +22,7 @@ const guests = ref<GuestItem[]>([]);
 // Fetch data from API
 const fetchGuests = async () => {
   try {
-    const response = await fetch('http://localhost:5250/api/KhachHang/guest');
+    const response = await fetch('https://web-40.onrender.com/api/KhachHang/guest');
     const data = await response.json();
 
     // Map API data to GuestItem

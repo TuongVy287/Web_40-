@@ -15,7 +15,7 @@
         <router-link to="/rooms" exact-active-class="active" class="sidebar-link">Rooms</router-link>
       </li>
       <li>
-        <router-link to="/deals" exact-active-class="active" class="sidebar-link">Deals</router-link>
+        <router-link to="/deals" exact-active-class="active" class="sidebar-link">Payment</router-link>
       </li>
       <li v-if="user.chucDanh === 'Quản lý'">
         <router-link to="/rate" exact-active-class="active" class="sidebar-link">Personnel</router-link>

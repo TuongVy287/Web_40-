@@ -139,7 +139,7 @@ export default {
   methods: {
     async fetchRooms() {
       try {
-        const res = await fetch('http://localhost:5250/api/Phong/theo-trang-thai?trangThai=Trống');
+        const res = await fetch('https://web-40.onrender.com/api/Phong/theo-trang-thai?trangThai=Trống');
         this.rooms = await res.json();
         console.log('Fetched rooms:', this.rooms);
       } catch (e) {
@@ -155,7 +155,7 @@ export default {
           children: this.form.children,
         }).toString();
         console.log('Fetching rooms with params:', params);
-        const res = await fetch(`http://localhost:5250/api/TimPhong/phong-phu-hop?${params}`);
+        const res = await fetch(`https://web-40.onrender.com/api/TimPhong/phong-phu-hop?${params}`);
         // const res = await fetch(`http://localhost:5250/api/TimPhong/phong-phu-hop?checkIn=2025-05-26&checkOut=2025-05-28&adults=4&children=0`);
         if (res.ok) {
           this.rooms = await res.json();

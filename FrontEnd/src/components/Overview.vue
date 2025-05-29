@@ -17,7 +17,7 @@ export default {
     // Fetch data from API if needed
     async fetchOverviewData() {
       try {
-        const response = await axios.get("http://localhost:5250/api/ThongKe/homnay");
+        const response = await axios.get("https://web-40.onrender.com/api/ThongKe/homnay");
         const data = response.data;
         this.overviewStats = [
           { title: "Today's Check-in", value: data.ngayNhan },

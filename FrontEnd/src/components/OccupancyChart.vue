@@ -20,7 +20,7 @@ const isMonthly = ref(true);
 const fetchMonthlyData = async () => {
   try {
     console.log("Fetching monthly data...");
-    const response = await axios.get('http://localhost:5250/api/ThongKe/SoLuongNguoiTheoThang?nam=2025');
+    const response = await axios.get('https://web-40.onrender.com/api/ThongKe/SoLuongNguoiTheoThang?nam=2025');
     console.log("Monthly raw data:", response.data);
     monthlyData.value = response.data.map(item => ({
       month: new Date(2025, item.month - 1).toLocaleString('default', { month: 'short' }),
@@ -36,7 +36,7 @@ const fetchMonthlyData = async () => {
 const fetchYearlyData = async () => {
   try {
     console.log("Fetching yearly data...");
-    const response = await axios.get('http://localhost:5250/api/ThongKe/SoLuongNguoiTheoThang?nam=t%E1%BA%A5t%20c%E1%BA%A3');
+    const response = await axios.get('https://web-40.onrender.com/api/ThongKe/SoLuongNguoiTheoThang?nam=t%E1%BA%A5t%20c%E1%BA%A3');
     console.log("Yearly raw data:", response.data);
     yearlyData.value = response.data.map(item => ({
       year: item.year,
