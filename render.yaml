@@ -1,0 +1,6 @@
+services:
+  - type: web
+    name: dotnet-api
+    env: docker
+    plan: free
+    autoDeploy: true
