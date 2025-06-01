@@ -43,7 +43,7 @@ const services = ref<Service[]>([]);
 
 const fetchServices = async () => {
   try {
-    const response = await axios.get('http://localhost:5250/api/DichVu');
+    const response = await axios.get('https://web-40.onrender.com/api/DichVu');
     services.value = response.data;
   } catch (error) {
     console.error("Có lỗi xảy ra khi tải danh sách dịch vụ!", error);
@@ -52,7 +52,7 @@ const fetchServices = async () => {
 
 const fetchInvoiceTotalAmount = async (idHoaDon: number) => {
   try {
-    const response = await axios.get('http://localhost:5250/api/ThongTinDeal/all');
+    const response = await axios.get('https://web-40.onrender.com/api/ThongTinDeal/all');
     const invoiceDeal = response.data.find((deal: any) => deal.idHoaDon === idHoaDon);
     return invoiceDeal ? invoiceDeal.tongTien : 0;
   } catch (error) {
@@ -63,7 +63,7 @@ const fetchInvoiceTotalAmount = async (idHoaDon: number) => {
 
 const fetchInvoiceServices = async (idHoaDon: number) => {
   try {
-    const response = await axios.get(`http://localhost:5250/api/ChiTietHoaDon/${idHoaDon}`);
+    const response = await axios.get(`https://web-40.onrender.com/api/ChiTietHoaDon/${idHoaDon}`);
     return response.data;
   } catch (error) {
     console.error("Có lỗi xảy ra khi lấy dịch vụ của hóa đơn!", error);
@@ -168,7 +168,7 @@ const addServiceToInvoice = async (invoiceId: number, service: ServiceSelection)
 
       console.log("Payload:", payload);
 
-      await axios.post('http://localhost:5250/api/ChiTietHoaDon/them', payload);
+      await axios.post('https://web-40.onrender.com/api/ChiTietHoaDon/them', payload);
     } catch (error) {
       if (error.response) {
         console.error("Lỗi:", error.response.data.errors);
@@ -183,14 +183,14 @@ const handlePayment = async () => {
   if (!props.invoice) return;
 
   try {
-    const response = await axios.post(`http://localhost:5250/api/hoadon/thanhtoan/${props.invoice.id}`);
+    const response = await axios.post(`https://web-40.onrender.com/api/hoadon/thanhtoan/${props.invoice.id}`);
     const { ThongBao } = response.data;
-    
+
     alert(ThongBao);
-    
+
     // Phát sự kiện sau khi thanh toán thành công
     emit('save', props.invoice); // hoặc chỉ cần phát sự kiện 'closed'
-    
+
     closeModal();
   } catch (error) {
     console.error("Có lỗi xảy ra khi thanh toán hóa đơn!", error.message);

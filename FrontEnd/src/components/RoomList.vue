@@ -82,7 +82,7 @@ export default {
         this.currentStatus = status;
         this.currentPage = 1;
         const response = await axios.get(
-          `http://localhost:5250/api/Phong/theo-trang-thai?trangThai=${status}`
+          `https://web-40.onrender.com/api/Phong/theo-trang-thai?trangThai=${status}`
         );
         this.rooms = response.data;
       } catch (error) {

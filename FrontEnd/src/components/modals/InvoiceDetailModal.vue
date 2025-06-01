@@ -44,7 +44,7 @@ const services = ref<Service[]>([]);
 
 const fetchServices = async () => {
   try {
-    const response = await axios.get('http://localhost:5250/api/DichVu');
+    const response = await axios.get('https://web-40.onrender.com/api/DichVu');
     services.value = response.data;
     console.log("Danh sách dịch vụ:", services.value);
   } catch (error) {
@@ -63,7 +63,7 @@ function onServiceChange(service: any) {
 }
 const fetchInvoiceTotalAmount = async (idHoaDon: number) => {
   try {
-    const response = await axios.get('http://localhost:5250/api/ThongTinDeal/all');
+    const response = await axios.get('https://web-40.onrender.com/api/ThongTinDeal/all');
     const invoiceDeal = response.data.find((deal: any) => deal.idHoaDon === idHoaDon);
     return invoiceDeal ? invoiceDeal.tongTien : 0;
   } catch (error) {
@@ -74,7 +74,7 @@ const fetchInvoiceTotalAmount = async (idHoaDon: number) => {
 
 const fetchInvoiceServices = async (idHoaDon: number) => {
   try {
-    const response = await axios.get(`http://localhost:5250/api/ChiTietHoaDon/${idHoaDon}`);
+    const response = await axios.get(`https://web-40.onrender.com/api/ChiTietHoaDon/${idHoaDon}`);
     return response.data;
   } catch (error) {
     console.error("Có lỗi xảy ra khi lấy dịch vụ của hóa đơn!", error);
@@ -181,7 +181,7 @@ const addServiceToInvoice = async (invoiceId: number, service: ServiceSelection)
 
       console.log("Payload:", payload);
 
-      await axios.post('http://localhost:5250/api/ChiTietHoaDon/them', payload);
+      await axios.post('https://web-40.onrender.com/api/ChiTietHoaDon/them', payload);
     } catch (error) {
       if (error.response) {
         console.error("Lỗi:", error.response.data.errors);
@@ -200,7 +200,7 @@ const handlePayment = async () => {
       IDHoaDon: props.invoice.id,
       PhuongThucThanhToan: props.invoice.paymentMethod || 'Credit Card'
     };
-    const response = await axios.post(`http://localhost:5250/api/hoadon/thanhtoan`, payload);
+    const response = await axios.post(`https://web-40.onrender.com/api/hoadon/thanhtoan`, payload);
     // console.log("Thanh toán thành công:", response.data);
     if (response.data && response.data.thongBao) {
       // alert(response.data.thongBao); // Hiển thị thông báo

@@ -38,7 +38,7 @@ export default {
     async handleLogin() {
       console.log('Login with:', this.MaNV, this.password)
       try {
-        const response = await axios.post('http://localhost:5250/api/Auth/login', {
+        const response = await axios.post('https://web-40.onrender.com/api/Auth/login', {
           MaNV: this.MaNV,
           MatKhau: this.password
         })

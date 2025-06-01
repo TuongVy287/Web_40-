@@ -4,7 +4,7 @@
       <!-- Khung chính của modal -->
       <div class="modal-container">
         <h2 class="modal-title">Add Rate</h2>
-  
+
         <!-- Form nhập liệu -->
         <div class="form-group">
           <label for="roomType">Room type</label>
@@ -15,7 +15,7 @@
             placeholder="Enter room type"
           />
         </div>
-  
+
         <div class="form-group">
           <label for="cancellationPolicy">Cancellation policy</label>
           <input
@@ -25,7 +25,7 @@
             placeholder="Enter cancellation policy"
           />
         </div>
-  
+
         <div class="form-group">
           <label for="rooms">Rooms</label>
           <input
@@ -35,7 +35,7 @@
             placeholder="Enter total number of rooms"
           />
         </div>
-  
+
         <div class="form-group">
           <label for="price">Price</label>
           <input
@@ -45,7 +45,7 @@
             placeholder="Enter room price"
           />
         </div>
-  
+
         <!-- Khu vực nút hành động -->
         <div class="modal-actions">
           <button class="cancel-button" @click="onCancel">Cancel</button>
@@ -54,10 +54,10 @@
       </div>
     </div>
   </template>
-  
+
   <script>
   import axios from 'axios';
-  
+
   export default {
     name: "RateModal",
     data() {
@@ -79,13 +79,13 @@
       async onSave() {
         try {
           // Gửi dữ liệu form lên server (thay đổi URL cho phù hợp)
-          await axios.post("http://localhost:3000/api/rates", {
+          await axios.post("https://web-40.onrender.com/api/rates", {
             roomType: this.formData.roomType,
             cancellationPolicy: this.formData.cancellationPolicy,
             rooms: this.formData.rooms,
             price: this.formData.price
           });
-  
+
           // Sau khi lưu thành công, ta có thể emit sự kiện để cha fetch lại dữ liệu
           // và đóng modal
           this.$emit("close");
@@ -96,7 +96,7 @@
     },
   };
   </script>
-  
+
   <style scoped>
   /* Nền tối mờ phía sau modal */
   .modal-overlay {
@@ -111,7 +111,7 @@
     align-items: center;
     z-index: 999;
   }
-  
+
   /* Khung chính của modal */
   .modal-container {
     background-color: #fff;
@@ -122,32 +122,32 @@
     box-shadow: 0 5px 15px rgba(0,0,0,0.3);
     animation: fadeInDown 0.3s ease;
   }
-  
+
   /* Tiêu đề modal */
   .modal-title {
     margin-bottom: 20px;
     color: #f39c12;
     text-align: center;
   }
-  
+
   /* Các nhóm form input */
   .form-group {
     margin-bottom: 15px;
   }
-  
+
   .form-group label {
     display: block;
     margin-bottom: 6px;
     font-weight: 600;
   }
-  
+
   .form-group input {
     width: 100%;
     padding: 8px;
     font-size: 14px;
     box-sizing: border-box;
   }
-  
+
   /* Nút hành động */
   .modal-actions {
     display: flex;
@@ -155,7 +155,7 @@
     gap: 10px;
     margin-top: 20px;
   }
-  
+
   .cancel-button,
   .save-button {
     padding: 10px 16px;
@@ -164,22 +164,22 @@
     cursor: pointer;
     font-size: 14px;
   }
-  
+
   .cancel-button {
     background-color: #ccc;
     color: #333;
   }
-  
+
   .save-button {
     background-color: #f39c12;
     color: #fff;
     transition: background-color 0.3s ease;
   }
-  
+
   .save-button:hover {
     background-color: #e67e22;
   }
-  
+
   /* Hiệu ứng xuất hiện modal */
   @keyframes fadeInDown {
     from {
@@ -192,4 +192,3 @@
     }
   }
   </style>
-  
