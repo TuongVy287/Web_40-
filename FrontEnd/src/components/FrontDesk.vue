@@ -54,6 +54,7 @@
 </template>
 
 <script>
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 export default {
   name: "FrontDesk",
   data() {
@@ -107,7 +108,7 @@ export default {
       try {
         const tenThang = this.months[this.selectedMonth].toLowerCase();
         const response = await fetch(
-          `https://web-40.onrender.com/api/DatPhong/theo-thang?thangChu=${tenThang}`
+          `${API_BASE_URL}/api/DatPhong/theo-thang?thangChu=${tenThang}`
         );
         const data = await response.json();
         console.log("Bookings loaded:", data);

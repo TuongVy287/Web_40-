@@ -102,7 +102,7 @@ export default {
 
     async submitForm() {
       try {
-        const res = await axios.post('https://web-40.onrender.com/api/DatPhong/DatPhong', {
+        const res = await axios.post('${API_BASE_URL}/api/DatPhong/DatPhong', {
           maKH: this.form.maKH,
           tenPhong: this.room.tenPhong,
           ngayNhan: this.toValidDateString(this.ThongTinDatPhong.checkIn),
@@ -133,7 +133,7 @@ export default {
       }).format(value);
     },
     async searchGuestByIdCard() {
-      const res = await axios.get(`https://web-40.onrender.com/api/KhachHang/${this.form.idCard}`);
+      const res = await axios.get(`${API_BASE_URL}/api/KhachHang/${this.form.idCard}`);
       console.log('Tìm khách theo CCCD:', this.form.idCard);
       console.log('Kết quả:', res.data);
       if (res.data) {

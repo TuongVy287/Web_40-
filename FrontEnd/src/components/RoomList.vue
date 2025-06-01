@@ -47,7 +47,7 @@
 
 <script>
 import axios from "axios";
-
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 export default {
   name: "RoomList",
   data() {
@@ -82,7 +82,7 @@ export default {
         this.currentStatus = status;
         this.currentPage = 1;
         const response = await axios.get(
-          `https://web-40.onrender.com/api/Phong/theo-trang-thai?trangThai=${status}`
+          `${API_BASE_URL}/api/Phong/theo-trang-thai?trangThai=${status}`
         );
         this.rooms = response.data;
       } catch (error) {

@@ -1,5 +1,6 @@
 <script>
 import axios from "axios";
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 // Overview data
 export default {
   data() {
@@ -9,7 +10,7 @@ export default {
         { title: "Today's Check-out", value: 13 },
         { title: "Total In hotel", value: 60 },
         { title: "Total Available room", value: 10 },
-        { title: "Total Occupied room", value: 90  },
+        { title: "Total Occupied room", value: 90 },
       ],
     };
   },
@@ -17,7 +18,7 @@ export default {
     // Fetch data from API if needed
     async fetchOverviewData() {
       try {
-        const response = await axios.get("https://web-40.onrender.com/api/ThongKe/homnay");
+        const response = await axios.get(`${API_BASE_URL}/api/ThongKe/homnay`);
         const data = response.data;
         this.overviewStats = [
           { title: "Today's Check-in", value: data.ngayNhan },

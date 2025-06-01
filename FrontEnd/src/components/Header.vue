@@ -81,7 +81,7 @@ export default {
       try {
         console.log('Dữ liệu gửi đi:', JSON.stringify(this.user, null, 2));
 
-        const res = await axios.put('https://web-40.onrender.com/api/NhanVien/SuaNhanVien', this.user);
+        const res = await axios.put('${API_BASE_URL}/api/NhanVien/SuaNhanVien', this.user);
 
         alert('Cập nhật thành công!');
         this.closeEditModal();
