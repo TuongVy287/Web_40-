@@ -1,6 +1,10 @@
 <template>
   <nav class="sidebar">
-    <h2>Vanhtel</h2>
+    <router-link to="/">
+      <img src="../plugins/logo.png" alt="LOGO"
+        style="width: 100%; height: 100px; object-fit: cover; margin-bottom: 20px;">
+    </router-link>
+    <!-- <h2>Vanhtel</h2> -->
     <ul>
       <li>
         <router-link to="/" exact-active-class="active" class="sidebar-link">Dashboard</router-link>
