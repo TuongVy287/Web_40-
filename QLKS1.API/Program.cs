@@ -35,7 +35,7 @@ builder.Services.AddCors(options =>
     options.AddPolicy("AllowFrontend", policy =>
     {
         policy.WithOrigins("http://localhost:5173", 
-         "https://vanhtel.vercel.app/?fbclid=IwY2xjawKpIkVleHRuA2FlbQIxMABicmlkETFISU9NS1VQeGRwNWRqSzhyAR5nt8M3PO0BA94C4QGzSt9gMFnCTRDq9UsHXueq-toiMM5uMg8FRuIB1xrtQw_aem_2fDeAa1fTuiKRxftepF3-A",
+         //"https://vanhtel.vercel.app/?fbclid=IwY2xjawKpIkVleHRuA2FlbQIxMABicmlkETFISU9NS1VQeGRwNWRqSzhyAR5nt8M3PO0BA94C4QGzSt9gMFnCTRDq9UsHXueq-toiMM5uMg8FRuIB1xrtQw_aem_2fDeAa1fTuiKRxftepF3-A",
          "https://vanhtel.vercel.app") // địa chỉ frontend
               .AllowAnyHeader()
               .AllowAnyMethod();
