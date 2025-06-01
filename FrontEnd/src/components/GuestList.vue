@@ -96,10 +96,9 @@ const guests: Guest[] = [
 const currentPage = 1;
 const totalPages = 7;
 const pages = Array.from({ length: totalPages }, (_, i) => i + 1);
-
 // Function to get status class based on status
 const getStatusClass = (status: string): string => {
-  switch(status.toLowerCase()) {
+  switch (status.toLowerCase()) {
     case 'checked-in':
       return 'bg-blue-100 text-blue-600';
     case 'not checked-in':
@@ -142,21 +141,22 @@ const isCurrentPage = (page: number): boolean => page === currentPage;
         <button class="bg-gray-100 px-3 py-2 rounded-md text-gray-700 flex items-center">
           <span class="mr-2">Filter</span>
           <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
           </svg>
         </button>
 
         <div class="relative">
           <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-            <svg class="w-4 h-4 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            <svg class="w-4 h-4 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+              stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
             </svg>
           </div>
-          <input
-            type="search"
+          <input type="search"
             class="w-64 pl-10 pr-4 py-2 rounded-md bg-gray-100 border-0 placeholder-gray-400 text-sm focus:ring-0 focus:outline-none"
-            placeholder="Search by room number"
-          >
+            placeholder="Search by room number">
         </div>
       </div>
     </div>
@@ -199,28 +199,26 @@ const isCurrentPage = (page: number): boolean => page === currentPage;
     <!-- Pagination -->
     <div class="flex justify-between items-center mt-6">
       <button class="flex items-center px-4 py-2 text-gray-600 bg-white border border-gray-300 rounded-md">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24"
+          stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
         </svg>
         Previous
       </button>
 
       <div class="flex space-x-2">
-        <button
-          v-for="page in pages"
-          :key="page"
-          :class="[
-            'w-8 h-8 flex items-center justify-center rounded-md',
-            isCurrentPage(page) ? 'bg-blue-600 text-white' : 'bg-white text-gray-600 border border-gray-300'
-          ]"
-        >
+        <button v-for="page in pages" :key="page" :class="[
+          'w-8 h-8 flex items-center justify-center rounded-md',
+          isCurrentPage(page) ? 'bg-blue-600 text-white' : 'bg-white text-gray-600 border border-gray-300'
+        ]">
           {{ page }}
         </button>
       </div>
 
       <button class="flex items-center px-4 py-2 text-gray-600 bg-white border border-gray-300 rounded-md">
         Next
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-2" fill="none" viewBox="0 0 24 24"
+          stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
         </svg>
       </button>

@@ -24,6 +24,7 @@
 <script>
 import axios from "axios";
 import Dashboard from './Dashboard.vue';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
 export default {
   name: 'SignIn',
   data() {
@@ -37,8 +38,10 @@ export default {
   methods: {
     async handleLogin() {
       console.log('Login with:', this.MaNV, this.password)
+      console.log('all env:', import.meta.env);
       try {
-        const response = await axios.post('https://web-40.onrender.com/api/Auth/login', {
+        const response = await axios.post(`${API_BASE_URL}/api/Auth/login`, {
+          // const response = await axios.post(`http://localhost:5250/api/Auth/login`, {
           MaNV: this.MaNV,
           MatKhau: this.password
         })

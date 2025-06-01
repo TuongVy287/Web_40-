@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 // Reactive references for room data
 const occupiedRooms = ref([]);
@@ -9,7 +10,7 @@ const availableRooms = ref([]);
 // Function to fetch data from the API
 const fetchData = async () => {
   try {
-    const response = await axios.get('http://localhost:5250/api/Phong/thongke');
+    const response = await axios.get(`${API_BASE_URL}/api/Phong/thongke`);
     const data = response.data;
 
     // Map the API data into the format needed for your display
@@ -48,7 +49,7 @@ onMounted(fetchData);
         </div>
 
         <div v-for="(item, index) in occupiedRooms.slice(1)" :key="`occupied-${index}`"
-             class="flex justify-between items-center py-2">
+          class="flex justify-between items-center py-2">
           <span class="text-gray-500">{{ item.status }}</span>
           <span class="text-gray-700">{{ item.count }}</span>
         </div>
@@ -62,7 +63,7 @@ onMounted(fetchData);
         </div>
 
         <div v-for="(item, index) in availableRooms.slice(1)" :key="`available-${index}`"
-             class="flex justify-between items-center py-2">
+          class="flex justify-between items-center py-2">
           <span class="text-gray-500">{{ item.status }}</span>
           <span class="text-gray-700">{{ item.count }}</span>
         </div>

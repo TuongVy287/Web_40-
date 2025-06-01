@@ -43,7 +43,7 @@ const services = ref<Service[]>([]);
 
 const fetchServices = async () => {
   try {
-    const response = await axios.get('https://web-40.onrender.com/api/DichVu');
+    const response = await axios.get('${API_BASE_URL}/api/DichVu');
     services.value = response.data;
   } catch (error) {
     console.error("Có lỗi xảy ra khi tải danh sách dịch vụ!", error);
@@ -52,7 +52,7 @@ const fetchServices = async () => {
 
 const fetchInvoiceTotalAmount = async (idHoaDon: number) => {
   try {
-    const response = await axios.get('https://web-40.onrender.com/api/ThongTinDeal/all');
+    const response = await axios.get('${API_BASE_URL}/api/ThongTinDeal/all');
     const invoiceDeal = response.data.find((deal: any) => deal.idHoaDon === idHoaDon);
     return invoiceDeal ? invoiceDeal.tongTien : 0;
   } catch (error) {
@@ -63,7 +63,7 @@ const fetchInvoiceTotalAmount = async (idHoaDon: number) => {
 
 const fetchInvoiceServices = async (idHoaDon: number) => {
   try {
-    const response = await axios.get(`https://web-40.onrender.com/api/ChiTietHoaDon/${idHoaDon}`);
+    const response = await axios.get(`${API_BASE_URL}/api/ChiTietHoaDon/${idHoaDon}`);
     return response.data;
   } catch (error) {
     console.error("Có lỗi xảy ra khi lấy dịch vụ của hóa đơn!", error);
@@ -168,7 +168,7 @@ const addServiceToInvoice = async (invoiceId: number, service: ServiceSelection)
 
       console.log("Payload:", payload);
 
-      await axios.post('https://web-40.onrender.com/api/ChiTietHoaDon/them', payload);
+      await axios.post('${API_BASE_URL}/api/ChiTietHoaDon/them', payload);
     } catch (error) {
       if (error.response) {
         console.error("Lỗi:", error.response.data.errors);
@@ -183,7 +183,7 @@ const handlePayment = async () => {
   if (!props.invoice) return;
 
   try {
-    const response = await axios.post(`https://web-40.onrender.com/api/hoadon/thanhtoan/${props.invoice.id}`);
+    const response = await axios.post(`${API_BASE_URL}/api/hoadon/thanhtoan/${props.invoice.id}`);
     const { ThongBao } = response.data;
 
     alert(ThongBao);
@@ -303,7 +303,9 @@ select {
 }
 
 .services-container {
-  max-height: 200px; /* Đặt chiều cao tối đa */
-  overflow-y: auto; /* Thêm thanh cuộn dọc */
+  max-height: 200px;
+  /* Đặt chiều cao tối đa */
+  overflow-y: auto;
+  /* Thêm thanh cuộn dọc */
 }
 </style>

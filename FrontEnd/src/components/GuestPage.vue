@@ -22,7 +22,7 @@ const guests = ref<GuestItem[]>([]);
 // Fetch data from API
 const fetchGuests = async () => {
   try {
-    const response = await fetch('https://web-40.onrender.com/api/KhachHang/guest');
+    const response = await fetch(`${API_BASE_URL}/api/KhachHang/guest`);
     const data = await response.json();
 
     // Map API data to GuestItem
@@ -79,6 +79,7 @@ const closeModal = () => {
   isModalOpen.value = false;
   selectedGuest.value = null;
 };
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 </script>
 
 <template>

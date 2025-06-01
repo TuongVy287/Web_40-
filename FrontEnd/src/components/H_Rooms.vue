@@ -3,13 +3,11 @@
     <h2 class="text-xl font-semibold text-gray-800 mb-4">Rooms</h2>
 
     <div class="grid">
-      <div
-        v-for="room in rooms"
-        :key="room.tenLoaiPhong"
-        class="bg-white border border-gray-200 rounded-md overflow-hidden shadow-sm relative"
-      >
+      <div v-for="room in rooms" :key="room.tenLoaiPhong"
+        class="bg-white border border-gray-200 rounded-md overflow-hidden shadow-sm relative">
         <!-- Deals badge -->
-        <div v-if="room.soDeal >= 0" class="absolute top-3 left-3 bg-green-100 text-green-800 px-2 py-1 text-xs rounded-md">
+        <div v-if="room.soDeal >= 0"
+          class="absolute top-3 left-3 bg-green-100 text-green-800 px-2 py-1 text-xs rounded-md">
           {{ room.soDeal }} Deals
         </div>
 
@@ -44,12 +42,12 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
-
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 const rooms = ref([]);
 
 onMounted(async () => {
   try {
-    const response = await axios.get('http://localhost:5250/api/DashboardPhong');
+    const response = await axios.get(`${API_BASE_URL}/api/DashboardPhong`);
     rooms.value = response.data;
   } catch (error) {
     console.error('Error fetching data:', error);
@@ -64,14 +62,17 @@ onMounted(async () => {
   justify-content: space-between;
 }
 
-.grid > div {
-  flex: 1 1 400px; /* 'flex-basis' là 300px và cho phép item co dãn */
-  max-width: calc(32% - 8px); /* Giới hạn kích thước */
+.grid>div {
+  flex: 1 1 400px;
+  /* 'flex-basis' là 300px và cho phép item co dãn */
+  max-width: calc(32% - 8px);
+  /* Giới hạn kích thước */
 }
 
 @media (max-width: 760px) {
   .grid {
-    grid-template-columns: repeat(2, 1fr); /* Thay đổi bố cục thành 2 cột */
+    grid-template-columns: repeat(2, 1fr);
+    /* Thay đổi bố cục thành 2 cột */
   }
 }
 </style>

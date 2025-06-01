@@ -162,7 +162,7 @@
 
 <script>
 import axios from 'axios';
-
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 export default {
   data() {
     return {
@@ -215,7 +215,7 @@ export default {
   methods: {
     async fetchNhanVien() {
       try {
-        const res = await axios.get('https://web-40.onrender.com/api/NhanVien');
+        const res = await axios.get(`${API_BASE_URL}/api/NhanVien`);
         this.nhanVienList = res.data;
       } catch (err) {
         console.error('Lỗi khi lấy dữ liệu nhân viên:', err);
@@ -229,7 +229,7 @@ export default {
       console.log('Xoá nhân viên:', nv);
       if (confirm('Bạn có chắc muốn xoá nhân viên này không?')) {
         try {
-          await axios.delete(`https://web-40.onrender.com/api/NhanVien/Xoa/${nv.maNV}`,);
+          await axios.delete(`${API_BASE_URL}/api/NhanVien/Xoa/${nv.maNV}`,);
           await this.fetchNhanVien();
         } catch (err) {
           console.error('Lỗi khi xoá nhân viên:', err);
@@ -286,7 +286,7 @@ export default {
           // xoa: this.editedNhanVien.xoa,
           // newPassword: this.editedNhanVien.newPassword || '',
         };
-        await axios.put('https://web-40.onrender.com/api/NhanVien/SuaNhanVien', payload);
+        await axios.put(`${API_BASE_URL}/api/NhanVien/SuaNhanVien`, payload);
         await this.fetchNhanVien();
         this.closeEditModal();
       } catch (error) {
@@ -338,7 +338,7 @@ export default {
 
       this.isAdding = true;
       try {
-        await axios.post('https://web-40.onrender.com/api/Auth/DangKy', this.newNhanVien);
+        await axios.post(`${API_BASE_URL}/api/Auth/DangKy`, this.newNhanVien);
         await this.fetchNhanVien();
         this.closeAddModal();
       } catch (error) {

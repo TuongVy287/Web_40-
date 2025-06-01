@@ -2,6 +2,7 @@
 import { ref, computed, onMounted } from 'vue';
 import axios from 'axios';
 import InvoiceDetailModal from './modals/InvoiceDetailModal.vue';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 // Service and Invoice interfaces
 interface Service {
@@ -31,7 +32,7 @@ const invoices = ref<InvoiceItem[]>([]);
 // Fetch invoices from API
 const fetchInvoices = async () => {
   try {
-    const response = await axios.get('https://web-40.onrender.com/api/ThongTinDeal/all');
+    const response = await axios.get('${API_BASE_URL}/api/ThongTinDeal/all');
     invoices.value = response.data.map((item: any) => ({
       id: item.idHoaDon,
       guestName: item.hoTen,

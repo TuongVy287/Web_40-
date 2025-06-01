@@ -34,7 +34,7 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend", policy =>
     {
-        policy.WithOrigins("http://localhost:5173") // địa chỉ frontend
+        policy.WithOrigins("http://localhost:5173", "https://vanhtel.vercel.app") // địa chỉ frontend
               .AllowAnyHeader()
               .AllowAnyMethod();
     });

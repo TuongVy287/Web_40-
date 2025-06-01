@@ -23,7 +23,7 @@ const onFileChange = async (e) => {
 
   loading.value = true
   try {
-    const res = await axios.post('https://web-40.onrender.com/ocr', formData)
+    const res = await axios.post('${API_BASE_URL}ocr', formData)
     result.value = res.data
     console.log('Kết quả nhận dạng:', res.data)
   } catch (err) {
