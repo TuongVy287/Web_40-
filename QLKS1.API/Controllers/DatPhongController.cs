@@ -5,6 +5,7 @@ using System.Data.SqlClient;
 
 namespace QLKS1.API.Controllers
 {
+    [EnableCors("AllowFrontend")]
     [Route("api/[controller]")]
     [ApiController]
     public class DatPhongController : ControllerBase
