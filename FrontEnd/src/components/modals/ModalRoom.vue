@@ -77,7 +77,7 @@
 
 <script>
 import axios from 'axios';
-
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 export default {
   props: {
     isOpen: Boolean,
@@ -100,24 +100,46 @@ export default {
   },
   methods: {
 
-    async submitForm() {
-      try {
-        const res = await axios.post('${API_BASE_URL}/api/DatPhong/DatPhong', {
-          maKH: this.form.maKH,
-          tenPhong: this.room.tenPhong,
-          ngayNhan: this.toValidDateString(this.ThongTinDatPhong.checkIn),
-          ngayTra: this.toValidDateString(this.ThongTinDatPhong.checkOut),
-          soLuongNguoi: this.ThongTinDatPhong.adults + Math.floor(this.ThongTinDatPhong.children / 2),
-        });
-        console.log('Kết quả đặt phòng:', res.data);
+   async submitForm() {
+  try {
+    // Nếu chưa có mã khách hàng, gọi API thêm khách hàng mới
+    if (!this.form.maKH) {
+      const resCreate = await axios.post(`${API_BASE_URL}/api/KhachHang/Them`, {
+        hoTen: this.form.guestName,
+        gioiTinh: this.form.gender === 'Nam',
+        ngaySinh: this.form.birthDate,
+        soDienThoai: this.form.phone,
+        email: this.form.email,
+        diaChi: this.form.address,
+        cccd: this.form.idCard,
+      });
+
+      if (resCreate.status === 200 || resCreate.status === 201) {
+        this.form.maKH = resCreate.data.maKH;
+        console.log('Tạo khách hàng mới thành công:', resCreate.data);
+      } else {
+        throw new Error('Không thể tạo khách hàng mới');
       }
-      catch (error) {
-        console.error('Lỗi khi đặt phòng:', error);
-        alert('Đặt phòng không thành công. Vui lòng thử lại sau.');
-        return;
-      }
-      this.$emit('close');
-    },
+    }
+
+    // Sau khi có maKH (dù mới hay cũ), gọi API đặt phòng
+    const res = await axios.post(`${API_BASE_URL}/api/DatPhong/DatPhong`, {
+      maKH: this.form.maKH,
+      tenPhong: this.room.tenPhong,
+      ngayNhan: this.toValidDateString(this.ThongTinDatPhong.checkIn),
+      ngayTra: this.toValidDateString(this.ThongTinDatPhong.checkOut),
+      soLuongNguoi: this.ThongTinDatPhong.adults + Math.floor(this.ThongTinDatPhong.children / 2),
+    });
+
+    console.log('Kết quả đặt phòng:', res.data);
+    alert('Đặt phòng thành công!');
+    this.$emit('close');
+  } catch (error) {
+    console.error('Lỗi khi đặt phòng:', error);
+    alert('Lỗi khi đặt phòng. Vui lòng thử lại.');
+  }
+}
+,
     toValidDateString(date) {
       const d = new Date(date);
       if (isNaN(d.getTime()) || d.getFullYear() < 1753) {
