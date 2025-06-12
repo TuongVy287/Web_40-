@@ -5,13 +5,7 @@
     </div>
 
     <div class="search-and-create">
-      <div class="status-buttons">
-        <span class="status-badge duein">Due in</span>
-        <span class="status-badge checkedout">Checked out</span>
-        <span class="status-badge dueout">Due out</span>
-        <span class="status-badge checkedin">Checked in</span>
-      </div>
-      <input type="text" placeholder="Search by room number" class="room-search" />
+      
       <router-link to="/create-booking" class="create-booking-button">
         Create booking
       </router-link>
